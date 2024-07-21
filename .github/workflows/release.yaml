@@ -1,0 +1,13 @@
+name: "Release"
+
+on:
+  push:
+    branches:
+      - main
+
+run-name: "[${{ github.sha }}] release"
+
+jobs:
+  perform-release:
+    uses: kgusarov-public-projects/cilib/.github/workflows/release.yaml@main
+    secrets: inherit
