@@ -1,15 +1,18 @@
-package org.kgusarov.krono.types
+package org.kgusarov.krono
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 
 typealias AsyncDebugBlock = () -> Any?
 
 fun interface DebugHandler {
-    fun debug(block: AsyncDebugBlock)
+    operator fun invoke(block: AsyncDebugBlock)
 }
 
+@SuppressFBWarnings("BC_BAD_CAST_TO_ABSTRACT_COLLECTION")
 class BufferedDebugHandler : DebugHandler {
     private val buffer: MutableList<AsyncDebugBlock> = mutableListOf()
 
-    override fun debug(block: AsyncDebugBlock) {
+    override operator fun invoke(block: AsyncDebugBlock) {
         buffer.add(block)
     }
 
