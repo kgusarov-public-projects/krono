@@ -9,15 +9,15 @@ class ParsingResult(
     override val index: Int,
     override val text: String,
     override val refDate: LocalDateTime,
-    override val start: ParsingComponents,
-    override val end: ParsingComponents?,
+    override var start: ParsedComponents,
+    override var end: ParsedComponents?,
 ) : ParsedResult {
     constructor(
         reference: ReferenceWithTimezone,
         index: Int,
         text: String,
-        start: ParsingComponents?,
-        end: ParsingComponents?,
+        start: ParsedComponents?,
+        end: ParsedComponents?,
     ) : this(
         reference,
         index,
@@ -38,10 +38,5 @@ class ParsingResult(
 
     override fun instant() = start.instant()
 
-    override fun tags() =
-        start.tags() +
-            when (end) {
-                null -> setOf()
-                else -> end.tags()
-            }
+    override fun tags() = start.tags() + (end?.tags() ?: setOf())
 }

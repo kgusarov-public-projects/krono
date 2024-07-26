@@ -23,7 +23,7 @@ interface ParsedComponents {
      * @param component - component to get
      * @return requested component or {@code null}
      */
-    fun get(component: KronoComponent): Int?
+    operator fun get(component: KronoComponent): Int?
 
     /**
      * Get referenced instant
@@ -38,4 +38,59 @@ interface ParsedComponents {
      * @return debugging tags of the parsed component
      */
     fun tags(): Set<String>
+
+    /**
+     * Create copy
+     *
+     * @return Copy of these Parsed components
+     */
+    fun copy(): ParsedComponents
+
+    /**
+     * Imply non-certain component
+     *
+     * @param component Component to imply
+     * @param value Value to imply
+     * @return Parsed Components
+     */
+    fun imply(
+        component: KronoComponent,
+        value: Int?,
+    ): ParsedComponents
+
+    /**
+     * Assing certain component
+     *
+     * @param component Component to assign
+     * @param value Value to assign
+     * @return Parsed Components
+     */
+    fun assign(
+        component: KronoComponent,
+        value: Int?,
+    ): ParsedComponents
+
+    /**
+     * Add new tag to these components
+     *
+     * @param tag Tag to add
+     * @return Parsed Components
+     */
+    fun addTag(tag: String): ParsedComponents
+
+    /**
+     * Add new tags to these components
+     *
+     * @param values Tags to add
+     * @return Parsed Components
+     */
+    fun addTags(vararg values: String): ParsedComponents
+
+    /**
+     * Add new tags to these components
+     *
+     * @param values Tags to add
+     * @return Parsed Components
+     */
+    fun addTags(values: Set<String>): ParsedComponents
 }

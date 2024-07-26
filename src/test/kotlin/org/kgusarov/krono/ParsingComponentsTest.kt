@@ -11,7 +11,7 @@ import java.time.temporal.ChronoField
 import java.util.concurrent.TimeUnit
 import java.util.stream.Stream
 
-class ParsingComponentsTest {
+internal class ParsingComponentsTest {
     @Test
     fun `create and manipulate parsing components`() {
         val reference = ReferenceWithTimezone()

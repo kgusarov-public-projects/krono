@@ -1,14 +1,19 @@
 package org.kgusarov.krono.extensions
 
+import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.KronoDate
 import org.kgusarov.krono.KronoUnit
-import org.kgusarov.krono.ParsingComponents
-import java.time.temporal.ChronoField
+import org.kgusarov.krono.ParsedComponents
 
 fun KronoDate.add(
     unit: KronoUnit,
     value: Int,
 ): KronoDate = plus(unit().multipliedBy(value))
+
+fun KronoDate.add(
+    unit: KronoUnit,
+    value: Int?,
+): KronoDate = plus(unit().multipliedBy(value ?: 0))
 
 fun KronoDate.add(
     unit: String,
@@ -19,45 +24,45 @@ fun KronoDate.add(
         else -> add(kronoUnit, value)
     }
 
-fun KronoDate.assignSimilarDate(components: ParsingComponents) {
-    components.assign(ChronoField.DAY_OF_MONTH, dayOfMonth)
-    components.assign(ChronoField.MONTH_OF_YEAR, monthValue)
-    components.assign(ChronoField.YEAR, year)
+fun KronoDate.assignSimilarDate(components: ParsedComponents) {
+    components.assign(KronoComponents.Day, dayOfMonth)
+    components.assign(KronoComponents.Month, monthValue)
+    components.assign(KronoComponents.Year, year)
 }
 
-fun KronoDate.millis() = get(ChronoField.MILLI_OF_SECOND)
+fun KronoDate.millis() = get(KronoComponents.Millisecond)
 
-fun KronoDate.meridiem() = get(ChronoField.AMPM_OF_DAY)
+fun KronoDate.meridiem() = get(KronoComponents.Meridiem)
 
-fun KronoDate.assignSimilarTime(components: ParsingComponents) {
-    components.assign(ChronoField.HOUR_OF_DAY, hour)
-    components.assign(ChronoField.MINUTE_OF_HOUR, minute)
-    components.assign(ChronoField.SECOND_OF_MINUTE, second)
-    components.assign(ChronoField.MILLI_OF_SECOND, millis())
-    components.assign(ChronoField.AMPM_OF_DAY, meridiem())
+fun KronoDate.assignSimilarTime(components: ParsedComponents) {
+    components.assign(KronoComponents.Hour, hour)
+    components.assign(KronoComponents.Minute, minute)
+    components.assign(KronoComponents.Second, second)
+    components.assign(KronoComponents.Millisecond, millis())
+    components.assign(KronoComponents.Meridiem, meridiem())
 }
 
-fun KronoDate.assignTheNextDay(component: ParsingComponents) {
+fun KronoDate.assignTheNextDay(component: ParsedComponents) {
     val target = plusDays(1)
     target.assignSimilarTime(component)
     target.implySimilarTime(component)
 }
 
-fun KronoDate.implyTheNextDay(component: ParsingComponents) {
+fun KronoDate.implyTheNextDay(component: ParsedComponents) {
     val target = plusDays(1)
     target.implySimilarDate(component)
     target.implySimilarTime(component)
 }
 
-fun KronoDate.implySimilarDate(component: ParsingComponents) {
-    component.imply(ChronoField.DAY_OF_MONTH, dayOfMonth)
-    component.imply(ChronoField.MONTH_OF_YEAR, monthValue)
-    component.imply(ChronoField.YEAR, year)
+fun KronoDate.implySimilarDate(component: ParsedComponents) {
+    component.imply(KronoComponents.Day, dayOfMonth)
+    component.imply(KronoComponents.Month, monthValue)
+    component.imply(KronoComponents.Year, year)
 }
 
-fun KronoDate.implySimilarTime(component: ParsingComponents) {
-    component.imply(ChronoField.HOUR_OF_DAY, hour)
-    component.imply(ChronoField.MINUTE_OF_HOUR, minute)
-    component.imply(ChronoField.SECOND_OF_MINUTE, second)
-    component.imply(ChronoField.MILLI_OF_SECOND, millis())
+fun KronoDate.implySimilarTime(component: ParsedComponents) {
+    component.imply(KronoComponents.Hour, hour)
+    component.imply(KronoComponents.Minute, minute)
+    component.imply(KronoComponents.Second, second)
+    component.imply(KronoComponents.Millisecond, millis())
 }

@@ -10,7 +10,7 @@ import java.time.temporal.IsoFields
 import java.time.temporal.TemporalUnit
 import java.util.stream.Stream
 
-class KronoUnitTest {
+internal class KronoUnitTest {
     @ParameterizedTest
     @MethodSource("verifyUnitArgs")
     fun verifyUnit(name: String, unit: TemporalUnit) {

@@ -8,8 +8,8 @@ interface ParsedResult {
     val refDate: KronoDate
     val index: Int
     val text: String
-    val start: ParsedComponents
-    val end: ParsedComponents?
+    var start: ParsedComponents
+    var end: ParsedComponents?
 
     /**
      * Date created from the {@code start}.

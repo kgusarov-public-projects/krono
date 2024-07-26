@@ -7,15 +7,14 @@ import org.kgusarov.krono.extensions.assignSimilarTime
 import org.kgusarov.krono.extensions.contains
 import org.kgusarov.krono.extensions.implySimilarTime
 import org.kgusarov.krono.extensions.toNanosInt
-import java.time.temporal.ChronoField
 import java.util.concurrent.TimeUnit
 
 class ParsingComponents(
     private val reference: ReferenceWithTimezone,
     knownComponents: Map<KronoComponent, Int>? = null,
 ) : ParsedComponents {
-    private val knownValues: MutableMap<KronoComponent, Int> = mutableMapOf()
-    private val impliedValues: MutableMap<KronoComponent, Int> = mutableMapOf()
+    private val knownValues: MutableMap<KronoComponent, Int?> = mutableMapOf()
+    private val impliedValues: MutableMap<KronoComponent, Int?> = mutableMapOf()
     private val tags: MutableSet<String> = mutableSetOf()
 
     init {
@@ -23,13 +22,13 @@ class ParsingComponents(
             knownValues.putAll(knownComponents)
         }
 
-        imply(ChronoField.DAY_OF_MONTH, reference.instant.dayOfMonth)
-        imply(ChronoField.MONTH_OF_YEAR, reference.instant.monthValue)
-        imply(ChronoField.YEAR, reference.instant.year)
-        imply(ChronoField.HOUR_OF_DAY, 12)
-        imply(ChronoField.MINUTE_OF_HOUR, 0)
-        imply(ChronoField.SECOND_OF_MINUTE, 0)
-        imply(ChronoField.MILLI_OF_SECOND, 0)
+        imply(KronoComponents.Day, reference.instant.dayOfMonth)
+        imply(KronoComponents.Month, reference.instant.monthValue)
+        imply(KronoComponents.Year, reference.instant.year)
+        imply(KronoComponents.Hour, 12)
+        imply(KronoComponents.Minute, 0)
+        imply(KronoComponents.Second, 0)
+        imply(KronoComponents.Millisecond, 0)
     }
 
     constructor(
@@ -37,10 +36,10 @@ class ParsingComponents(
         vararg entries: Pair<KronoComponent, Int>,
     ) : this(reference, mapOf(*entries))
 
-    fun imply(
+    override fun imply(
         component: KronoComponent,
-        value: Int,
-    ): ParsingComponents {
+        value: Int?,
+    ): ParsedComponents {
         if (component in knownValues) {
             return this
         }
@@ -48,7 +47,7 @@ class ParsingComponents(
         return this
     }
 
-    override fun get(component: KronoComponent) =
+    override operator fun get(component: KronoComponent) =
         when (component) {
             in knownValues -> knownValues[component]
             in impliedValues -> impliedValues[component]
@@ -61,29 +60,29 @@ class ParsingComponents(
 
     override fun instant(): KronoDate {
         val result = dateWithoutTimezoneAdjustment()
-        return reference.withAdjustedTimezone(result, get(ChronoField.OFFSET_SECONDS))
+        return reference.withAdjustedTimezone(result, get(KronoComponents.Offset))
     }
 
-    fun assign(
+    override fun assign(
         component: KronoComponent,
-        value: Int,
-    ): ParsingComponents {
+        value: Int?,
+    ): ParsedComponents {
         this.knownValues[component] = value
         this.impliedValues.remove(component)
         return this
     }
 
-    fun addTag(tag: String): ParsingComponents {
+    override fun addTag(tag: String): ParsedComponents {
         tags.add(tag)
         return this
     }
 
-    fun addTags(vararg values: String): ParsingComponents {
+    override fun addTags(vararg values: String): ParsedComponents {
         tags.addAll(values)
         return this
     }
 
-    fun addTags(values: Set<String>): ParsingComponents {
+    override fun addTags(values: Set<String>): ParsedComponents {
         tags.addAll(values)
         return this
     }
@@ -95,31 +94,31 @@ class ParsingComponents(
         impliedValues.remove(component)
     }
 
-    fun copy(): ParsingComponents {
-        val result = ParsingComponents(reference)
+    override fun copy(): ParsedComponents {
+        val result = ParsingComponents(reference.copy())
         result.knownValues.putAll(knownValues)
         result.impliedValues.putAll(impliedValues)
         return result
     }
 
     val onlyDate =
-        !isCertain(ChronoField.HOUR_OF_DAY) &&
-            !isCertain(ChronoField.MINUTE_OF_HOUR) &&
-            !isCertain(ChronoField.SECOND_OF_MINUTE)
+        !isCertain(KronoComponents.Hour) &&
+            !isCertain(KronoComponents.Minute) &&
+            !isCertain(KronoComponents.Second)
 
     val onlyTime =
-        !isCertain(ChronoField.DAY_OF_WEEK) &&
-            !isCertain(ChronoField.DAY_OF_MONTH) &&
-            !isCertain(ChronoField.MONTH_OF_YEAR)
+        !isCertain(KronoComponents.Weekday) &&
+            !isCertain(KronoComponents.Day) &&
+            !isCertain(KronoComponents.Month)
 
     val onlyWeekday =
-        isCertain(ChronoField.DAY_OF_WEEK) &&
-            !isCertain(ChronoField.DAY_OF_MONTH) &&
-            !isCertain(ChronoField.MONTH_OF_YEAR)
+        isCertain(KronoComponents.Weekday) &&
+            !isCertain(KronoComponents.Day) &&
+            !isCertain(KronoComponents.Month)
 
     val dateWithUnknownYear =
-        isCertain(ChronoField.MONTH_OF_YEAR) &&
-            !isCertain(ChronoField.YEAR)
+        isCertain(KronoComponents.Month) &&
+            !isCertain(KronoComponents.Year)
 
     fun isValidDate(): Boolean {
         val date =
@@ -129,23 +128,23 @@ class ParsingComponents(
                 return false
             }
 
-        if (date.year != get(ChronoField.YEAR)) {
+        if (date.year != get(KronoComponents.Year)) {
             return false
         }
 
-        if (date.monthValue != get(ChronoField.MONTH_OF_YEAR)) {
+        if (date.monthValue != get(KronoComponents.Month)) {
             return false
         }
 
-        if (date.dayOfMonth != get(ChronoField.DAY_OF_MONTH)) {
+        if (date.dayOfMonth != get(KronoComponents.Day)) {
             return false
         }
 
-        if ((get(ChronoField.HOUR_OF_DAY) != null) && (date.hour != get(ChronoField.HOUR_OF_DAY))) {
+        if ((get(KronoComponents.Hour) != null) && (date.hour != get(KronoComponents.Hour))) {
             return false
         }
 
-        if ((get(ChronoField.MINUTE_OF_HOUR) != null) && (date.minute != get(ChronoField.MINUTE_OF_HOUR))) {
+        if ((get(KronoComponents.Minute) != null) && (date.minute != get(KronoComponents.Minute))) {
             return false
         }
 
@@ -154,17 +153,17 @@ class ParsingComponents(
 
     private fun dateWithoutTimezoneAdjustment() =
         KronoDate.of(
-            get(ChronoField.YEAR) ?: 0,
-            get(ChronoField.MONTH_OF_YEAR) ?: 0,
-            get(ChronoField.DAY_OF_MONTH) ?: 0,
-            get(ChronoField.HOUR_OF_DAY) ?: 0,
-            get(ChronoField.MINUTE_OF_HOUR) ?: 0,
-            get(ChronoField.SECOND_OF_MINUTE) ?: 0,
+            get(KronoComponents.Year) ?: 0,
+            get(KronoComponents.Month) ?: 0,
+            get(KronoComponents.Day) ?: 0,
+            get(KronoComponents.Hour) ?: 0,
+            get(KronoComponents.Minute) ?: 0,
+            get(KronoComponents.Second) ?: 0,
             nanos(),
         )
 
     private fun nanos(): Int {
-        val value = get(ChronoField.MILLI_OF_SECOND) ?: 0
+        val value = get(KronoComponents.Millisecond) ?: 0
         return TimeUnit.MILLISECONDS.toNanosInt(value)
     }
 
@@ -196,32 +195,32 @@ class ParsingComponents(
                 date.assignSimilarDate(components)
                 if (reference.timezone != null) {
                     val seconds = reference.timezone.rules.getOffset(KronoDate.now()).totalSeconds
-                    components.assign(ChronoField.OFFSET_SECONDS, seconds)
+                    components.assign(KronoComponents.Offset, seconds)
                 }
             } else {
                 date.implySimilarTime(components)
                 if (reference.timezone != null) {
                     val seconds = reference.timezone.rules.getOffset(KronoDate.now()).totalSeconds
-                    components.assign(ChronoField.OFFSET_SECONDS, seconds)
+                    components.assign(KronoComponents.Offset, seconds)
                 }
 
                 if (fragments.contains(KronoUnit.Day)) {
                     date.assignSimilarDate(components)
                 } else {
                     if (fragments.contains(KronoUnit.Week)) {
-                        components.imply(ChronoField.DAY_OF_WEEK, date.dayOfWeek.value)
+                        components.imply(KronoComponents.Weekday, date.dayOfWeek.value)
                     }
 
-                    components.imply(ChronoField.DAY_OF_MONTH, date.dayOfMonth)
+                    components.imply(KronoComponents.Day, date.dayOfMonth)
                     if (fragments.contains(KronoUnit.Month)) {
-                        components.assign(ChronoField.MONTH_OF_YEAR, date.monthValue)
-                        components.assign(ChronoField.YEAR, date.year)
+                        components.assign(KronoComponents.Month, date.monthValue)
+                        components.assign(KronoComponents.Year, date.year)
                     } else {
-                        components.imply(ChronoField.MONTH_OF_YEAR, date.monthValue)
+                        components.imply(KronoComponents.Month, date.monthValue)
                         if (fragments.contains(KronoUnit.Year)) {
-                            components.assign(ChronoField.YEAR, date.year)
+                            components.assign(KronoComponents.Year, date.year)
                         } else {
-                            components.imply(ChronoField.YEAR, date.year)
+                            components.imply(KronoComponents.Year, date.year)
                         }
                     }
                 }

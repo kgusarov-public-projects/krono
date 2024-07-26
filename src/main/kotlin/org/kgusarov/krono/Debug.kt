@@ -2,7 +2,7 @@ package org.kgusarov.krono
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 
-typealias AsyncDebugBlock = () -> Any?
+typealias AsyncDebugBlock = () -> String
 
 fun interface DebugHandler {
     operator fun invoke(block: AsyncDebugBlock)
@@ -16,7 +16,7 @@ class BufferedDebugHandler : DebugHandler {
         buffer.add(block)
     }
 
-    fun execute(): Array<Any?> {
+    fun execute(): Array<String> {
         val result = buffer.map { it() }.toTypedArray()
         buffer.clear()
         return result

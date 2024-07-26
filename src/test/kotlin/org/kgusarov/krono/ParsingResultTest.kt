@@ -3,7 +3,7 @@ package org.kgusarov.krono
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-class ParsingResultTest {
+internal class ParsingResultTest {
     @Test
     fun `create and manipulate parsing results`() {
         val reference = ReferenceWithTimezone()
