@@ -23,7 +23,16 @@ class ENWeekdayParser : AbstractParserWithWordBoundaryChecking() {
         val weekday = EnConstants.WEEKDAY_DICTIONARY[dayOfWeek] ?: DayOfWeek.SUNDAY
         val prefix = match[PREFIX_GROUP]
         val postfix = match[POSTFIX_GROUP]
-        val modifierWord = (prefix ?: postfix ?: "").lowercase()
+        val modifierWord =
+            (
+                if (!prefix.isNullOrEmpty()) {
+                    prefix
+                } else if (!postfix.isNullOrEmpty()) {
+                    postfix
+                } else {
+                    ""
+                }
+            ).lowercase()
 
         val modifier: String? =
             when (modifierWord) {

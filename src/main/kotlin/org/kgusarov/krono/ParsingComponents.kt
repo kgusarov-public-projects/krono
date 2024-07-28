@@ -9,6 +9,7 @@ import org.kgusarov.krono.extensions.implySimilarTime
 import org.kgusarov.krono.extensions.toNanosInt
 import java.util.concurrent.TimeUnit
 
+@SuppressFBWarnings("EI_EXPOSE_REP")
 class ParsingComponents(
     private val reference: ReferenceWithTimezone,
     knownComponents: Map<KronoComponent, Int>? = null,
@@ -87,7 +88,7 @@ class ParsingComponents(
         return this
     }
 
-    fun getCertainComponents(): Array<KronoComponent> = knownValues.keys.toTypedArray()
+    override val certainComponents: Array<KronoComponent> = knownValues.keys.toTypedArray()
 
     fun delete(component: KronoComponent) {
         knownValues.remove(component)
@@ -100,25 +101,6 @@ class ParsingComponents(
         result.impliedValues.putAll(impliedValues)
         return result
     }
-
-    val onlyDate =
-        !isCertain(KronoComponents.Hour) &&
-            !isCertain(KronoComponents.Minute) &&
-            !isCertain(KronoComponents.Second)
-
-    val onlyTime =
-        !isCertain(KronoComponents.Weekday) &&
-            !isCertain(KronoComponents.Day) &&
-            !isCertain(KronoComponents.Month)
-
-    val onlyWeekday =
-        isCertain(KronoComponents.Weekday) &&
-            !isCertain(KronoComponents.Day) &&
-            !isCertain(KronoComponents.Month)
-
-    val dateWithUnknownYear =
-        isCertain(KronoComponents.Month) &&
-            !isCertain(KronoComponents.Year)
 
     fun isValidDate(): Boolean {
         val date =

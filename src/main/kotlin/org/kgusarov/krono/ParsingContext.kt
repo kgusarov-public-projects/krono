@@ -49,6 +49,11 @@ object RefDateInputFactory {
     operator fun invoke(value: KronoDate): RefDateInput = KronoRefDateInput(value)
 
     operator fun invoke(value: ParsingReference): RefDateInput = ParsingReferenceDateInput(value)
+
+    operator fun invoke(value: String): RefDateInput {
+        val date = KronoDate.parse(value)
+        return KronoRefDateInput(date)
+    }
 }
 
 object ComponentsInputFactory {

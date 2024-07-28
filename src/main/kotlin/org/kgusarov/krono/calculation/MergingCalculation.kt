@@ -4,6 +4,7 @@ import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.KronoMeridiem
 import org.kgusarov.krono.KronoUnit
 import org.kgusarov.krono.ParsedComponents
+import org.kgusarov.krono.ParsedResult
 import org.kgusarov.krono.ParsingResult
 import org.kgusarov.krono.extensions.add
 import org.kgusarov.krono.extensions.assignSimilarDate
@@ -12,10 +13,10 @@ import org.kgusarov.krono.extensions.implySimilarDate
 import org.kgusarov.krono.extensions.plus
 
 internal fun mergeDateTimeResult(
-    dateResult: ParsingResult,
-    timeResult: ParsingResult,
+    dateResult: ParsedResult,
+    timeResult: ParsedResult,
 ): ParsingResult {
-    val result = dateResult.copy()
+    val result = dateResult.copy<ParsingResult>()
     val beginDate = dateResult.start
     val beginTime = timeResult.start
     result.start = mergeDateTimeComponent(beginDate, beginTime)

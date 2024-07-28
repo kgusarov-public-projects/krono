@@ -6,8 +6,8 @@ package org.kgusarov.krono
  */
 interface ParsedResult {
     val refDate: KronoDate
-    val index: Int
-    val text: String
+    var index: Int
+    var text: String
     var start: ParsedComponents
     var end: ParsedComponents?
 
@@ -24,4 +24,6 @@ interface ParsedResult {
      * @return debugging tags of the parsed component
      */
     fun tags(): Set<String>
+
+    fun <T> copy(): T where T : ParsedResult
 }

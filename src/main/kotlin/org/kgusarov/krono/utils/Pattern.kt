@@ -5,7 +5,7 @@ internal fun extractTerms(dictionary: Map<String, *>): Array<String> = dictionar
 internal fun matchAnyPattern(dictionary: Map<String, *>): String {
     val joinedTerms =
         extractTerms(dictionary)
-            .toSortedSet { a, b -> b.length - a.length }
+            .sortedByDescending { it.length }
             .joinToString("|")
             .replace("\\.".toRegex(), "\\.")
 
