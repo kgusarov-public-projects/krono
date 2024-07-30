@@ -149,6 +149,8 @@ class ParsingComponents(
         return TimeUnit.MILLISECONDS.toNanosInt(value)
     }
 
+    override fun toString() = "ParsingComponents(reference=$reference, knownValues=$knownValues, impliedValues=$impliedValues)"
+
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     companion object {
         @JvmStatic

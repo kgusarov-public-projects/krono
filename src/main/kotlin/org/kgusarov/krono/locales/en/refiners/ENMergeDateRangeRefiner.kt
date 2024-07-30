@@ -9,6 +9,6 @@ class ENMergeDateRangeRefiner : AbstractMergeDateRangeRefiner() {
 
     companion object {
         @JvmStatic
-        val PATTERN = Regex("^\\s*(to|-|–|until|through|till)\\s*\$", RegexOption.IGNORE_CASE)
+        private val PATTERN = Regex("^\\s*(to|-|–|until|through|till)\\s*\$", RegexOption.IGNORE_CASE)
     }
 }

@@ -1,14 +1,20 @@
 package org.kgusarov.krono
 
+import com.google.common.annotations.VisibleForTesting
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+
 sealed interface ComponentsInput {
     operator fun invoke(reference: ReferenceWithTimezone): ParsedComponents
 }
 
-private data class MapComponentsInput(private val value: Map<KronoComponent, Int>?) : ComponentsInput {
+@SuppressFBWarnings("EI_EXPOSE_REP", "EI_EXPOSE_REP2")
+internal data class MapComponentsInput(
+    @VisibleForTesting val value: Map<KronoComponent, Int>?,
+) : ComponentsInput {
     override fun invoke(reference: ReferenceWithTimezone) = ParsingComponents(reference, value)
 }
 
-private data class ParsedComponentsInput(private val value: ParsedComponents) : ComponentsInput {
+internal data class ParsedComponentsInput(private val value: ParsedComponents) : ComponentsInput {
     override fun invoke(reference: ReferenceWithTimezone) = value
 }
 
@@ -16,11 +22,11 @@ sealed interface RefDateInput {
     operator fun invoke(): ReferenceWithTimezone
 }
 
-private data class KronoRefDateInput(private val value: KronoDate) : RefDateInput {
+internal data class KronoRefDateInput(private val value: KronoDate) : RefDateInput {
     override fun invoke() = ReferenceWithTimezone(value)
 }
 
-private data class ParsingReferenceDateInput(private val value: ParsingReference) : RefDateInput {
+internal data class ParsingReferenceDateInput(private val value: ParsingReference) : RefDateInput {
     override fun invoke() = ReferenceWithTimezone(value)
 }
 
@@ -31,14 +37,14 @@ sealed interface TextOrEndIndexInput {
     ): String
 }
 
-private data class TextInput(private val value: String) : TextOrEndIndexInput {
+internal data class TextInput(private val value: String) : TextOrEndIndexInput {
     override fun invoke(
         index: Int,
         from: String,
     ) = value
 }
 
-private data class EndIndexInput(private val value: Int) : TextOrEndIndexInput {
+internal data class EndIndexInput(private val value: Int) : TextOrEndIndexInput {
     override fun invoke(
         index: Int,
         from: String,

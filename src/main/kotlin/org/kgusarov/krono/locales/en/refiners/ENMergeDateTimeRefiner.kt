@@ -9,6 +9,6 @@ class ENMergeDateTimeRefiner : AbstractMergeDateTimeRefiner() {
 
     companion object {
         @JvmStatic
-        val PATTERN = Regex("^\\s*(T|at|after|before|on|of|,|-|\\.|:)?\\s*$")
+        private val PATTERN = Regex("^\\s*(T|at|after|before|on|of|,|-|\\.|:)?\\s*$")
     }
 }

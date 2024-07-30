@@ -1,5 +1,8 @@
 package org.kgusarov.krono
 
+import com.google.common.annotations.VisibleForTesting
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+
 sealed interface ParserResult {
     operator fun invoke(
         context: ParsingContext,
@@ -8,7 +11,8 @@ sealed interface ParserResult {
     ): ParsedResult
 }
 
-private data class RawResult(private val value: ParsedResult) : ParserResult {
+@SuppressFBWarnings("EI_EXPOSE_REP", "EI_EXPOSE_REP2")
+internal data class RawResult(private val value: ParsedResult) : ParserResult {
     override fun invoke(
         context: ParsingContext,
         index: Int,
@@ -16,7 +20,7 @@ private data class RawResult(private val value: ParsedResult) : ParserResult {
     ) = value
 }
 
-private data class ParsingComponentsResult(private val value: ParsedComponents) : ParserResult {
+internal data class ParsingComponentsResult(private val value: ParsedComponents) : ParserResult {
     override fun invoke(
         context: ParsingContext,
         index: Int,
@@ -28,7 +32,9 @@ private data class ParsingComponentsResult(private val value: ParsedComponents) 
     }
 }
 
-private data class ComponentsInputResult(private val value: ComponentsInput?) : ParserResult {
+internal data class ComponentsInputResult(
+    @VisibleForTesting val value: ComponentsInput?,
+) : ParserResult {
     override fun invoke(
         context: ParsingContext,
         index: Int,

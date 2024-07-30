@@ -12,8 +12,6 @@ abstract class AbstractParserWithWordBoundaryChecking : Parser {
     private var cachedInnerPattern: Regex? = null
     private var cachedPattern: Regex? = null
 
-    val patternLeftBoundary = "(\\W|^)"
-
     fun innerPatternHasChange(
         context: ParsingContext,
         currentInnerPattern: Regex,
@@ -30,7 +28,7 @@ abstract class AbstractParserWithWordBoundaryChecking : Parser {
         cachedInnerPattern = innerPattern(context)
         cachedPattern =
             Regex(
-                "$patternLeftBoundary${cachedInnerPattern!!.pattern}",
+                "$PATTERN_LEFT_BOUNDARY${cachedInnerPattern!!.pattern}",
                 cachedInnerPattern!!.options,
             )
 
@@ -58,4 +56,8 @@ abstract class AbstractParserWithWordBoundaryChecking : Parser {
         context: ParsingContext,
         match: RegExpMatchArray,
     ): ParserResult?
+
+    companion object {
+        private const val PATTERN_LEFT_BOUNDARY = "(\\W|^)"
+    }
 }

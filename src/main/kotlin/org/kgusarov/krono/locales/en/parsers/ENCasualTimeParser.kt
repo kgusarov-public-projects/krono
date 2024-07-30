@@ -40,7 +40,7 @@ class ENCasualTimeParser : AbstractParserWithWordBoundaryChecking() {
 
     companion object {
         @JvmStatic
-        val PATTERN =
+        private val PATTERN =
             Regex(
                 "(?:this)?\\s{0,3}(morning|afternoon|evening|night|midnight|midday|noon)(?=\\W|\$)",
                 RegexOption.IGNORE_CASE,

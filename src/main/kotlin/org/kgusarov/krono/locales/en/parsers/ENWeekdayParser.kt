@@ -51,7 +51,7 @@ class ENWeekdayParser : AbstractParserWithWordBoundaryChecking() {
         const val POSTFIX_GROUP = 3
 
         @JvmStatic
-        val PATTERN =
+        private val PATTERN =
             Regex(
                 "(?:(?:\\,|\\(|\\（)\\s*)?" +
                     "(?:on\\s*?)?" +

@@ -18,6 +18,10 @@ class RegExpMatchArray(
         return matches.getOrNull(index)
     }
 
+    fun getInt(index: Int): Int {
+        return this[index]?.toInt() ?: 0
+    }
+
     operator fun set(
         index: Int,
         value: String?,

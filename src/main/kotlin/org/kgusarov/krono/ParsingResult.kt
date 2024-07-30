@@ -40,4 +40,6 @@ class ParsingResult(
     override fun instant() = start.instant()
 
     override fun tags() = start.tags() + (end?.tags() ?: setOf())
+
+    override fun toString() = "ParsingResult(index=$index, text='$text', refDate=$refDate)"
 }

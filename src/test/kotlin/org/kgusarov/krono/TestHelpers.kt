@@ -2,6 +2,8 @@ package org.kgusarov.krono
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import kotlin.test.fail
 
 typealias CheckResult = (p: ParsedResult) -> Unit
@@ -29,9 +31,17 @@ internal fun testSingleCase(
     option: ParsingOption? = null,
     checkResult: CheckResult,
 ) {
-    val results = krono.parse(text, refDate, option)
+    val debugHandler = BufferedDebugHandler()
+    val testOption = option ?: ParsingOption(debug = debugHandler)
+
+    val results = krono.parse(text, refDate, testOption)
     results.assertSingleOnText(text)
     checkResult(results[0])
+
+    TestLogger.LOGGER.info("Tested single case with text: '$text'")
+    debugHandler.execute().forEach {
+        TestLogger.LOGGER.info("\t$it")
+    }
 }
 
 fun List<ParsedResult>.assertSingleOnText(text: String) {
@@ -51,6 +61,34 @@ fun ParsedComponents.assertDate(expected: String) {
     val expectedDate = KronoDate.parse(expected)
     assertThat(actual).isEqualTo(expectedDate)
 }
+
+class TestParsedResult(
+    override val refDate: KronoDate = KronoDate.now(),
+    override var index: Int = 0,
+    override var text: String = "",
+    override var start: ParsedComponents = ParsingComponents(ReferenceWithTimezone()),
+    override var end: ParsedComponents? = null,
+) : ParsedResult {
+    override fun instant(): KronoDate = start.instant()
+
+    override fun tags(): Set<String> = emptySet()
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T> copy(): T where T : ParsedResult = TestParsedResult(
+        refDate,
+        index,
+        text,
+        start.copy(),
+        end?.copy(),
+    ) as T
+
+    override fun toString() = "TestParsedResult(index=$index, text='$text', refDate=$refDate)"
+}
+
+internal object TestLogger {
+    internal val LOGGER = LoggerFactory.getLogger("TestLogger")
+}
+
 
 /*
 
