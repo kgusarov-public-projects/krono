@@ -1,8 +1,11 @@
 package org.kgusarov.krono.locales.en
 
 import org.kgusarov.krono.KronoConfiguration
+import org.kgusarov.krono.common.parsers.SlashDateFormatParser
+import org.kgusarov.krono.common.refiners.OverlapRemovalRefiner
 import org.kgusarov.krono.includeCommonConfiguration
 import org.kgusarov.krono.locales.en.parsers.ENCasualTimeParser
+import org.kgusarov.krono.locales.en.parsers.ENMonthNameParser
 import org.kgusarov.krono.locales.en.parsers.ENWeekdayParser
 import org.kgusarov.krono.locales.en.refiners.ENMergeDateRangeRefiner
 import org.kgusarov.krono.locales.en.refiners.ENMergeDateTimeRefiner
@@ -16,6 +19,7 @@ class ENDefaultConfiguration {
             includeCommonConfiguration(
                 KronoConfiguration(
                     mutableListOf(
+                        SlashDateFormatParser(littleEndian),
                         ENWeekdayParser(),
                     ),
                     mutableListOf(
@@ -24,6 +28,30 @@ class ENDefaultConfiguration {
                 ),
                 strictMode,
             )
+
+        /*
+        {
+                parsers: [
+                    new SlashDateFormatParser(littleEndian),
+                    new ENTimeUnitWithinFormatParser(strictMode),
+                    new ENMonthNameLittleEndianParser(),
+                    new ENMonthNameMiddleEndianParser(/*shouldSkipYearLikeDate=*/ littleEndian),
+                    new ENWeekdayParser(),
+                    new ENCasualYearMonthDayParser(),
+                    new ENSlashMonthFormatParser(),
+                    new ENTimeExpressionParser(strictMode),
+                    new ENTimeUnitAgoFormatParser(strictMode),
+                    new ENTimeUnitLaterFormatParser(strictMode),
+                ],
+                refiners: [new ENMergeDateTimeRefiner()],
+            },
+         */
+
+//        options.refiners.unshift(new ENMergeRelativeFollowByDateRefiner());
+//        options.refiners.unshift(new ENMergeRelativeAfterDateRefiner());
+//        options.refiners.unshift(new OverlapRemovalRefiner());
+
+        result.refiners.addFirst(OverlapRemovalRefiner())
 
         // Keep the date range refiner at the end (after all other refinements).
         result.refiners += ENMergeDateRangeRefiner()
@@ -34,8 +62,8 @@ class ENDefaultConfiguration {
     fun createCasualConfiguration(littleEndian: Boolean = false): KronoConfiguration {
         val result = createConfiguration(false, littleEndian)
 //        option.parsers.push(new ENCasualDateParser());
-        result.parsers += ENCasualTimeParser()
-//        option.parsers.push(new ENMonthNameParser());
+        result.parsers.addLast(ENCasualTimeParser())
+        result.parsers.addLast(ENMonthNameParser())
 //        option.parsers.push(new ENRelativeDateFormatParser());
 //        option.parsers.push(new ENTimeUnitCasualRelativeFormatParser());
         return result

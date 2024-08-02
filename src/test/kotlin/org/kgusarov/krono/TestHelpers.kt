@@ -2,6 +2,7 @@ package org.kgusarov.krono
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.kgusarov.krono.locales.en.En
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.test.fail
@@ -27,20 +28,38 @@ internal fun testSingleCase(
 internal fun testSingleCase(
     krono: Krono,
     text: String,
+    refDate: KronoDate,
+    option: ParsingOption? = null,
+    checkResult: CheckResult,
+) {
+    testSingleCase(
+        krono,
+        text,
+        RefDateInputFactory(refDate),
+        option,
+        checkResult
+    )
+}
+
+internal fun testSingleCase(
+    krono: Krono,
+    text: String,
     refDate: RefDateInput,
     option: ParsingOption? = null,
     checkResult: CheckResult,
 ) {
     val debugHandler = BufferedDebugHandler()
-    val testOption = option ?: ParsingOption(debug = debugHandler)
+    val testOption = option?.copy(debug = debugHandler) ?: ParsingOption(debug = debugHandler)
 
-    val results = krono.parse(text, refDate, testOption)
-    results.assertSingleOnText(text)
-    checkResult(results[0])
-
-    TestLogger.LOGGER.info("Tested single case with text: '$text'")
-    debugHandler.execute().forEach {
-        TestLogger.LOGGER.info("\t$it")
+    try {
+        val results = krono.parse(text, refDate, testOption)
+        results.assertSingleOnText(text)
+        checkResult(results[0])
+    } finally {
+        TestLogger.LOGGER.info("Tested single case with text: '$text'")
+        debugHandler.execute().forEach {
+            TestLogger.LOGGER.info("\t$it")
+        }
     }
 }
 

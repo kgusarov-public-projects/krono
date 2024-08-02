@@ -45,6 +45,7 @@ class ENWeekdayParser : AbstractParserWithWordBoundaryChecking() {
         return ParserResultFactory(createParsingComponentsAtWeekday(context.reference, weekday, modifier))
     }
 
+    @Suppress("RegExpRedundantEscape", "RegExpSimplifiable", "RegExpSingleCharAlternation")
     companion object {
         const val PREFIX_GROUP = 1
         const val WEEKDAY_GROUP = 2

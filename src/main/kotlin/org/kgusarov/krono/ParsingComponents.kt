@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
 class ParsingComponents(
-    private val reference: ReferenceWithTimezone,
+    private val reference: ReferenceWithTimezone = ReferenceWithTimezone(),
     knownComponents: Map<KronoComponent, Int>? = null,
 ) : ParsedComponents {
     private val knownValues: MutableMap<KronoComponent, Int?> = mutableMapOf()
@@ -102,7 +102,7 @@ class ParsingComponents(
         return result
     }
 
-    fun isValidDate(): Boolean {
+    override fun isValidDate(): Boolean {
         val date =
             try {
                 instant()

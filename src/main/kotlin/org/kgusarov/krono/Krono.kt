@@ -1,7 +1,10 @@
 package org.kgusarov.krono
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.extensions.plus
+import org.kgusarov.krono.locales.en.En
 
+@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR")
 class Krono(configuration: KronoConfiguration) {
     private val parsers: Array<Parser> = configuration.parsers.toTypedArray()
     private val refiners: Array<Refiner> = configuration.refiners.toTypedArray()
@@ -39,6 +42,12 @@ class Krono(configuration: KronoConfiguration) {
     }
 
     companion object {
+        @JvmStatic
+        val enCasual = Krono(En.casual)
+
+        @JvmStatic
+        val enStrict = Krono(En.strict)
+
         private fun executeParser(
             context: ParsingContext,
             parser: Parser,

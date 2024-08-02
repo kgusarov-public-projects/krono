@@ -12,7 +12,9 @@ sealed interface ParserResult {
 }
 
 @SuppressFBWarnings("EI_EXPOSE_REP", "EI_EXPOSE_REP2")
-internal data class RawResult(private val value: ParsedResult) : ParserResult {
+internal data class RawResult(
+    @VisibleForTesting val value: ParsedResult,
+) : ParserResult {
     override fun invoke(
         context: ParsingContext,
         index: Int,

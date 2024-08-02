@@ -7,7 +7,7 @@ internal fun matchAnyPattern(dictionary: Map<String, *>): String {
         extractTerms(dictionary)
             .sortedByDescending { it.length }
             .joinToString("|")
-            .replace("\\.".toRegex(), "\\.")
+            .replace(".", "\\.")
 
     return "(?:$joinedTerms)"
 }

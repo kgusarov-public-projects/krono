@@ -1,26 +1,22 @@
 package org.kgusarov.krono.locales.en.parsers
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.kgusarov.krono.Krono
-import org.kgusarov.krono.KronoComponent
 import org.kgusarov.krono.KronoComponents
+import org.kgusarov.krono.ParsingOption
 import org.kgusarov.krono.RefDateInputFactory
 import org.kgusarov.krono.assertDate
-import org.kgusarov.krono.locales.en.En
 import org.kgusarov.krono.testSingleCase
 import java.util.stream.Stream
-
-private val enCasual = Krono(En.casual)
 
 internal class ENWeekdayParserTest {
     @Test
     fun casualMonday() {
-        testSingleCase(enCasual, "Monday", RefDateInputFactory("2012-08-09T00:00:00")) {
+        testSingleCase(Krono.enCasual, "Monday", RefDateInputFactory("2012-08-09T00:00:00")) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Monday")
 
@@ -42,7 +38,7 @@ internal class ENWeekdayParserTest {
 
     @Test
     fun casualThursday() {
-        testSingleCase(enCasual, "Thursday", RefDateInputFactory("2012-08-09T00:00:00")) {
+        testSingleCase(Krono.enCasual, "Thursday", RefDateInputFactory("2012-08-09T00:00:00")) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Thursday")
 
@@ -59,7 +55,7 @@ internal class ENWeekdayParserTest {
 
     @Test
     fun casualSunday() {
-        testSingleCase(enCasual, "Sunday", RefDateInputFactory("2012-08-09T00:00:00")) {
+        testSingleCase(Krono.enCasual, "Sunday", RefDateInputFactory("2012-08-09T00:00:00")) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Sunday")
 
@@ -77,7 +73,7 @@ internal class ENWeekdayParserTest {
     @Test
     fun lastFriday() {
         testSingleCase(
-            enCasual,
+            Krono.enCasual,
             "The Deadline is last Friday...",
             RefDateInputFactory("2012-08-09T00:00:00"),
         ) {
@@ -98,7 +94,7 @@ internal class ENWeekdayParserTest {
     @Test
     fun pastFriday() {
         testSingleCase(
-            enCasual,
+            Krono.enCasual,
             "The Deadline is past Friday...",
             RefDateInputFactory("2012-08-09T00:00:00"),
         ) {
@@ -119,7 +115,7 @@ internal class ENWeekdayParserTest {
     @Test
     fun nextFriday() {
         testSingleCase(
-            enCasual,
+            Krono.enCasual,
             "Let's have a meeting on Friday next week",
             RefDateInputFactory("2015-04-18T00:00:00"),
         ) {
@@ -140,7 +136,7 @@ internal class ENWeekdayParserTest {
     @Test
     fun nextTuesday() {
         testSingleCase(
-            enCasual,
+            Krono.enCasual,
             "I plan on taking the day off on Tuesday, next week",
             RefDateInputFactory("2015-04-18T00:00:00"),
         ) {
@@ -161,7 +157,7 @@ internal class ENWeekdayParserTest {
     @ParameterizedTest
     @MethodSource("guessingArgs")
     fun guessing(text: String, ref: String, expectedDay: Int, expectedMonth: Int, expectedYear: Int) {
-        testSingleCase(enCasual, text, ref) {
+        testSingleCase(Krono.enCasual, text, ref) {
             with(it.start) {
                 assertThat(day).isEqualTo(expectedDay)
                 assertThat(month).isEqualTo(expectedMonth)
@@ -172,7 +168,7 @@ internal class ENWeekdayParserTest {
 
     @Test
     fun weekDayWithCasualTime() {
-        testSingleCase(enCasual, "Lets meet on Tuesday morning", "2015-04-18T12:00:00") {
+        testSingleCase(Krono.enCasual, "Lets meet on Tuesday morning", "2015-04-18T12:00:00") {
             assertThat(it.index).isEqualTo(10)
             assertThat(it.text).isEqualTo("on Tuesday morning")
 
@@ -190,7 +186,7 @@ internal class ENWeekdayParserTest {
 
     @Test
     fun weekdayRangeFriToMon() {
-        testSingleCase(enCasual, "Friday to Monday", "2023-04-09T12:00:00") {
+        testSingleCase(Krono.enCasual, "Friday to Monday", "2023-04-09T12:00:00") {
             assertThat(it.end).isNotNull
 
             with (it.start) {
@@ -211,7 +207,7 @@ internal class ENWeekdayParserTest {
 
     @Test
     fun weekdayRangeMonToFri() {
-        testSingleCase(enCasual, "Monday to Friday", "2023-04-09T12:00:00") {
+        testSingleCase(Krono.enCasual, "Monday to Friday", "2023-04-09T12:00:00") {
             assertThat(it.end).isNotNull
 
             with (it.start) {
@@ -229,6 +225,186 @@ internal class ENWeekdayParserTest {
             }
         }
     }
+
+    @Test
+    fun weekdayOverlap1() {
+        testSingleCase(Krono.enCasual, "Sunday 12/7/2014", "2012-08-09T00:00:00") {
+            assertThat(it.index).isEqualTo(0)
+            assertThat(it.text).isEqualTo("Sunday 12/7/2014")
+
+            with(it.start) {
+                assertThat(year).isEqualTo(2014)
+                assertThat(month).isEqualTo(12)
+                assertThat(day).isEqualTo(7)
+                assertThat(weekday).isEqualTo(7)
+
+                assertThat(certainDay).isTrue()
+                assertThat(certainMonth).isTrue()
+                assertThat(certainYear).isTrue()
+                assertThat(certainWeekday).isTrue()
+
+                assertDate("2014-12-07T12:00:00")
+            }
+        }
+    }
+
+    @Test
+    fun `forward dates - monday`() {
+        testSingleCase(
+            Krono.enCasual,
+            "Monday (forward dates only)",
+            "2012-08-09T00:00:00",
+            ParsingOption(true)
+        ) {
+            assertThat(it.index).isEqualTo(0)
+            assertThat(it.text).isEqualTo("Monday")
+
+            with(it.start) {
+                assertThat(year).isEqualTo(2012)
+                assertThat(month).isEqualTo(8)
+                assertThat(day).isEqualTo(13)
+                assertThat(weekday).isEqualTo(1)
+
+                assertThat(certainDay).isFalse()
+                assertThat(certainMonth).isFalse()
+                assertThat(certainYear).isFalse()
+                assertThat(certainWeekday).isTrue()
+
+                assertDate("2012-08-13T12:00:00")
+            }
+        }
+    }
+
+    @Test
+    fun `forward dates - this friday to this monday`() {
+        testSingleCase(
+            Krono.enCasual,
+            "this Friday to this Monday",
+            "2016-08-01T00:00:00",
+            ParsingOption(true)
+        ) {
+            assertThat(it.index).isEqualTo(0)
+            assertThat(it.text).isEqualTo("this Friday to this Monday")
+
+            with(it.start) {
+                assertThat(year).isEqualTo(2016)
+                assertThat(month).isEqualTo(8)
+                assertThat(day).isEqualTo(5)
+                assertThat(weekday).isEqualTo(5)
+
+                assertThat(certainDay).isFalse()
+                assertThat(certainMonth).isFalse()
+                assertThat(certainYear).isFalse()
+                assertThat(certainWeekday).isTrue()
+
+                assertDate("2016-08-05T12:00:00")
+            }
+
+            with(it.end!!) {
+                assertThat(year).isEqualTo(2016)
+                assertThat(month).isEqualTo(8)
+                assertThat(day).isEqualTo(8)
+                assertThat(weekday).isEqualTo(1)
+
+                assertThat(certainDay).isFalse()
+                assertThat(certainMonth).isFalse()
+                assertThat(certainYear).isFalse()
+                assertThat(certainWeekday).isTrue()
+
+                assertDate("2016-08-08T12:00:00")
+            }
+        }
+    }
+
+    @Test
+    fun `forward dates - sunday morning`() {
+        testSingleCase(
+            Krono.enCasual,
+            "sunday morning",
+            "2021-08-15T20:00:00",
+            ParsingOption(true)
+        ) {
+            assertThat(it.index).isEqualTo(0)
+            assertThat(it.text).isEqualTo("sunday morning")
+
+            with(it.start) {
+                assertThat(year).isEqualTo(2021)
+                assertThat(month).isEqualTo(8)
+                assertThat(day).isEqualTo(22)
+                assertThat(weekday).isEqualTo(7)
+
+                assertThat(certainDay).isFalse()
+                assertThat(certainMonth).isFalse()
+                assertThat(certainYear).isFalse()
+                assertThat(certainWeekday).isTrue()
+
+                assertDate("2021-08-22T06:00:00")
+            }
+        }
+    }
+
+    @Test
+    fun `forward dates - vacation monday - friday`() {
+        testSingleCase(
+            Krono.enCasual,
+            "vacation monday - friday",
+            "2019-06-13T00:00:00",
+            ParsingOption(true)
+        ) {
+            assertThat(it.text).isEqualTo("monday - friday")
+
+            with(it.start) {
+                assertThat(year).isEqualTo(2019)
+                assertThat(month).isEqualTo(6)
+                assertThat(day).isEqualTo(17)
+                assertThat(weekday).isEqualTo(1)
+
+                assertThat(certainDay).isFalse()
+                assertThat(certainMonth).isFalse()
+                assertThat(certainYear).isFalse()
+                assertThat(certainWeekday).isTrue()
+
+                assertDate("2019-06-17T12:00:00")
+            }
+
+            with(it.end!!) {
+                assertThat(year).isEqualTo(2019)
+                assertThat(month).isEqualTo(6)
+                assertThat(day).isEqualTo(21)
+                assertThat(weekday).isEqualTo(5)
+
+                assertThat(certainDay).isFalse()
+                assertThat(certainMonth).isFalse()
+                assertThat(certainYear).isFalse()
+                assertThat(certainWeekday).isTrue()
+
+                assertDate("2019-06-21T12:00:00")
+            }
+        }
+    }
+
+    /*
+
+test("Test - Weekday Overlap", function () {
+    testSingleCase(chrono.casual, "Sunday, December 7, 2014", new Date(2012, 7, 9), (result) => {
+        expect(result.index).toBe(0);
+        expect(result.text).toBe("Sunday, December 7, 2014");
+
+        expect(result.start).not.toBeNull();
+        expect(result.start.get("year")).toBe(2014);
+        expect(result.start.get("month")).toBe(12);
+        expect(result.start.get("day")).toBe(7);
+        expect(result.start.get("weekday")).toBe(0);
+
+        expect(result.start.isCertain("day")).toBe(true);
+        expect(result.start.isCertain("month")).toBe(true);
+        expect(result.start.isCertain("year")).toBe(true);
+        expect(result.start.isCertain("weekday")).toBe(true);
+
+        expect(result.start).toBeDate(new Date(2014, 12 - 1, 7, 12));
+    });
+});
+     */
 
     companion object {
         @JvmStatic
@@ -259,154 +435,3 @@ internal class ENWeekdayParserTest {
             )
     }
 }
-
-/*
-
-
-
-test("Test - Weekday Overlap", function () {
-    testSingleCase(chrono.casual, "Sunday, December 7, 2014", new Date(2012, 7, 9), (result) => {
-        expect(result.index).toBe(0);
-        expect(result.text).toBe("Sunday, December 7, 2014");
-
-        expect(result.start).not.toBeNull();
-        expect(result.start.get("year")).toBe(2014);
-        expect(result.start.get("month")).toBe(12);
-        expect(result.start.get("day")).toBe(7);
-        expect(result.start.get("weekday")).toBe(0);
-
-        expect(result.start.isCertain("day")).toBe(true);
-        expect(result.start.isCertain("month")).toBe(true);
-        expect(result.start.isCertain("year")).toBe(true);
-        expect(result.start.isCertain("weekday")).toBe(true);
-
-        expect(result.start).toBeDate(new Date(2014, 12 - 1, 7, 12));
-    });
-
-    testSingleCase(chrono.casual, "Sunday 12/7/2014", new Date(2012, 7, 9), (result) => {
-        expect(result.index).toBe(0);
-        expect(result.text).toBe("Sunday 12/7/2014");
-
-        expect(result.start).not.toBeNull();
-        expect(result.start.get("year")).toBe(2014);
-        expect(result.start.get("month")).toBe(12);
-        expect(result.start.get("day")).toBe(7);
-        expect(result.start.get("weekday")).toBe(0);
-
-        expect(result.start.isCertain("day")).toBe(true);
-        expect(result.start.isCertain("month")).toBe(true);
-        expect(result.start.isCertain("year")).toBe(true);
-        expect(result.start.isCertain("weekday")).toBe(true);
-
-        expect(result.start).toBeDate(new Date(2014, 12 - 1, 7, 12));
-    });
-});
-
-test("Test - forward dates only option", () => {
-    testSingleCase(
-        chrono.casual,
-        "Monday (forward dates only)",
-        new Date(2012, 7, 9),
-        { forwardDate: true },
-        (result) => {
-            expect(result.index).toBe(0);
-            expect(result.text).toBe("Monday");
-
-            expect(result.start).not.toBeNull();
-            expect(result.start.get("year")).toBe(2012);
-            expect(result.start.get("month")).toBe(8);
-            expect(result.start.get("day")).toBe(13);
-            expect(result.start.get("weekday")).toBe(1);
-
-            expect(result.start.isCertain("day")).toBe(false);
-            expect(result.start.isCertain("month")).toBe(false);
-            expect(result.start.isCertain("year")).toBe(false);
-            expect(result.start.isCertain("weekday")).toBe(true);
-
-            expect(result.start).toBeDate(new Date(2012, 7, 13, 12));
-        }
-    );
-
-    testSingleCase(
-        chrono.casual,
-        "this Friday to this Monday",
-        new Date(2016, 8 - 1, 4),
-        { forwardDate: true },
-        (result) => {
-            expect(result.index).toBe(0);
-            expect(result.text).toBe("this Friday to this Monday");
-
-            expect(result.start).not.toBeNull();
-            expect(result.start.get("year")).toBe(2016);
-            expect(result.start.get("month")).toBe(8);
-            expect(result.start.get("day")).toBe(5);
-            expect(result.start.get("weekday")).toBe(5);
-
-            expect(result.start.isCertain("day")).toBe(false);
-            expect(result.start.isCertain("month")).toBe(false);
-            expect(result.start.isCertain("year")).toBe(false);
-            expect(result.start.isCertain("weekday")).toBe(true);
-
-            expect(result.start).toBeDate(new Date(2016, 8 - 1, 5, 12));
-
-            expect(result.end).not.toBeNull();
-            expect(result.end.get("year")).toBe(2016);
-            expect(result.end.get("month")).toBe(8);
-            expect(result.end.get("day")).toBe(8);
-            expect(result.end.get("weekday")).toBe(1);
-
-            expect(result.end.isCertain("day")).toBe(false);
-            expect(result.end.isCertain("month")).toBe(false);
-            expect(result.end.isCertain("year")).toBe(false);
-            expect(result.end.isCertain("weekday")).toBe(true);
-
-            expect(result.end).toBeDate(new Date(2016, 8 - 1, 8, 12));
-        }
-    );
-
-    testSingleCase(
-        chrono.casual,
-        "sunday morning",
-        new Date("August 15, 2021, 20:00"),
-        { forwardDate: true },
-        (result) => {
-            expect(result.index).toBe(0);
-            expect(result.text).toBe("sunday morning");
-
-            expect(result.start).not.toBeNull();
-            expect(result.start.get("year")).toBe(2021);
-            expect(result.start.get("month")).toBe(8);
-            expect(result.start.get("day")).toBe(22);
-            expect(result.start.get("weekday")).toBe(0);
-
-            expect(result.start.isCertain("day")).toBe(false);
-            expect(result.start.isCertain("month")).toBe(false);
-            expect(result.start.isCertain("year")).toBe(false);
-            expect(result.start.isCertain("weekday")).toBe(true);
-
-            expect(result.start).toBeDate(new Date(2021, 8 - 1, 22, 6));
-        }
-    );
-
-    testSingleCase(
-        chrono.casual,
-        "vacation monday - friday",
-        new Date("thursday 13 June 2019"),
-        { forwardDate: true },
-        (result) => {
-            expect(result.text).toBe("monday - friday");
-
-            expect(result.start).not.toBeNull();
-            expect(result.start.get("year")).toBe(2019);
-            expect(result.start.get("month")).toBe(6);
-            expect(result.start.get("day")).toBe(17);
-
-            expect(result.end).not.toBeNull();
-            expect(result.end.get("year")).toBe(2019);
-            expect(result.end.get("month")).toBe(6);
-            expect(result.end.get("day")).toBe(21);
-        }
-    );
-});
-
- */

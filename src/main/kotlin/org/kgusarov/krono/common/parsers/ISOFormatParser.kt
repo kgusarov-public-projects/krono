@@ -51,6 +51,7 @@ class ISOFormatParser : AbstractParserWithWordBoundaryChecking() {
         return ParserResultFactory(ComponentsInputFactory(components))
     }
 
+    @Suppress("RegExpRedundantEscape", "RegExpSimplifiable")
     companion object {
         @JvmStatic
         private val PATTERN =

@@ -76,7 +76,7 @@ object TextOrEndIndexInputFactory {
 
 data class ParsingContext(
     val text: String,
-    private val option: ParsingOption,
+    val option: ParsingOption,
     val reference: ReferenceWithTimezone,
 ) : DebugHandler {
     val instant = reference.instant
@@ -89,6 +89,15 @@ data class ParsingContext(
         text,
         option ?: ParsingOption(),
         refDate(),
+    )
+
+    constructor(
+        text: String,
+        option: ParsingOption? = null,
+    ) : this(
+        text,
+        RefDateInputFactory(KronoDate.now()),
+        option,
     )
 
     fun createParsingComponents(components: ComponentsInput): ParsedComponents = components(reference)
