@@ -11,9 +11,9 @@ class UnlikelyFormatFilter(
         context: ParsingContext,
         result: ParsedResult,
     ): Boolean {
-        if (result.text.replace(" ", "").matches(NUMBER_PATTERN)) {
+        if (result.text.replaceFirst(" ", "").matches(NUMBER_PATTERN)) {
             context {
-                "Removing unlikely result '${result.text}'"
+                "${javaClass.simpleName} removed unlikely result $result"
             }
 
             return false
@@ -21,7 +21,7 @@ class UnlikelyFormatFilter(
 
         if (!result.start.isValidDate()) {
             context {
-                "Removing invalid result: $result (${result.start})"
+                "${javaClass.simpleName} removed invalid result $result"
             }
 
             return false
@@ -29,7 +29,7 @@ class UnlikelyFormatFilter(
 
         if (result.end != null && !result.end!!.isValidDate()) {
             context {
-                "Removing invalid result: $result (${result.end})"
+                "${javaClass.simpleName} removed invalid result $result"
             }
 
             return false
@@ -48,7 +48,7 @@ class UnlikelyFormatFilter(
     ): Boolean {
         if (result.start.onlyWeekday()) {
             context {
-                "(Strict) Removing weekday only component: $result (${result.end})"
+                "${javaClass.simpleName} removed weekday only component $result"
             }
 
             return false
@@ -59,7 +59,7 @@ class UnlikelyFormatFilter(
             (!result.start.certainHour() || !result.start.certainMinute())
         ) {
             context {
-                "(Strict) Removing uncertain time component: $result (${result.end})"
+                "${javaClass.simpleName} removed uncertain time component $result"
             }
 
             return false
@@ -69,6 +69,6 @@ class UnlikelyFormatFilter(
     }
 
     companion object {
-        private val NUMBER_PATTERN = Regex("^\\d*(\\.\\d*)?\$")
+        private val NUMBER_PATTERN = Regex("^\\d*(\\.\\d*)?$")
     }
 }

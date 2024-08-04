@@ -188,14 +188,14 @@ internal class ENWeekdayTest {
         testSingleCase(Krono.enCasual, "Friday to Monday", "2023-04-09T12:00:00") {
             assertThat(it.end).isNotNull
 
-            with (it.start) {
+            with(it.start) {
                 assertThat(year()).isEqualTo(2023)
                 assertThat(month()).isEqualTo(4)
                 assertThat(day()).isEqualTo(7)
                 assertThat(weekday()).isEqualTo(5)
             }
 
-            with (it.end!!) {
+            with(it.end!!) {
                 assertThat(year()).isEqualTo(2023)
                 assertThat(month()).isEqualTo(4)
                 assertThat(day()).isEqualTo(10)
@@ -209,14 +209,14 @@ internal class ENWeekdayTest {
         testSingleCase(Krono.enCasual, "Monday to Friday", "2023-04-09T12:00:00") {
             assertThat(it.end).isNotNull
 
-            with (it.start) {
+            with(it.start) {
                 assertThat(year()).isEqualTo(2023)
                 assertThat(month()).isEqualTo(4)
                 assertThat(day()).isEqualTo(10)
                 assertThat(weekday()).isEqualTo(1)
             }
 
-            with (it.end!!) {
+            with(it.end!!) {
                 assertThat(year()).isEqualTo(2023)
                 assertThat(month()).isEqualTo(4)
                 assertThat(day()).isEqualTo(14)
@@ -382,28 +382,27 @@ internal class ENWeekdayTest {
         }
     }
 
-    /*
+    @Test
+    fun `weekday overlap`() {
+        testSingleCase(Krono.enCasual, "Sunday, December 7, 2014", "2012-08-09T00:00:00") {
+            assertThat(it.index).isEqualTo(0)
+            assertThat(it.text).isEqualTo("Sunday, December 7, 2014")
 
-test("Test - Weekday Overlap", function () {
-    testSingleCase(chrono.casual, "Sunday, December 7, 2014", new Date(2012, 7, 9), (result) => {
-        expect(result.index).toBe(0);
-        expect(result.text).toBe("Sunday, December 7, 2014");
+            with(it.start) {
+                assertThat(year()).isEqualTo(2014)
+                assertThat(month()).isEqualTo(12)
+                assertThat(day()).isEqualTo(7)
+                assertThat(weekday()).isEqualTo(7)
 
-        expect(result.start).not.toBeNull();
-        expect(result.start.get("year")).toBe(2014);
-        expect(result.start.get("month")).toBe(12);
-        expect(result.start.get("day")).toBe(7);
-        expect(result.start.get("weekday")).toBe(0);
+                assertThat(certainDay()).isTrue()
+                assertThat(certainMonth()).isTrue()
+                assertThat(certainYear()).isTrue()
+                assertThat(certainWeekday()).isTrue()
 
-        expect(result.start.isCertain("day")).toBe(true);
-        expect(result.start.isCertain("month")).toBe(true);
-        expect(result.start.isCertain("year")).toBe(true);
-        expect(result.start.isCertain("weekday")).toBe(true);
-
-        expect(result.start).toBeDate(new Date(2014, 12 - 1, 7, 12));
-    });
-});
-     */
+                assertDate("2014-12-07T12:00:00")
+            }
+        }
+    }
 
     companion object {
         @JvmStatic

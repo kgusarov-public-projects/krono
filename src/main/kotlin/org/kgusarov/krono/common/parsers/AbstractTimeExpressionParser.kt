@@ -170,7 +170,7 @@ abstract class AbstractTimeExpressionParser(
     }
 
     @Suppress("KotlinConstantConditions")
-    private fun extractFollowingTimeComponents(
+    protected open fun extractFollowingTimeComponents(
         context: ParsingContext,
         match: RegExpMatchArray,
         result: ParsedResult,
@@ -184,14 +184,15 @@ abstract class AbstractTimeExpressionParser(
         var minute = 0
         var meridiem = -1
 
-        if (match[MINUTE_GROUP] != null) {
+        if (!match[MINUTE_GROUP].isNullOrEmpty()) {
             minute = match.getInt(MINUTE_GROUP)
         } else if (hour > 100) {
             minute = hour % 100
             hour /= 100
         }
 
-        if (minute >= 60 || hour > 24) {
+        hour = fixHour(hour)
+        if (minute >= 60 || hour > 23) {
             return null
         }
 
@@ -199,7 +200,7 @@ abstract class AbstractTimeExpressionParser(
             meridiem = KronoMeridiem.PM
         }
 
-        if (match[AM_PM_HOUR_GROUP] != null) {
+        if (!match[AM_PM_HOUR_GROUP].isNullOrEmpty()) {
             if (hour > 12) {
                 return null
             }
@@ -269,7 +270,7 @@ abstract class AbstractTimeExpressionParser(
         return components
     }
 
-    protected fun extractPrimaryTimeComponents(
+    protected open fun extractPrimaryTimeComponents(
         context: ParsingContext,
         match: RegExpMatchArray,
     ): ParsedComponents? {
@@ -279,7 +280,7 @@ abstract class AbstractTimeExpressionParser(
 
         var hour = match.getInt(HOUR_GROUP)
         if (hour > 100) {
-            if (strictMode || match[MINUTE_GROUP] != null) {
+            if (strictMode || !match[MINUTE_GROUP].isNullOrEmpty()) {
                 return null
             }
 
@@ -287,11 +288,12 @@ abstract class AbstractTimeExpressionParser(
             hour /= 100
         }
 
-        if (hour > 24) {
+        hour = fixHour(hour)
+        if (hour > 23) {
             return null
         }
 
-        if (match[MINUTE_GROUP] != null) {
+        if (!match[MINUTE_GROUP].isNullOrEmpty()) {
             if (match[MINUTE_GROUP]!!.length == 1 && match[AM_PM_HOUR_GROUP] == null) {
                 return null
             }
@@ -307,7 +309,7 @@ abstract class AbstractTimeExpressionParser(
             meridiem = KronoMeridiem.PM
         }
 
-        if (match[AM_PM_HOUR_GROUP] != null) {
+        if (!match[AM_PM_HOUR_GROUP].isNullOrEmpty()) {
             if (hour > 12) {
                 return null
             }
@@ -366,9 +368,9 @@ abstract class AbstractTimeExpressionParser(
                 return null
             }
 
-            val endingNumberVal = endingNumbers.toInt()
-            val startingNumberVal = startingNumbers.toInt()
-            if (endingNumberVal > 24 || startingNumberVal > 24) {
+            val endingNumberVal = fixHour(endingNumbers.toInt())
+            val startingNumberVal = fixHour(startingNumbers.toInt())
+            if (endingNumberVal > 23 || startingNumberVal > 23) {
                 return null
             }
         }
@@ -401,8 +403,8 @@ abstract class AbstractTimeExpressionParser(
                 return null
             }
 
-            val endingNumberVal = endingNumbers.toInt()
-            if (endingNumberVal > 24) {
+            val endingNumberVal = fixHour(endingNumbers.toInt())
+            if (endingNumberVal > 23) {
                 return null
             }
         }
@@ -414,7 +416,7 @@ abstract class AbstractTimeExpressionParser(
         match: RegExpMatchArray,
         components: ParsedComponents,
     ): Boolean {
-        if (match[MILLI_SECOND_GROUP] != null) {
+        if (!match[MILLI_SECOND_GROUP].isNullOrEmpty()) {
             val millisecond = match[MILLI_SECOND_GROUP]!!.substring(0, 3).toInt()
             if (millisecond >= 1000) {
                 return false
@@ -423,7 +425,7 @@ abstract class AbstractTimeExpressionParser(
             components.assign(KronoComponents.Millisecond, millisecond)
         }
 
-        if (match[SECOND_GROUP] != null) {
+        if (!match[SECOND_GROUP].isNullOrEmpty()) {
             val second = match.getInt(SECOND_GROUP)
             if (second >= 60) {
                 return false
@@ -434,6 +436,8 @@ abstract class AbstractTimeExpressionParser(
 
         return true
     }
+
+    private fun fixHour(hour: Int): Int = if (hour == 24) 0 else hour
 
     abstract fun primaryPrefix(): String
 

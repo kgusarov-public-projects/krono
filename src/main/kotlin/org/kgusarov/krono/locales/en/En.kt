@@ -18,6 +18,9 @@ object En {
 
     @JvmStatic
     val strict = configuration.createConfiguration(strictMode = true, littleEndian = false)
+
+    @JvmStatic
+    val gb = configuration.createCasualConfiguration(true)
 }
 
 internal fun parseTimeUnits(timeUnitText: String): KronoDecimalTimeUnits {
@@ -70,7 +73,7 @@ internal fun parseOrdinalNumberPattern(match: String): Int {
     }
 
     num = num.replace(ORDINAL_SUFFIX_REGEX, "")
-    return num.toInt()
+    return if (num.isEmpty()) 0 else num.toInt()
 }
 
 private val BE = Regex("BE", RegexOption.IGNORE_CASE)
@@ -81,17 +84,17 @@ private val AD = Regex("(AD|CE)", RegexOption.IGNORE_CASE)
 
 internal fun parseYear(match: String): Int {
     if (BE.containsMatchIn(match)) {
-        return match.replace(BE, "").toInt() - 543
+        return match.replace(BE, "").trim().toInt() - 543
     }
 
     if (BCE.containsMatchIn(match)) {
-        return -match.replace(BCE, "").toInt()
+        return -match.replace(BCE, "").trim().toInt()
     }
 
     if (AD.containsMatchIn(match)) {
-        return match.replace(AD, "").toInt()
+        return match.replace(AD, "").trim().toInt()
     }
 
-    val rawYearNumber = match.toInt()
+    val rawYearNumber = match.trim().toInt()
     return findMostLikelyADYear(rawYearNumber)
 }

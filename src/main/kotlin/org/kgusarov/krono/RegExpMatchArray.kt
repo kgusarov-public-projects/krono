@@ -19,7 +19,13 @@ class RegExpMatchArray(
     }
 
     fun getInt(index: Int): Int {
-        return this[index]?.toInt() ?: 0
+        val s = this[index]
+        return if (s.isNullOrEmpty()) 0 else s.toInt()
+    }
+
+    fun getIntOrNull(index: Int): Int? {
+        val s = this[index]
+        return if (s.isNullOrEmpty()) null else s.toInt()
     }
 
     operator fun set(

@@ -32,7 +32,7 @@ class OverlapRemovalRefiner : Refiner {
                 }
 
             context {
-                "OverlapRemovalRefiner remove $removed by $kept"
+                "${javaClass.simpleName} removed $removed in favor of $kept"
             }
 
             prevResult = kept

@@ -32,7 +32,7 @@ class ExtractTimezoneAbbrRefiner(
                 ).rules.getOffset(refDate)!!
 
             context {
-                "Extracting timezone: '$timezoneAbbr' into: $extractedTimezoneOffset for: ${it.start}"
+                "${javaClass.simpleName} extracted timezone '$timezoneAbbr' ($extractedTimezoneOffset)"
             }
 
             val currentTimezoneOffset = it.start[KronoComponents.Offset]

@@ -49,7 +49,7 @@ class ENMonthNameMiddleEndianParser(
                 ),
             ).addTag("parser/ENMonthNameMiddleEndianParser")
 
-        if (match[YEAR_GROUP] != null) {
+        if (!match[YEAR_GROUP].isNullOrEmpty()) {
             val year = parseYear(match[YEAR_GROUP]!!)
             components.assign(KronoComponents.Year, year)
         } else {
@@ -57,7 +57,7 @@ class ENMonthNameMiddleEndianParser(
             components.imply(KronoComponents.Year, year)
         }
 
-        if (match[DATE_TO_GROUP] == null) {
+        if (match[DATE_TO_GROUP].isNullOrEmpty()) {
             return ParserResultFactory(components)
         }
 

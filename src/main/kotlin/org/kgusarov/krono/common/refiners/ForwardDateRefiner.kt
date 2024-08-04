@@ -34,7 +34,7 @@ class ForwardDateRefiner : Refiner {
                 refMoment.implySimilarDate(it.start)
 
                 context {
-                    "Forward weekly adjusted for $it (${it.start})"
+                    "${javaClass.simpleName} adjusted day of week for $it"
                 }
 
                 if (it.end != null && it.end!!.onlyWeekday()) {
@@ -42,7 +42,7 @@ class ForwardDateRefiner : Refiner {
                     refMoment.implySimilarDate(it.end!!)
 
                     context {
-                        "Forward weekly adjusted for $it (${it.end})"
+                        "${javaClass.simpleName} adjusted day of week for $it"
                     }
                 }
             }
@@ -52,14 +52,14 @@ class ForwardDateRefiner : Refiner {
                     if (refMoment.isAfter(it.start.instant())) {
                         it.start.imply(KronoComponents.Year, it.start[KronoComponents.Year]!! + 1)
                         context {
-                            "Forward yearly adjusted for $it (${it.start})"
+                            "${javaClass.simpleName} adjusted year for $it"
                         }
                     }
 
                     if (it.end != null && it.end!!.dateWithUnknownYear() && refMoment.isAfter(it.end!!.instant())) {
                         it.end!!.imply(KronoComponents.Year, it.end!![KronoComponents.Year]!! + 1)
                         context {
-                            "Forward yearly adjusted for $it (${it.end})"
+                            "${javaClass.simpleName} adjusted year for $it"
                         }
                     }
                 }

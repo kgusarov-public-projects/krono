@@ -20,16 +20,14 @@ class ENCasualYearMonthDayParser : AbstractParserWithWordBoundaryChecking() {
         match: RegExpMatchArray,
     ): ParserResult? {
         val month =
-            match[MONTH_NUMBER_GROUP]
-                ?.toInt()
-                ?: EnConstants.MONTH_DICTIONARY[match[MONTH_NAME_GROUP]!!.lowercase()]
+            match.getIntOrNull(MONTH_NUMBER_GROUP) ?: EnConstants.MONTH_DICTIONARY[match[MONTH_NAME_GROUP]!!.lowercase()]
 
         if (month < 1 || month > 12) {
             return null
         }
 
-        val year = match[YEAR_NUMBER_GROUP]!!.toInt()
-        val day = match[DATE_NUMBER_GROUP]!!.toInt()
+        val year = match.getInt(YEAR_NUMBER_GROUP)
+        val day = match.getInt(DATE_NUMBER_GROUP)
 
         return ParserResultFactory(
             KronoComponents.Day to day,

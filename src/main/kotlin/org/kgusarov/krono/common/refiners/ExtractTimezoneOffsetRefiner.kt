@@ -23,11 +23,17 @@ class ExtractTimezoneOffsetRefiner : Refiner {
             val match = TIMEZONE_OFFSET_PATTERN.find(suffix) ?: return@forEach
 
             context {
-                "Extracting timezone: '${match.value}' into : $it"
+                "${javaClass.simpleName} extracted timezone offset '${match.value}'"
             }
 
             val hourOffset = match[TIMEZONE_OFFSET_HOUR_OFFSET_GROUP].toInt()
-            val minuteOffset = match.groupValues.getOrNull(TIMEZONE_OFFSET_MINUTE_OFFSET_GROUP)?.toInt() ?: 0
+            val minuteOffsetString = match.groupValues.getOrNull(TIMEZONE_OFFSET_MINUTE_OFFSET_GROUP) ?: ""
+            val minuteOffset =
+                if (minuteOffsetString.isNotEmpty()) {
+                    minuteOffsetString.toInt()
+                } else {
+                    0
+                }
 
             var timezoneOffset =
                 TimeUnit.HOURS.toSeconds(hourOffset.toLong()) +

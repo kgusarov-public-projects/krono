@@ -23,19 +23,19 @@ class ISOFormatParser : AbstractParserWithWordBoundaryChecking() {
         components[KronoComponents.Month] = match.getInt(MONTH_NUMBER_GROUP)
         components[KronoComponents.Day] = match.getInt(DATE_NUMBER_GROUP)
 
-        if (match[HOUR_NUMBER_GROUP] != null) {
+        if (!match[HOUR_NUMBER_GROUP].isNullOrEmpty()) {
             components[KronoComponents.Hour] = match.getInt(HOUR_NUMBER_GROUP)
             components[KronoComponents.Minute] = match.getInt(MINUTE_NUMBER_GROUP)
 
-            if (match[SECOND_NUMBER_GROUP] != null) {
+            if (!match[SECOND_NUMBER_GROUP].isNullOrEmpty()) {
                 components[KronoComponents.Second] = match.getInt(SECOND_NUMBER_GROUP)
             }
 
-            if (match[MILLISECOND_NUMBER_GROUP] != null) {
+            if (!match[MILLISECOND_NUMBER_GROUP].isNullOrEmpty()) {
                 components[KronoComponents.Millisecond] = match.getInt(MILLISECOND_NUMBER_GROUP)
             }
 
-            if (match[TZD_HOUR_OFFSET_GROUP] != null) {
+            if (!match[TZD_HOUR_OFFSET_GROUP].isNullOrEmpty()) {
                 val hourOffset = match.getInt(TZD_HOUR_OFFSET_GROUP)
                 val minuteOffset = match.getInt(TZD_MINUTE_OFFSET_GROUP)
 

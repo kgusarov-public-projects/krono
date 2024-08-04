@@ -2,12 +2,18 @@ package org.kgusarov.krono
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.extensions.plus
+import org.kgusarov.krono.extensions.safeSubstring
 import org.kgusarov.krono.locales.en.En
+import java.time.Duration
 
-@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR")
+@SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR", "EI_EXPOSE_REP")
 class Krono(configuration: KronoConfiguration) {
-    private val parsers: Array<Parser> = configuration.parsers.toTypedArray()
-    private val refiners: Array<Refiner> = configuration.refiners.toTypedArray()
+    val parsers: Array<Parser> = configuration.parsers.toTypedArray()
+    val refiners: Array<Refiner> = configuration.refiners.toTypedArray()
+
+    init {
+        verifyOpenedPackage()
+    }
 
     fun copy() = Krono(KronoConfiguration(parsers.toMutableList(), refiners.toMutableList()))
 
@@ -48,6 +54,20 @@ class Krono(configuration: KronoConfiguration) {
         @JvmStatic
         val enStrict = Krono(En.strict)
 
+        @JvmStatic
+        val enGb = Krono(En.gb)
+
+        @JvmStatic
+        private fun verifyOpenedPackage() {
+            try {
+                with(Duration::class.java.getDeclaredMethod("toBigDecimalSeconds")) {
+                    isAccessible = true
+                }
+            } catch (ignored: Exception) {
+                throw IllegalStateException("Krono requires java.base/java.time to be opened")
+            }
+        }
+
         private fun executeParser(
             context: ParsingContext,
             parser: Parser,
@@ -66,7 +86,7 @@ class Krono(configuration: KronoConfiguration) {
 
                 val result = parser(context, match)
                 if (result == null) {
-                    remainingText = originalText.substring(match.index + 1)
+                    remainingText = originalText.safeSubstring(match.index + 1)
                     matchResult = pattern.find(remainingText)
                     continue
                 }
@@ -76,7 +96,7 @@ class Krono(configuration: KronoConfiguration) {
                 val parsedText = parsedResult.text
 
                 context {
-                    "${Krono::class.java.simpleName} extracted '$parsedText' at index $parsedIndex"
+                    "${parser::class.java.simpleName} extracted '$parsedText' at index $parsedIndex"
                 }
 
                 results += parsedResult

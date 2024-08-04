@@ -34,7 +34,7 @@ class ENMonthNameLittleEndianParser : AbstractParserWithWordBoundaryChecking() {
         result.start.assign(KronoComponents.Month, month)
         result.start.assign(KronoComponents.Day, day)
 
-        if (match[YEAR_GROUP] != null) {
+        if (!match[YEAR_GROUP].isNullOrEmpty()) {
             val yearNumber = parseYear(match[YEAR_GROUP]!!)
             result.start.assign(KronoComponents.Year, yearNumber)
         } else {
@@ -42,7 +42,7 @@ class ENMonthNameLittleEndianParser : AbstractParserWithWordBoundaryChecking() {
             result.start.imply(KronoComponents.Year, year)
         }
 
-        if (match[DATE_TO_GROUP] != null) {
+        if (!match[DATE_TO_GROUP].isNullOrEmpty()) {
             val endDate = parseOrdinalNumberPattern(match[DATE_TO_GROUP]!!)
             result.end = result.start.copy()
             result.end!!.assign(KronoComponents.Day, endDate)

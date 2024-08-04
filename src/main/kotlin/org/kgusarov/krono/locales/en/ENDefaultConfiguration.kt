@@ -10,6 +10,13 @@ import org.kgusarov.krono.locales.en.parsers.ENCasualYearMonthDayParser
 import org.kgusarov.krono.locales.en.parsers.ENMonthNameLittleEndianParser
 import org.kgusarov.krono.locales.en.parsers.ENMonthNameMiddleEndianParser
 import org.kgusarov.krono.locales.en.parsers.ENMonthNameParser
+import org.kgusarov.krono.locales.en.parsers.ENRelativeDateFormatParser
+import org.kgusarov.krono.locales.en.parsers.ENSlashMonthFormatParser
+import org.kgusarov.krono.locales.en.parsers.ENTimeExpressionParser
+import org.kgusarov.krono.locales.en.parsers.ENTimeUnitAgoFormatParser
+import org.kgusarov.krono.locales.en.parsers.ENTimeUnitCasualRelativeFormatParser
+import org.kgusarov.krono.locales.en.parsers.ENTimeUnitLaterFormatParser
+import org.kgusarov.krono.locales.en.parsers.ENTimeUnitWithinFormatParser
 import org.kgusarov.krono.locales.en.parsers.ENWeekdayParser
 import org.kgusarov.krono.locales.en.refiners.ENMergeDateRangeRefiner
 import org.kgusarov.krono.locales.en.refiners.ENMergeDateTimeRefiner
@@ -26,10 +33,15 @@ class ENDefaultConfiguration {
                 KronoConfiguration(
                     mutableListOf(
                         SlashDateFormatParser(littleEndian),
+                        ENTimeUnitWithinFormatParser(strictMode),
                         ENMonthNameLittleEndianParser(),
                         ENMonthNameMiddleEndianParser(littleEndian),
                         ENWeekdayParser(),
                         ENCasualYearMonthDayParser(),
+                        ENSlashMonthFormatParser(),
+                        ENTimeExpressionParser(strictMode),
+                        ENTimeUnitAgoFormatParser(strictMode),
+                        ENTimeUnitLaterFormatParser(strictMode),
                     ),
                     mutableListOf(
                         ENMergeDateTimeRefiner(),
@@ -38,27 +50,11 @@ class ENDefaultConfiguration {
                 strictMode,
             )
 
-        /*
-        {
-                parsers: [
-                    new SlashDateFormatParser(littleEndian),
-                    new ENTimeUnitWithinFormatParser(strictMode),
-                    new ENMonthNameLittleEndianParser(),
-                    new ENMonthNameMiddleEndianParser(/*shouldSkipYearLikeDate=*/ littleEndian),
-                    new ENWeekdayParser(),
-                    new ENCasualYearMonthDayParser,
-                    new ENSlashMonthFormatParser(),
-                    new ENTimeExpressionParser(strictMode),
-                    new ENTimeUnitAgoFormatParser(strictMode),
-                    new ENTimeUnitLaterFormatParser(strictMode),
-                ]
-            },
-         */
-
         result.refiners.addFirst(ENMergeRelativeFollowByDateRefiner())
         result.refiners.addFirst(ENMergeRelativeAfterDateRefiner())
         result.refiners.addFirst(OverlapRemovalRefiner())
 
+        result.refiners.addLast(ENMergeDateTimeRefiner())
         result.refiners.addLast(ENMergeDateRangeRefiner())
 
         return result
@@ -69,8 +65,8 @@ class ENDefaultConfiguration {
         result.parsers.addLast(ENCasualDateParser())
         result.parsers.addLast(ENCasualTimeParser())
         result.parsers.addLast(ENMonthNameParser())
-//        option.parsers.push(new ENRelativeDateFormatParser());
-//        option.parsers.push(new ENTimeUnitCasualRelativeFormatParser());
+        result.parsers.addLast(ENRelativeDateFormatParser())
+        result.parsers.addLast(ENTimeUnitCasualRelativeFormatParser())
         return result
     }
 }

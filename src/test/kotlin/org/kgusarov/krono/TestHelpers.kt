@@ -1,13 +1,12 @@
 package org.kgusarov.krono
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.kgusarov.krono.locales.en.En
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.test.fail
 
 typealias CheckResult = (p: ParsedResult) -> Unit
+
+typealias CheckResults = (p: List<ParsedResult>) -> Unit
 
 internal fun testSingleCase(
     krono: Krono,
@@ -44,23 +43,125 @@ internal fun testSingleCase(
 internal fun testSingleCase(
     krono: Krono,
     text: String,
+    option: ParsingOption? = null,
+    checkResult: CheckResult,
+) {
+    testSingleCase(
+        krono,
+        text,
+        RefDateInputFactory(KronoDate.now()),
+        option,
+        checkResult
+    )
+}
+
+internal fun testSingleCase(
+    krono: Krono,
+    text: String,
     refDate: RefDateInput,
     option: ParsingOption? = null,
     checkResult: CheckResult,
 ) {
     val debugHandler = BufferedDebugHandler()
     val testOption = option?.copy(debug = debugHandler) ?: ParsingOption(debug = debugHandler)
+    var result: ParsedResult? = null
 
     try {
         val results = krono.parse(text, refDate, testOption)
         results.assertSingleOnText(text)
-        checkResult(results[0])
+        result = results[0]
+        checkResult(result)
     } finally {
-        TestLogger.LOGGER.info("Tested single case with text: '$text'")
-        debugHandler.execute().forEach {
-            TestLogger.LOGGER.info("\t$it")
+        TestLogger.LOGGER.info("Tested single case with text: '$text' -> $result")
+        debugHandler.execute().forEachIndexed { index, it ->
+            TestLogger.LOGGER.info("\t${index + 1}. $it")
         }
     }
+}
+
+internal fun testUnexpectedResult(
+    krono: Krono,
+    text: String,
+    option: ParsingOption? = null,
+) {
+    testUnexpectedResult(
+        krono,
+        text,
+        RefDateInputFactory(KronoDate.now()),
+        option
+    )
+}
+
+internal fun testUnexpectedResult(
+    krono: Krono,
+    text: String,
+    refDate: String,
+    option: ParsingOption? = null,
+) {
+    testUnexpectedResult(
+        krono,
+        text,
+        RefDateInputFactory(refDate),
+        option
+    )
+}
+
+internal fun testUnexpectedResult(
+    krono: Krono,
+    text: String,
+    refDate: RefDateInput,
+    option: ParsingOption? = null,
+) {
+    val debugHandler = BufferedDebugHandler()
+    val testOption = option?.copy(debug = debugHandler) ?: ParsingOption(debug = debugHandler)
+
+    try {
+        val results = krono.parse(text, refDate, testOption)
+        assertThat(results).isEmpty()
+    } finally {
+        TestLogger.LOGGER.info("Tested unexpected result with text: '$text'")
+        debugHandler.execute().forEachIndexed { index, it ->
+            TestLogger.LOGGER.info("\t${index + 1}. $it")
+        }
+    }
+}
+
+internal fun testMultipleResults(
+    krono: Krono,
+    text: String,
+    refDate: RefDateInput,
+    option: ParsingOption? = null,
+    checkResults: CheckResults,
+) {
+    val debugHandler = BufferedDebugHandler()
+    val testOption = option?.copy(debug = debugHandler) ?: ParsingOption(debug = debugHandler)
+    var results: List<ParsedResult>? = null
+
+    try {
+        results = krono.parse(text, refDate, testOption)
+        checkResults(results)
+    } finally {
+        TestLogger.LOGGER.info("Tested case with text: '$text' -> $results")
+        debugHandler.execute().forEachIndexed { index, it ->
+            TestLogger.LOGGER.info("\t${index + 1}. $it")
+        }
+    }
+}
+
+internal fun testMultipleResults(
+    krono: Krono,
+    text: String,
+    refDate: String,
+    option: ParsingOption? = null,
+    checkResults: CheckResults,
+) {
+    testMultipleResults(
+        krono,
+        text,
+        RefDateInputFactory(refDate),
+        option,
+        checkResults,
+    )
 }
 
 fun List<ParsedResult>.assertSingleOnText(text: String) {

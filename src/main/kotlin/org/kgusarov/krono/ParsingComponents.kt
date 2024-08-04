@@ -149,7 +149,7 @@ class ParsingComponents(
         return TimeUnit.MILLISECONDS.toNanosInt(value)
     }
 
-    override fun toString() = "ParsingComponents(reference=$reference, knownValues=$knownValues, impliedValues=$impliedValues)"
+    override fun toString() = asString()
 
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     companion object {
@@ -170,6 +170,25 @@ class ParsingComponents(
             }
 
             return createRelativeFromReference(reference, fragments, date)
+        }
+
+        @JvmStatic
+        fun createRelativeFromUnits(
+            reference: ReferenceWithTimezone,
+            fragments: KronoTimeUnits,
+        ): ParsingComponents {
+            var date = reference.instant
+            for (entry in fragments.entries) {
+                date = date.add(entry.key, entry.value)
+            }
+
+            return createRelativeFromReference(
+                reference,
+                fragments.entries.associate {
+                    it.key.firstPrettyName() to it.value!!
+                },
+                date,
+            )
         }
 
         @JvmStatic
