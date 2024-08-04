@@ -34,6 +34,8 @@ enum class KronoUnit(
 
     fun prettyNames() = prettyNames
 
+    fun firstPrettyName() = prettyNames.first()
+
     companion object {
         @JvmStatic
         private val prettyNameToUnit: Map<String, KronoUnit> =

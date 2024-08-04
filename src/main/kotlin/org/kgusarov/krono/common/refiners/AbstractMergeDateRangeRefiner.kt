@@ -29,14 +29,14 @@ abstract class AbstractMergeDateRangeRefiner : MergingRefiner() {
         var fromResult = currentResult
         var toResult = nextResult
 
-        if (!fromResult.start.onlyWeekday && !toResult.start.onlyWeekday) {
-            toResult.start.certainComponents.forEach {
+        if (!fromResult.start.onlyWeekday() && !toResult.start.onlyWeekday()) {
+            toResult.start.certainComponents().forEach {
                 if (!fromResult.start.isCertain(it)) {
                     fromResult.start.imply(it, toResult.start[it])
                 }
             }
 
-            fromResult.start.certainComponents.forEach {
+            fromResult.start.certainComponents().forEach {
                 if (!toResult.start.isCertain(it)) {
                     toResult.start.imply(it, fromResult.start[it])
                 }
@@ -47,26 +47,26 @@ abstract class AbstractMergeDateRangeRefiner : MergingRefiner() {
             var fromMoment = fromResult.start.instant()
             var toMoment = toResult.start.instant()
 
-            if (toResult.start.onlyWeekday && toMoment.add(KronoUnit.Day, 7).isAfter(fromMoment)) {
+            if (toResult.start.onlyWeekday() && toMoment.add(KronoUnit.Day, 7).isAfter(fromMoment)) {
                 toMoment = toMoment.add(KronoUnit.Day, 7)
 
                 toResult.start.imply(KronoComponents.Day, toMoment.dayOfMonth)
                 toResult.start.imply(KronoComponents.Month, toMoment.monthValue)
                 toResult.start.imply(KronoComponents.Year, toMoment.year)
-            } else if (fromResult.start.onlyWeekday && fromMoment.add(KronoUnit.Day, -7).isBefore(toMoment)) {
+            } else if (fromResult.start.onlyWeekday() && fromMoment.add(KronoUnit.Day, -7).isBefore(toMoment)) {
                 fromMoment = fromMoment.add(KronoUnit.Day, -7)
 
                 fromResult.start.imply(KronoComponents.Day, fromMoment.dayOfMonth)
                 fromResult.start.imply(KronoComponents.Month, fromMoment.monthValue)
                 fromResult.start.imply(KronoComponents.Year, fromMoment.year)
             } else if (
-                toResult.start.dateWithUnknownYear &&
+                toResult.start.dateWithUnknownYear() &&
                 toMoment.add(KronoUnit.Year, 1).isAfter(fromMoment)
             ) {
                 toMoment = toMoment.add(KronoUnit.Year, 1)
                 toResult.start.imply(KronoComponents.Year, toMoment.year)
             } else if (
-                fromResult.start.dateWithUnknownYear &&
+                fromResult.start.dateWithUnknownYear() &&
                 fromMoment.add(KronoUnit.Year, -1).isBefore(toMoment)
             ) {
                 fromMoment = fromMoment.add(KronoUnit.Year, -1)

@@ -46,7 +46,7 @@ class UnlikelyFormatFilter(
         context: ParsingContext,
         result: ParsedResult,
     ): Boolean {
-        if (result.start.onlyWeekday) {
+        if (result.start.onlyWeekday()) {
             context {
                 "(Strict) Removing weekday only component: $result (${result.end})"
             }
@@ -55,8 +55,8 @@ class UnlikelyFormatFilter(
         }
 
         if (
-            result.start.onlyTime &&
-            (!result.start.certainHour || !result.start.certainMinute)
+            result.start.onlyTime() &&
+            (!result.start.certainHour() || !result.start.certainMinute())
         ) {
             context {
                 "(Strict) Removing uncertain time component: $result (${result.end})"

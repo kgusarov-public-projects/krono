@@ -19,17 +19,17 @@ class ForwardDateRefiner : Refiner {
 
         results.forEach {
             var refMoment = it.refDate
-            if (it.start.onlyTime && refMoment.isAfter(it.start.instant())) {
+            if (it.start.onlyTime() && refMoment.isAfter(it.start.instant())) {
                 refMoment = refMoment.plusDays(1L)
                 refMoment.implySimilarDate(it.start)
 
-                if (it.end != null && it.end!!.onlyTime) {
+                if (it.end != null && it.end!!.onlyTime()) {
                     refMoment = refMoment.plusDays(1L)
                     refMoment.implySimilarDate(it.end!!)
                 }
             }
 
-            if (it.start.onlyWeekday && refMoment.isAfter(it.start.instant())) {
+            if (it.start.onlyWeekday() && refMoment.isAfter(it.start.instant())) {
                 refMoment = adjustDayOfWeek(it.start, refMoment)
                 refMoment.implySimilarDate(it.start)
 
@@ -37,7 +37,7 @@ class ForwardDateRefiner : Refiner {
                     "Forward weekly adjusted for $it (${it.start})"
                 }
 
-                if (it.end != null && it.end!!.onlyWeekday) {
+                if (it.end != null && it.end!!.onlyWeekday()) {
                     refMoment = adjustDayOfWeek(it.end!!, refMoment)
                     refMoment.implySimilarDate(it.end!!)
 
@@ -47,7 +47,7 @@ class ForwardDateRefiner : Refiner {
                 }
             }
 
-            if (it.start.dateWithUnknownYear && refMoment.isAfter(it.start.instant())) {
+            if (it.start.dateWithUnknownYear() && refMoment.isAfter(it.start.instant())) {
                 for (i in 0 until 3) {
                     if (refMoment.isAfter(it.start.instant())) {
                         it.start.imply(KronoComponents.Year, it.start[KronoComponents.Year]!! + 1)
@@ -56,7 +56,7 @@ class ForwardDateRefiner : Refiner {
                         }
                     }
 
-                    if (it.end != null && it.end!!.dateWithUnknownYear && refMoment.isAfter(it.end!!.instant())) {
+                    if (it.end != null && it.end!!.dateWithUnknownYear() && refMoment.isAfter(it.end!!.instant())) {
                         it.end!!.imply(KronoComponents.Year, it.end!![KronoComponents.Year]!! + 1)
                         context {
                             "Forward yearly adjusted for $it (${it.end})"
@@ -73,12 +73,12 @@ class ForwardDateRefiner : Refiner {
         it: ParsedComponents,
         refMoment: KronoDate,
     ): KronoDate {
-        if (it.weekday == refMoment.dayOfWeek.value) {
+        if (it.weekday() == refMoment.dayOfWeek.value) {
             return refMoment.plusWeeks(1L)
         }
 
         var updatedRefMoment = refMoment
-        while (it.weekday != updatedRefMoment.dayOfWeek.value) {
+        while (it.weekday() != updatedRefMoment.dayOfWeek.value) {
             updatedRefMoment = updatedRefMoment.plusDays(1L)
         }
 

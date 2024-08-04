@@ -12,7 +12,7 @@ import org.kgusarov.krono.common.parsers.AbstractParserWithWordBoundaryChecking
 import org.kgusarov.krono.extensions.not
 import org.kgusarov.krono.extensions.plus
 import org.kgusarov.krono.locales.en.EnConstants
-import org.kgusarov.krono.locales.en.EnUtils
+import org.kgusarov.krono.locales.en.parseYear
 import org.kgusarov.krono.utils.matchAnyPattern
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
@@ -45,7 +45,7 @@ class ENMonthNameParser : AbstractParserWithWordBoundaryChecking() {
             val year = findYearClosestToRef(context.instant, 1, month)
             result.start.imply(KronoComponents.Year, year)
         } else {
-            val year = EnUtils.parseYear(match[YEAR_GROUP]!!)
+            val year = parseYear(match[YEAR_GROUP]!!)
             result.start.assign(KronoComponents.Year, year)
         }
 

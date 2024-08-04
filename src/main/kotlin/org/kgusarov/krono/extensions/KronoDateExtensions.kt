@@ -4,6 +4,7 @@ import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.KronoDate
 import org.kgusarov.krono.KronoUnit
 import org.kgusarov.krono.ParsedComponents
+import java.math.BigDecimal
 
 fun KronoDate.add(
     unit: KronoUnit,
@@ -14,6 +15,11 @@ fun KronoDate.add(
     unit: KronoUnit,
     value: Int?,
 ): KronoDate = plus(unit().multipliedBy(value ?: 0))
+
+fun KronoDate.add(
+    unit: KronoUnit,
+    value: BigDecimal?,
+): KronoDate = plus(unit().multipliedBy(value ?: BigDecimal.ZERO))
 
 fun KronoDate.add(
     unit: String,

@@ -13,9 +13,9 @@ class MergeWeekdayComponentRefiner : MergingRefiner() {
         context: ParsingContext,
     ): Boolean {
         val weekdayThenNormalDate =
-            currentResult.start.onlyWeekday &&
-                !currentResult.start.isCertain(KronoComponents.Hour) &&
-                nextResult.start.isCertain(KronoComponents.Day)
+            currentResult.start.onlyWeekday() &&
+                !currentResult.start.certainHour() &&
+                nextResult.start.certainDay()
 
         return weekdayThenNormalDate && textBetween.matches(Regex("^,?\\s*$"))
     }

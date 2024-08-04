@@ -22,7 +22,7 @@ internal fun createParsingComponentsAtWeekday(
     components =
         addImpliedTimeUnits(
             components,
-            mapOf(
+            mutableMapOf(
                 KronoUnit.Day to daysToWeekday,
             ),
         )

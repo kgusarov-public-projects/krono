@@ -15,7 +15,7 @@ abstract class AbstractMergeDateTimeRefiner : MergingRefiner() {
         val crs = currentResult.start
         val nrs = nextResult.start
 
-        return ((crs.onlyDate && nrs.onlyTime) || (nrs.onlyDate && crs.onlyTime)) &&
+        return ((crs.onlyDate() && nrs.onlyTime()) || (nrs.onlyDate() && crs.onlyTime())) &&
             patternBetween().matches(textBetween)
     }
 
@@ -26,7 +26,7 @@ abstract class AbstractMergeDateTimeRefiner : MergingRefiner() {
         context: ParsingContext,
     ): ParsedResult {
         val result =
-            if (currentResult.start.onlyDate) {
+            if (currentResult.start.onlyDate()) {
                 mergeDateTimeResult(currentResult, nextResult)
             } else {
                 mergeDateTimeResult(nextResult, currentResult)

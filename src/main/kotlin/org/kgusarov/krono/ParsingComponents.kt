@@ -88,7 +88,7 @@ class ParsingComponents(
         return this
     }
 
-    override val certainComponents: Array<KronoComponent> = knownValues.keys.toTypedArray()
+    override fun certainComponents() = knownValues.keys.toTypedArray()
 
     fun delete(component: KronoComponent) {
         knownValues.remove(component)
@@ -169,6 +169,34 @@ class ParsingComponents(
                 date = date.add(entry.key, entry.value)
             }
 
+            return createRelativeFromReference(reference, fragments, date)
+        }
+
+        @JvmStatic
+        fun createRelativeFromDecimalReference(
+            reference: ReferenceWithTimezone,
+            fragments: KronoDecimalTimeUnits,
+        ): ParsingComponents {
+            var date = reference.instant
+            for (entry in fragments.entries) {
+                date = date.add(entry.key, entry.value)
+            }
+
+            return createRelativeFromReference(
+                reference,
+                fragments.entries.associate {
+                    it.key.firstPrettyName() to it.value
+                },
+                date,
+            )
+        }
+
+        @JvmStatic
+        fun <T> createRelativeFromReference(
+            reference: ReferenceWithTimezone,
+            fragments: Map<String, T>,
+            date: KronoDate,
+        ): ParsingComponents where T : Number {
             val components = ParsingComponents(reference)
             if (
                 fragments.contains(KronoUnit.Hour) ||

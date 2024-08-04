@@ -50,6 +50,8 @@ object ParserResultFactory {
     operator fun invoke(value: ParsedComponents): ParserResult = ParsingComponentsResult(value)
 
     operator fun invoke(value: ComponentsInput?): ParserResult = ComponentsInputResult(value)
+
+    operator fun invoke(vararg value: Pair<KronoComponent, Int?>): ParserResult = ComponentsInputResult(ComponentsInputFactory(*value))
 }
 
 interface Parser {

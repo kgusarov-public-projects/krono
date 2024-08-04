@@ -11,3 +11,12 @@ internal fun matchAnyPattern(dictionary: Map<String, *>): String {
 
     return "(?:$joinedTerms)"
 }
+
+internal fun repeatedTimeUnitPattern(
+    prefix: String,
+    singleTimeunitPattern: String,
+    connectorPattern: String = "\\s{0,5},?\\s{0,5}",
+): String {
+    val singleTimeunitPatternNoCapture = singleTimeunitPattern.replace(Regex("\\((?!\\?)"), "(?:")
+    return "$prefix$singleTimeunitPatternNoCapture(?:$connectorPattern$singleTimeunitPatternNoCapture){0,10}"
+}

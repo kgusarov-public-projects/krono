@@ -62,10 +62,20 @@ object RefDateInputFactory {
     }
 }
 
+@SuppressFBWarnings("BC_BAD_CAST_TO_ABSTRACT_COLLECTION")
 object ComponentsInputFactory {
     operator fun invoke(value: ParsedComponents): ComponentsInput = ParsedComponentsInput(value)
 
     operator fun invoke(value: Map<KronoComponent, Int>?): ComponentsInput = MapComponentsInput(value)
+
+    operator fun invoke(vararg value: Pair<KronoComponent, Int?>): ComponentsInput =
+        MapComponentsInput(
+            mapOf(
+                *value.mapNotNull { (component, value) ->
+                    value?.let { component to it }
+                }.toTypedArray(),
+            ),
+        )
 }
 
 object TextOrEndIndexInputFactory {
@@ -99,6 +109,8 @@ data class ParsingContext(
         RefDateInputFactory(KronoDate.now()),
         option,
     )
+
+    fun createParsingComponents(): ParsedComponents = createParsingComponents(ComponentsInputFactory(mapOf()))
 
     fun createParsingComponents(components: ComponentsInput): ParsedComponents = components(reference)
 

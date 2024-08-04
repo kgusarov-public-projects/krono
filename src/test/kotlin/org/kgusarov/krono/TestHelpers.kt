@@ -88,6 +88,8 @@ class TestParsedResult(
     override var start: ParsedComponents = ParsingComponents(ReferenceWithTimezone()),
     override var end: ParsedComponents? = null,
 ) : ParsedResult {
+    override val reference = ReferenceWithTimezone(refDate)
+
     override fun instant(): KronoDate = start.instant()
 
     override fun tags(): Set<String> = emptySet()

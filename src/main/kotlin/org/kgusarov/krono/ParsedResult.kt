@@ -6,6 +6,7 @@ interface ParsedResult {
     var text: String
     var start: ParsedComponents
     var end: ParsedComponents?
+    val reference: ReferenceWithTimezone
 
     fun instant(): KronoDate
 

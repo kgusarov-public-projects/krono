@@ -4,6 +4,7 @@ import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.ParsedResult
 import org.kgusarov.krono.ParsingContext
 import org.kgusarov.krono.Refiner
+import org.kgusarov.krono.extensions.get
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
@@ -25,7 +26,7 @@ class ExtractTimezoneOffsetRefiner : Refiner {
                 "Extracting timezone: '${match.value}' into : $it"
             }
 
-            val hourOffset = match.groupValues[TIMEZONE_OFFSET_HOUR_OFFSET_GROUP].toInt()
+            val hourOffset = match[TIMEZONE_OFFSET_HOUR_OFFSET_GROUP].toInt()
             val minuteOffset = match.groupValues.getOrNull(TIMEZONE_OFFSET_MINUTE_OFFSET_GROUP)?.toInt() ?: 0
 
             var timezoneOffset =
@@ -36,7 +37,7 @@ class ExtractTimezoneOffsetRefiner : Refiner {
                 return@forEach
             }
 
-            if (match.groupValues[TIMEZONE_OFFSET_SIGN_GROUP] == "-") {
+            if (match[TIMEZONE_OFFSET_SIGN_GROUP] == "-") {
                 timezoneOffset = -timezoneOffset
             }
 

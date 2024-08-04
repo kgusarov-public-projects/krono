@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 @SuppressFBWarnings("EI_EXPOSE_REP", "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
 class ParsingResult(
-    private val reference: ReferenceWithTimezone,
+    override val reference: ReferenceWithTimezone,
     override var index: Int,
     override var text: String,
     override val refDate: LocalDateTime,
@@ -41,5 +41,5 @@ class ParsingResult(
 
     override fun tags() = start.tags() + (end?.tags() ?: setOf())
 
-    override fun toString() = "ParsingResult(index=$index, text='$text', refDate=$refDate)"
+    override fun toString() = "ParsingResult(index=$index, text='$text', refDate=$refDate, start=${start.instant()}, end=${end?.instant()})"
 }

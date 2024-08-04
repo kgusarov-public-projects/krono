@@ -29,88 +29,53 @@ interface ParsedComponents {
 
     fun isValidDate(): Boolean
 
-    val certainComponents: Array<KronoComponent>
+    fun certainComponents(): Array<KronoComponent>
 
-    val year: Int?
-        get() = get(KronoComponents.Year)
+    fun year() = get(KronoComponents.Year)
 
-    val certainYear: Boolean
-        get() = isCertain(KronoComponents.Year)
+    fun certainYear() = isCertain(KronoComponents.Year)
 
-    val month: Int?
-        get() = get(KronoComponents.Month)
+    fun month() = get(KronoComponents.Month)
 
-    val certainMonth: Boolean
-        get() = isCertain(KronoComponents.Month)
+    fun certainMonth() = isCertain(KronoComponents.Month)
 
-    val day: Int?
-        get() = get(KronoComponents.Day)
+    fun day() = get(KronoComponents.Day)
 
-    val certainDay: Boolean
-        get() = isCertain(KronoComponents.Day)
+    fun certainDay() = isCertain(KronoComponents.Day)
 
-    val hour: Int?
-        get() = get(KronoComponents.Hour)
+    fun hour() = get(KronoComponents.Hour)
 
-    val certainHour: Boolean
-        get() = isCertain(KronoComponents.Hour)
+    fun certainHour() = isCertain(KronoComponents.Hour)
 
-    val minute: Int?
-        get() = get(KronoComponents.Minute)
+    fun minute() = get(KronoComponents.Minute)
 
-    val certainMinute: Boolean
-        get() = isCertain(KronoComponents.Minute)
+    fun certainMinute() = isCertain(KronoComponents.Minute)
 
-    val second: Int?
-        get() = get(KronoComponents.Second)
+    fun second() = get(KronoComponents.Second)
 
-    val certainSecond: Boolean
-        get() = isCertain(KronoComponents.Second)
+    fun certainSecond() = isCertain(KronoComponents.Second)
 
-    val millisecond: Int?
-        get() = get(KronoComponents.Millisecond)
+    fun millisecond() = get(KronoComponents.Millisecond)
 
-    val certainMillisecond: Boolean
-        get() = isCertain(KronoComponents.Millisecond)
+    fun certainMillisecond() = isCertain(KronoComponents.Millisecond)
 
-    val offset: Int?
-        get() = get(KronoComponents.Offset)
+    fun offset() = get(KronoComponents.Offset)
 
-    val certainOffset: Boolean
-        get() = isCertain(KronoComponents.Offset)
+    fun certainOffset() = isCertain(KronoComponents.Offset)
 
-    val weekday: Int?
-        get() = get(KronoComponents.Weekday)
+    fun weekday() = get(KronoComponents.Weekday)
 
-    val certainWeekday: Boolean
-        get() = isCertain(KronoComponents.Weekday)
+    fun certainWeekday() = isCertain(KronoComponents.Weekday)
 
-    val meridiem: Int?
-        get() = get(KronoComponents.Meridiem)
+    fun meridiem() = get(KronoComponents.Meridiem)
 
-    val certainMeridiem: Boolean
-        get() = isCertain(KronoComponents.Meridiem)
+    fun certainMeridiem() = isCertain(KronoComponents.Meridiem)
 
-    val onlyDate: Boolean
-        get() =
-            !isCertain(KronoComponents.Hour) &&
-                !isCertain(KronoComponents.Minute) &&
-                !isCertain(KronoComponents.Second)
+    fun onlyDate() = !certainHour() && !certainMinute() && !certainSecond()
 
-    val onlyTime: Boolean
-        get() =
-            !isCertain(KronoComponents.Weekday) &&
-                !isCertain(KronoComponents.Day) &&
-                !isCertain(KronoComponents.Month)
+    fun onlyTime() = !certainWeekday() && !certainDay() && !certainMonth()
 
-    val onlyWeekday: Boolean
-        get() =
-            isCertain(KronoComponents.Weekday) &&
-                !isCertain(KronoComponents.Day) &&
-                !isCertain(KronoComponents.Month)
+    fun onlyWeekday() = certainWeekday() && !certainDay() && !certainMonth()
 
-    val dateWithUnknownYear: Boolean
-        get() =
-            isCertain(KronoComponents.Month) &&
-                !isCertain(KronoComponents.Year)
+    fun dateWithUnknownYear() = certainMonth() && !certainYear()
 }

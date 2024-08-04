@@ -1,16 +1,33 @@
 package org.kgusarov.krono.utils
 
 import org.kgusarov.krono.KronoComponents
+import org.kgusarov.krono.KronoDecimalTimeUnits
 import org.kgusarov.krono.KronoTimeUnits
 import org.kgusarov.krono.KronoUnit
 import org.kgusarov.krono.ParsedComponents
 import org.kgusarov.krono.extensions.add
+import org.kgusarov.krono.extensions.compareTo
 import org.kgusarov.krono.extensions.unaryMinus
 
 internal fun reverseTimeUnits(timeUnits: KronoTimeUnits): KronoTimeUnits =
     timeUnits.entries.associate {
         it.key to -it.value
+    }.toMutableMap()
+
+internal fun reverseDecimalTimeUnits(timeUnits: KronoDecimalTimeUnits): KronoDecimalTimeUnits =
+    timeUnits.entries.associate {
+        it.key to -it.value
+    }.toMutableMap()
+
+internal fun implyNextDay(components: ParsedComponents) {
+    val newInstant = components.instant().add(KronoUnit.Day, 1)
+    val newDay = newInstant.dayOfMonth
+
+    components.imply(KronoComponents.Day, newDay)
+    if (components.day() > newDay) {
+        components.imply(KronoComponents.Month, newInstant.monthValue)
     }
+}
 
 internal fun addImpliedTimeUnits(
     components: ParsedComponents,

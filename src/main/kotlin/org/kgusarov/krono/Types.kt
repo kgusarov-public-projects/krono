@@ -1,5 +1,6 @@
 package org.kgusarov.krono
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoField
@@ -8,7 +9,8 @@ import java.time.temporal.TemporalField
 typealias KronoDate = LocalDateTime
 typealias KronoTimezone = ZoneId
 typealias KronoComponent = TemporalField
-typealias KronoTimeUnits = Map<KronoUnit, Int?>
+typealias KronoTimeUnits = MutableMap<KronoUnit, Int?>
+typealias KronoDecimalTimeUnits = MutableMap<KronoUnit, BigDecimal>
 
 object KronoComponents {
     val Year = ChronoField.YEAR

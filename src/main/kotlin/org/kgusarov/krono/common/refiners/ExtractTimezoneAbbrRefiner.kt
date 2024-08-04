@@ -6,6 +6,7 @@ import org.kgusarov.krono.ParsedResult
 import org.kgusarov.krono.ParsingContext
 import org.kgusarov.krono.Refiner
 import org.kgusarov.krono.TimezoneAbbreviations
+import org.kgusarov.krono.extensions.get
 import java.time.ZoneId
 
 @SuppressFBWarnings("EI_EXPOSE_REP", "EI_EXPOSE_REP2")
@@ -19,7 +20,7 @@ class ExtractTimezoneAbbrRefiner(
         results.forEach {
             val suffix = context.text.substring(it.index + it.text.length)
             val match = TIMEZONE_NAME_PATTERN.find(suffix) ?: return@forEach
-            val timezoneAbbr = match.groupValues[1].uppercase()
+            val timezoneAbbr = match[1].uppercase()
             val refDate = it.start.instant()
             val extractedTimezoneOffset =
                 (
@@ -41,13 +42,13 @@ class ExtractTimezoneAbbrRefiner(
                     return@forEach
                 }
 
-                if (timezoneAbbr != match.groupValues[1]) {
+                if (timezoneAbbr != match[1]) {
                     return@forEach
                 }
             }
 
-            if (it.start.onlyDate) {
-                if (timezoneAbbr != match.groupValues[1]) {
+            if (it.start.onlyDate()) {
+                if (timezoneAbbr != match[1]) {
                     return@forEach
                 }
             }
