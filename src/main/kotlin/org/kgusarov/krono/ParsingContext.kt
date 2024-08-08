@@ -1,6 +1,5 @@
 package org.kgusarov.krono
 
-import com.google.common.annotations.VisibleForTesting
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 
 sealed interface ComponentsInput {
@@ -9,7 +8,7 @@ sealed interface ComponentsInput {
 
 @SuppressFBWarnings("EI_EXPOSE_REP", "EI_EXPOSE_REP2")
 internal data class MapComponentsInput(
-    @VisibleForTesting val value: Map<KronoComponent, Int>?,
+    val value: Map<KronoComponent, Int>?,
 ) : ComponentsInput {
     override fun invoke(reference: ReferenceWithTimezone) = ParsingComponents(reference, value)
 }

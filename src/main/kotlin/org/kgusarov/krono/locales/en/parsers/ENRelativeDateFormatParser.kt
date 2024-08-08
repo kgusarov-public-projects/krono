@@ -42,7 +42,8 @@ class ENRelativeDateFormatParser : AbstractParserWithWordBoundaryChecking() {
         var date = context.reference.instant
 
         if (unitWord.matches(WEEK_PATTERN)) {
-            date = date.add(KronoUnit.Day, -date.dayOfMonth)
+            val adjustment = -(date.dayOfWeek.value % 7)
+            date = date.add(KronoUnit.Day, adjustment)
 
             components.imply(KronoComponents.Day, date.dayOfMonth)
             components.imply(KronoComponents.Month, date.monthValue)
@@ -55,7 +56,7 @@ class ENRelativeDateFormatParser : AbstractParserWithWordBoundaryChecking() {
             components.assign(KronoComponents.Month, date.monthValue)
         } else if (unitWord.matches(YEAR_PATTERN)) {
             date = date.add(KronoUnit.Day, -date.dayOfMonth + 1)
-            date = date.add(KronoUnit.Month, -date.monthValue)
+            date = date.add(KronoUnit.Month, -date.monthValue + 1)
 
             components.imply(KronoComponents.Day, date.dayOfMonth)
             components.imply(KronoComponents.Month, date.monthValue)

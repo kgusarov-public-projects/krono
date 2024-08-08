@@ -2,6 +2,9 @@ package org.kgusarov.krono
 
 import org.assertj.core.api.Assertions.assertThat
 import org.slf4j.LoggerFactory
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 import kotlin.test.fail
 
 typealias CheckResult = (p: ParsedResult) -> Unit
@@ -50,6 +53,26 @@ internal fun testSingleCase(
         krono,
         text,
         RefDateInputFactory(KronoDate.now()),
+        option,
+        checkResult
+    )
+}
+
+internal fun testSingleCase(
+    krono: Krono,
+    text: String,
+    ref: ReferenceWithTimezone,
+    option: ParsingOption? = null,
+    checkResult: CheckResult,
+) {
+    testSingleCase(
+        krono,
+        text,
+        if (ref.timezone != null) {
+            RefDateInputFactory(ParsingReference(ref.instant, ref.timezone))
+        } else {
+            RefDateInputFactory(ref.instant)
+        },
         option,
         checkResult
     )
@@ -182,6 +205,14 @@ fun ParsedComponents.assertDate(expected: String) {
     assertThat(actual).isEqualTo(expectedDate)
 }
 
+fun ParsedComponents.assertOffsetDate(expected: String) {
+    val actual = instant()
+    val actualOffset = offset() ?: 0
+    val actualAtOffset = actual.atOffset(ZoneOffset.ofTotalSeconds(actualOffset))
+    val expectedDate = OffsetDateTime.parse(expected)
+    assertThat(actualAtOffset).isEqualTo(expectedDate)
+}
+
 class TestParsedResult(
     override val refDate: KronoDate = KronoDate.now(),
     override var index: Int = 0,
@@ -211,8 +242,38 @@ internal object TestLogger {
     internal val LOGGER = LoggerFactory.getLogger("TestLogger")
 }
 
+internal fun testWithExpectedDate(
+    krono: Krono,
+    text: String,
+    expectedDate: String,
+) {
+    testSingleCase(krono, text) {
+        with(it.start) {
+            assertDate(expectedDate)
+        }
+    }
+}
+
+internal fun testWithExpectedOffsetDate(
+    krono: Krono,
+    text: String,
+    expectedDate: String,
+) {
+    testSingleCase(krono, text) {
+        with(it.start) {
+            assertOffsetDate(expectedDate)
+        }
+    }
+}
+
 
 /*
+
+export function testWithExpectedDate(chrono: ChronoLike, text: string, expectedDate: Date) {
+    testSingleCase(chrono, text, (result) => {
+        expect(result.start).toBeDate(expectedDate);
+    });
+}
 
 toBeDate(resultOrComponent, date) {
         if (typeof resultOrComponent.date !== "function") {

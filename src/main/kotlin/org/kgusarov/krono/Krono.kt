@@ -19,6 +19,11 @@ class Krono(configuration: KronoConfiguration) {
 
     fun parse(
         text: String,
+        option: ParsingOption? = null,
+    ): List<ParsedResult> = parse(text, RefDateInputFactory(KronoDate.now()), option)
+
+    fun parse(
+        text: String,
         refDate: RefDateInput,
         option: ParsingOption? = null,
     ): List<ParsedResult> {
@@ -96,7 +101,7 @@ class Krono(configuration: KronoConfiguration) {
                 val parsedText = parsedResult.text
 
                 context {
-                    "${parser::class.java.simpleName} extracted '$parsedText' at index $parsedIndex"
+                    "${parser::class.java.simpleName} extracted '$parsedText' at index $parsedIndex -> $parsedResult"
                 }
 
                 results += parsedResult

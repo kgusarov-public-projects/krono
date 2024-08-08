@@ -15,7 +15,7 @@ private const val REF_DATE_2020_11_22 = "2020-11-22T00:00:00"
 
 private const val REF_DATE_2012_08_10 = "2012-08-10T00:00:00"
 
-internal class ENMonthNameTest {
+internal class EnMonthNameTest {
     @Test
     fun `month-year - September 2012`() {
         testSingleCase(Krono.enCasual, "September 2012", RefDateInputFactory(KronoDate.now())) {

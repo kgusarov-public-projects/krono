@@ -14,7 +14,7 @@ import org.kgusarov.krono.extensions.implySimilarTime
 import org.kgusarov.krono.extensions.implyTheNextDay
 
 internal fun now(reference: ReferenceWithTimezone): ParsedComponents {
-    val targetDate = reference.instant.atZone(KronoTimezone.systemDefault())
+    val targetDate = reference.instant.atZone(reference.timezone ?: KronoTimezone.systemDefault())
     val component = ParsingComponents(reference)
 
     targetDate.toLocalDateTime().assignSimilarDate(component)

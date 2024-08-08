@@ -5,21 +5,44 @@ import org.kgusarov.krono.KronoDate
 import org.kgusarov.krono.KronoUnit
 import org.kgusarov.krono.ParsedComponents
 import java.math.BigDecimal
+import java.math.MathContext
+import java.util.concurrent.TimeUnit
+
+fun KronoDate.add(
+    unit: KronoUnit,
+    value: Long,
+): KronoDate =
+    when (unit) {
+        KronoUnit.Day -> plusDays(value)
+        KronoUnit.Month -> plusMonths(value)
+        KronoUnit.Year -> plusYears(value)
+        KronoUnit.Hour -> plusHours(value)
+        KronoUnit.Minute -> plusMinutes(value)
+        KronoUnit.Second -> plusSeconds(value)
+        KronoUnit.Millisecond -> plusNanos(TimeUnit.MILLISECONDS.toNanos(value))
+        KronoUnit.Week -> plusWeeks(value)
+        KronoUnit.Quarter -> plusMonths(3 * value)
+    }
 
 fun KronoDate.add(
     unit: KronoUnit,
     value: Int,
-): KronoDate = plus(unit().multipliedBy(value))
+): KronoDate = add(unit, value.toLong())
 
 fun KronoDate.add(
     unit: KronoUnit,
     value: Int?,
-): KronoDate = plus(unit().multipliedBy(value ?: 0))
+): KronoDate = add(unit, value?.toLong() ?: 0)
 
 fun KronoDate.add(
     unit: KronoUnit,
     value: BigDecimal?,
-): KronoDate = plus(unit().multipliedBy(value ?: BigDecimal.ZERO))
+): KronoDate =
+    when {
+        value == null -> this
+        value.stripTrailingZeros().scale() <= 0 -> add(unit, value.toLong())
+        else -> add(unit, value.round(MathContext.UNLIMITED).toLong())
+    }
 
 fun KronoDate.add(
     unit: String,

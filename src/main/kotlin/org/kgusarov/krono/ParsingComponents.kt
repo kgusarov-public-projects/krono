@@ -225,14 +225,14 @@ class ParsingComponents(
                 date.assignSimilarTime(components)
                 date.assignSimilarDate(components)
                 if (reference.timezone != null) {
-                    val seconds = reference.timezone.rules.getOffset(KronoDate.now()).totalSeconds
+                    val seconds = reference.timezone.rules.getOffset(reference.instant).totalSeconds
                     components.assign(KronoComponents.Offset, seconds)
                 }
             } else {
                 date.implySimilarTime(components)
                 if (reference.timezone != null) {
-                    val seconds = reference.timezone.rules.getOffset(KronoDate.now()).totalSeconds
-                    components.assign(KronoComponents.Offset, seconds)
+                    val seconds = reference.timezone.rules.getOffset(reference.instant).totalSeconds
+                    components.imply(KronoComponents.Offset, seconds)
                 }
 
                 if (fragments.contains(KronoUnit.Day)) {

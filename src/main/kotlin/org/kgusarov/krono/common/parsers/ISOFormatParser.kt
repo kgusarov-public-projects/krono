@@ -41,7 +41,12 @@ class ISOFormatParser : AbstractParserWithWordBoundaryChecking() {
 
                 val offset =
                     TimeUnit.HOURS.toSeconds(hourOffset.toLong()) +
-                        TimeUnit.MINUTES.toSeconds(minuteOffset.toLong())
+                        if (hourOffset >= 0) {
+                            TimeUnit.MINUTES.toSeconds(minuteOffset.toLong())
+                        } else {
+                            -TimeUnit.MINUTES.toSeconds(minuteOffset.toLong())
+                        }
+
                 components[KronoComponents.Offset] = offset.toInt()
             } else {
                 components[KronoComponents.Offset] = 0

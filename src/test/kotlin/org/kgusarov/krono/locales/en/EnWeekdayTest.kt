@@ -12,7 +12,7 @@ import org.kgusarov.krono.assertDate
 import org.kgusarov.krono.testSingleCase
 import java.util.stream.Stream
 
-internal class ENWeekdayTest {
+internal class EnWeekdayTest {
     @Test
     fun casualMonday() {
         testSingleCase(Krono.enCasual, "Monday", RefDateInputFactory("2012-08-09T00:00:00")) {

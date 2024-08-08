@@ -81,7 +81,7 @@ abstract class AbstractTimeExpressionParser(
     ): ParserResult? {
         val startComponents = extractPrimaryTimeComponents(context, match)
         if (startComponents == null) {
-            if (match[0]!!.matches(YEAR_LIKE)) {
+            if (YEAR_LIKE.containsMatchIn(match[0]!!)) {
                 match.index += 4
                 return null
             }
@@ -484,7 +484,7 @@ abstract class AbstractTimeExpressionParser(
         private val NOT_DOT_WITH_SINGLE_DIGIT = Regex("\\d(\\.\\d{2})+$")
 
         @JvmStatic
-        private val YEAR_LIKE = Regex("^\\d{4}$")
+        private val YEAR_LIKE = Regex("^\\d{4}")
 
         @JvmStatic
         private val THREE_OR_FOUR_DIGITS = Regex("^\\d{3,4}$")
