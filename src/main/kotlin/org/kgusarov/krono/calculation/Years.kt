@@ -1,6 +1,7 @@
 package org.kgusarov.krono.calculation
 
 import org.kgusarov.krono.KronoDate
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.abs
 
@@ -20,11 +21,7 @@ internal fun findYearClosestToRef(
     day: Int,
     month: Int,
 ): Int {
-    val dateMoment =
-        refDate
-            .withMonth(month)
-            .withDayOfMonth(day)
-            .withYear(refDate.year)
+    val dateMoment = tryCreateDateMoment(day, refDate, month)
 
     val nextYear = dateMoment.plusYears(1)
     val lastYear = dateMoment.minusYears(1)
@@ -40,4 +37,26 @@ internal fun findYearClosestToRef(
         }
 
     return closest.year
+}
+
+private fun tryCreateDateMoment(
+    day: Int,
+    refDate: KronoDate,
+    month: Int,
+): LocalDateTime {
+    var dayValue = day
+    while (day > 0) {
+        try {
+            return refDate
+                .withMonth(month)
+                .withDayOfMonth(dayValue)
+                .withYear(refDate.year)
+        } catch (_: Exception) {
+            dayValue--
+        }
+    }
+
+    return refDate
+        .withMonth(month)
+        .withYear(refDate.year)
 }

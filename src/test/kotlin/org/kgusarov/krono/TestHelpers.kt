@@ -17,15 +17,13 @@ internal fun testSingleCase(
     refDate: String,
     option: ParsingOption? = null,
     checkResult: CheckResult,
-) {
-    testSingleCase(
-        krono,
-        text,
-        RefDateInputFactory(refDate),
-        option,
-        checkResult
-    )
-}
+): ParsedResult = testSingleCase(
+    krono,
+    text,
+    RefDateInputFactory(refDate),
+    option,
+    checkResult
+)
 
 internal fun testSingleCase(
     krono: Krono,
@@ -33,30 +31,26 @@ internal fun testSingleCase(
     refDate: KronoDate,
     option: ParsingOption? = null,
     checkResult: CheckResult,
-) {
-    testSingleCase(
-        krono,
-        text,
-        RefDateInputFactory(refDate),
-        option,
-        checkResult
-    )
-}
+): ParsedResult = testSingleCase(
+    krono,
+    text,
+    RefDateInputFactory(refDate),
+    option,
+    checkResult
+)
 
 internal fun testSingleCase(
     krono: Krono,
     text: String,
     option: ParsingOption? = null,
     checkResult: CheckResult,
-) {
-    testSingleCase(
-        krono,
-        text,
-        RefDateInputFactory(KronoDate.now()),
-        option,
-        checkResult
-    )
-}
+): ParsedResult = testSingleCase(
+    krono,
+    text,
+    RefDateInputFactory(KronoDate.now()),
+    option,
+    checkResult
+)
 
 internal fun testSingleCase(
     krono: Krono,
@@ -64,19 +58,17 @@ internal fun testSingleCase(
     ref: ReferenceWithTimezone,
     option: ParsingOption? = null,
     checkResult: CheckResult,
-) {
-    testSingleCase(
-        krono,
-        text,
-        if (ref.timezone != null) {
-            RefDateInputFactory(ParsingReference(ref.instant, ref.timezone))
-        } else {
-            RefDateInputFactory(ref.instant)
-        },
-        option,
-        checkResult
-    )
-}
+): ParsedResult = testSingleCase(
+    krono,
+    text,
+    if (ref.timezone != null) {
+        RefDateInputFactory(ParsingReference(ref.instant, ref.timezone))
+    } else {
+        RefDateInputFactory(ref.instant)
+    },
+    option,
+    checkResult
+)
 
 internal fun testSingleCase(
     krono: Krono,
@@ -84,7 +76,7 @@ internal fun testSingleCase(
     refDate: RefDateInput,
     option: ParsingOption? = null,
     checkResult: CheckResult,
-) {
+): ParsedResult {
     val debugHandler = BufferedDebugHandler()
     val testOption = option?.copy(debug = debugHandler) ?: ParsingOption(debug = debugHandler)
     var result: ParsedResult? = null
@@ -94,6 +86,8 @@ internal fun testSingleCase(
         results.assertSingleOnText(text)
         result = results[0]
         checkResult(result)
+
+        return result
     } finally {
         TestLogger.LOGGER.info("Tested single case with text: '$text' -> $result")
         debugHandler.execute().forEachIndexed { index, it ->
@@ -246,11 +240,37 @@ internal fun testWithExpectedDate(
     krono: Krono,
     text: String,
     expectedDate: String,
-) {
-    testSingleCase(krono, text) {
-        with(it.start) {
-            assertDate(expectedDate)
-        }
+): ParsedResult = testSingleCase(krono, text) {
+    with(it.start) {
+        assertDate(expectedDate)
+    }
+}
+
+internal fun testWithExpectedDate(
+    krono: Krono,
+    text: String,
+    refDate: String,
+    expectedDate: String,
+): ParsedResult = testSingleCase(krono, text, refDate) {
+    with(it.start) {
+        assertDate(expectedDate)
+    }
+}
+
+internal fun testWithExpectedRange(
+    krono: Krono,
+    text: String,
+    refDate: String,
+    expectedStart: String,
+    expectedEnd: String,
+    option: ParsingOption? = null,
+): ParsedResult = testSingleCase(krono, text, refDate, option) {
+    with(it.start) {
+        assertDate(expectedStart)
+    }
+
+    with(it.end!!) {
+        assertDate(expectedEnd)
     }
 }
 
@@ -258,87 +278,8 @@ internal fun testWithExpectedOffsetDate(
     krono: Krono,
     text: String,
     expectedDate: String,
-) {
-    testSingleCase(krono, text) {
-        with(it.start) {
-            assertOffsetDate(expectedDate)
-        }
+): ParsedResult = testSingleCase(krono, text) {
+    with(it.start) {
+        assertOffsetDate(expectedDate)
     }
 }
-
-
-/*
-
-export function testWithExpectedDate(chrono: ChronoLike, text: string, expectedDate: Date) {
-    testSingleCase(chrono, text, (result) => {
-        expect(result.start).toBeDate(expectedDate);
-    });
-}
-
-toBeDate(resultOrComponent, date) {
-        if (typeof resultOrComponent.date !== "function") {
-            return {
-                message: () => `${resultOrComponent} is not a ParsedResult or ParsedComponent`,
-                pass: false,
-            };
-        }
-
-        const actualDate = resultOrComponent.date();
-        const actualTime = actualDate.getTime();
-        const expectedTime = date.getTime();
-        return {
-            message: () => `Expected date to be: ${date} Received: ${actualDate} (${resultOrComponent})`,
-            pass: actualTime === expectedTime,
-        };
-    },
-
-try {
-        const results = chrono.parse(text, refDateOrCheckResult as Date, optionOrCheckResult);
-        expect(results).toBeSingleOnText(text);
-        if (checkResult) {
-            checkResult(results[0], text);
-        }
-    } catch (e) {
-        debugHandler.executeBufferedBlocks();
-        e.stack = e.stack.replace(/[^\n]*at .*test_util.*\n/g, "");
-        throw e;
-    }
-
-export function testSingleCase(chrono: ChronoLike, text: string, checkResult?: CheckResult);
-export function testSingleCase(
-    chrono: ChronoLike,
-    text: string,
-    refDateOrCheckResult?: ParsingReference | Date | CheckResult,
-    checkResult?: CheckResult
-);
-export function testSingleCase(
-    chrono: ChronoLike,
-    text: string,
-    refDateOrCheckResult?: ParsingReference | Date | CheckResult,
-    optionOrCheckResult?: ParsingOption | CheckResult,
-    checkResult?: CheckResult
-);
-export function testSingleCase(
-    chrono: ChronoLike,
-    text: string,
-    refDateOrCheckResult?: ParsingReference | Date | CheckResult,
-    optionOrCheckResult?: ParsingOption | CheckResult,
-    checkResult?: CheckResult
-) {
-    if (checkResult === undefined && typeof optionOrCheckResult === "function") {
-        checkResult = optionOrCheckResult;
-        optionOrCheckResult = undefined;
-    }
-
-    if (optionOrCheckResult === undefined && typeof refDateOrCheckResult === "function") {
-        checkResult = refDateOrCheckResult;
-        refDateOrCheckResult = undefined;
-    }
-
-    const debugHandler = new BufferedDebugHandler();
-    optionOrCheckResult = (optionOrCheckResult as ParsingOption) || {};
-    optionOrCheckResult.debug = debugHandler;
-
-
-}
- */

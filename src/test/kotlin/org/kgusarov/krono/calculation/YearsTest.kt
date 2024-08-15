@@ -40,6 +40,8 @@ internal class YearsTest {
                 Arguments.of(KronoDate.parse("2010-12-31T23:59:00"), 1, 1, 2011),
                 Arguments.of(KronoDate.parse("2010-12-31T23:59:00"), 31, 12, 2010),
                 Arguments.of(KronoDate.parse("2010-06-01T00:00:00"), 1, 12, 2009),
+                Arguments.of(KronoDate.parse("2013-08-10T00:00:00"), 29, 2, 2013),
+                Arguments.of(KronoDate.parse("2013-08-10T00:00:00"), -1, 2, 2013),
             )
     }
 }

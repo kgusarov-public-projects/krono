@@ -5,7 +5,6 @@ import org.kgusarov.krono.KronoDate
 import org.kgusarov.krono.KronoUnit
 import org.kgusarov.krono.ParsedComponents
 import java.math.BigDecimal
-import java.math.MathContext
 import java.util.concurrent.TimeUnit
 
 fun KronoDate.add(
@@ -41,7 +40,7 @@ fun KronoDate.add(
     when {
         value == null -> this
         value.stripTrailingZeros().scale() <= 0 -> add(unit, value.toLong())
-        else -> add(unit, value.round(MathContext.UNLIMITED).toLong())
+        else -> plus(unit * value)
     }
 
 fun KronoDate.add(

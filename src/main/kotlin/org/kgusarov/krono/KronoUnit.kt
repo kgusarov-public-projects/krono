@@ -1,25 +1,34 @@
 package org.kgusarov.krono
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+import org.kgusarov.krono.extensions.multipliedBy
+import java.math.BigDecimal
+import java.time.Duration
+import java.time.temporal.ChronoUnit
+import java.time.temporal.IsoFields
 
 @SuppressFBWarnings("BC_BAD_CAST_TO_ABSTRACT_COLLECTION", "EI_EXPOSE_REP")
 enum class KronoUnit(
+    private val duration: Duration,
     private val prettyNames: Set<String>,
 ) {
-    Day("d", "D", "day", "days"),
-    Month("M", "month", "months"),
-    Year("y", "year", "years"),
-    Hour("h", "hour", "hours"),
-    Minute("m", "minute", "minutes"),
-    Second("s", "second", "seconds"),
-    Millisecond("ms", "millisecond", "milliseconds"),
-    Week("w", "week", "weeks"),
-    Quarter("Q", "quarter", "quarters"),
+    Day(ChronoUnit.DAYS.duration, "d", "D", "day", "days"),
+    Month(ChronoUnit.MONTHS.duration, "M", "month", "months"),
+    Year(ChronoUnit.YEARS.duration, "y", "year", "years"),
+    Hour(ChronoUnit.HOURS.duration, "h", "hour", "hours"),
+    Minute(ChronoUnit.MINUTES.duration, "m", "minute", "minutes"),
+    Second(ChronoUnit.SECONDS.duration, "s", "second", "seconds"),
+    Millisecond(ChronoUnit.MILLIS.duration, "ms", "millisecond", "milliseconds"),
+    Week(ChronoUnit.WEEKS.duration, "w", "week", "weeks"),
+    Quarter(IsoFields.QUARTER_YEARS.duration, "Q", "quarter", "quarters"),
     ;
 
     constructor(
+        duration: Duration,
         vararg prettyNames: String,
-    ) : this(setOf(*prettyNames))
+    ) : this(duration, setOf(*prettyNames))
+
+    operator fun times(value: BigDecimal) = duration.multipliedBy(value)
 
     fun prettyNames() = prettyNames
 
