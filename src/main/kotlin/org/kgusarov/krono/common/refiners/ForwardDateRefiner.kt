@@ -24,8 +24,12 @@ class ForwardDateRefiner : Refiner {
                 refMoment.implySimilarDate(it.start)
 
                 if (it.end != null && it.end!!.onlyTime()) {
-                    refMoment = refMoment.plusDays(1L)
                     refMoment.implySimilarDate(it.end!!)
+
+                    if (it.start.instant().isAfter(it.end!!.instant())) {
+                        refMoment = refMoment.plusDays(1L)
+                        refMoment.implySimilarDate(it.end!!)
+                    }
                 }
             }
 

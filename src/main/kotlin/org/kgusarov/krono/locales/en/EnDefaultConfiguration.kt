@@ -23,7 +23,7 @@ import org.kgusarov.krono.locales.en.refiners.ENMergeDateTimeRefiner
 import org.kgusarov.krono.locales.en.refiners.ENMergeRelativeAfterDateRefiner
 import org.kgusarov.krono.locales.en.refiners.ENMergeRelativeFollowByDateRefiner
 
-class ENDefaultConfiguration {
+class EnDefaultConfiguration {
     fun createConfiguration(
         strictMode: Boolean = true,
         littleEndian: Boolean = false,

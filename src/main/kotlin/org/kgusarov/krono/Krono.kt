@@ -4,6 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.extensions.plus
 import org.kgusarov.krono.extensions.safeSubstring
 import org.kgusarov.krono.locales.en.En
+import org.kgusarov.krono.locales.ja.Ja
 import java.time.Duration
 
 @SuppressFBWarnings("SING_SINGLETON_HAS_NONPRIVATE_CONSTRUCTOR", "EI_EXPOSE_REP")
@@ -61,6 +62,12 @@ class Krono(configuration: KronoConfiguration) {
 
         @JvmStatic
         val enGb = Krono(En.gb)
+
+        @JvmStatic
+        val jaCasual = Krono(Ja.casual)
+
+        @JvmStatic
+        val jaStrict = Krono(Ja.strict)
 
         @JvmStatic
         private fun verifyOpenedPackage() {

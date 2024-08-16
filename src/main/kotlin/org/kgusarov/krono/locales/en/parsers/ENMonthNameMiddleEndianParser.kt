@@ -33,8 +33,8 @@ class ENMonthNameMiddleEndianParser(
 
         if (shouldSkipYearLikeDate) {
             if (
-                match[DATE_TO_GROUP] == null &&
-                match[YEAR_GROUP] == null &&
+                match[DATE_TO_GROUP].isNullOrEmpty() &&
+                match[YEAR_GROUP].isNullOrEmpty() &&
                 match[DATE_GROUP]!!.matches(YEAR_LIKE_DATE)
             ) {
                 return null

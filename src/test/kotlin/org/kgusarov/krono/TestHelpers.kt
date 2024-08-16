@@ -1,5 +1,6 @@
 package org.kgusarov.krono
 
+import com.google.common.base.Stopwatch
 import org.assertj.core.api.Assertions.assertThat
 import org.slf4j.LoggerFactory
 import java.time.OffsetDateTime
@@ -240,7 +241,8 @@ internal fun testWithExpectedDate(
     krono: Krono,
     text: String,
     expectedDate: String,
-): ParsedResult = testSingleCase(krono, text) {
+    option: ParsingOption? = null,
+): ParsedResult = testSingleCase(krono, text, option) {
     with(it.start) {
         assertDate(expectedDate)
     }
@@ -251,7 +253,8 @@ internal fun testWithExpectedDate(
     text: String,
     refDate: String,
     expectedDate: String,
-): ParsedResult = testSingleCase(krono, text, refDate) {
+    option: ParsingOption? = null,
+): ParsedResult = testSingleCase(krono, text, refDate, option) {
     with(it.start) {
         assertDate(expectedDate)
     }
@@ -282,4 +285,14 @@ internal fun testWithExpectedOffsetDate(
     with(it.start) {
         assertOffsetDate(expectedDate)
     }
+}
+
+internal fun measureTime(block: () -> Unit): Stopwatch {
+    val stopwatch = Stopwatch.createStarted()
+    block()
+    stopwatch.stop()
+
+    TestLogger.LOGGER.info("Elapsed time: {}", stopwatch)
+
+    return stopwatch
 }

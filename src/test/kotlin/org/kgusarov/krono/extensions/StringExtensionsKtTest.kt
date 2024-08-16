@@ -26,4 +26,32 @@ internal class StringExtensionsKtTest {
         assertThat(str.substr(2, 1)).isEqualTo("3")
         assertThat(str.substr(0, 5)).isEqualTo("123")
     }
+
+    @Test
+    fun `parse valid integer string`() {
+        val str = "123"
+        val result = str.safeParseInt()
+        assertThat(result).isEqualTo(123)
+    }
+
+    @Test
+    fun `parse valid decimal string`() {
+        val str = "123.45"
+        val result = str.safeParseInt()
+        assertThat(result).isEqualTo(123)
+    }
+
+    @Test
+    fun `parse invalid string`() {
+        val str = "abc"
+        val result = str.safeParseInt()
+        assertThat(result).isNull()
+    }
+
+    @Test
+    fun `parse empty string`() {
+        val str = ""
+        val result = str.safeParseInt()
+        assertThat(result).isNull()
+    }
 }

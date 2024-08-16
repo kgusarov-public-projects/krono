@@ -11,7 +11,7 @@ import java.math.BigDecimal
 
 object En {
     @JvmStatic
-    val configuration = ENDefaultConfiguration()
+    val configuration = EnDefaultConfiguration()
 
     @JvmStatic
     val casual = configuration.createCasualConfiguration(false)

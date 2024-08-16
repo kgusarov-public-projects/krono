@@ -16,6 +16,7 @@ import org.kgusarov.krono.extensions.compareTo
 import org.kgusarov.krono.extensions.get
 import org.kgusarov.krono.extensions.minus
 import org.kgusarov.krono.extensions.plus
+import org.kgusarov.krono.extensions.safeParseInt
 import org.kgusarov.krono.utils.implyNextDay
 
 @Suppress("RegExpRedundantEscape", "RegExpSimplifiable", "RegExpSingleCharAlternation")
@@ -399,11 +400,11 @@ abstract class AbstractTimeExpressionParser(
                 return null
             }
 
-            if (endingNumbers.contains(".") && !endingNumbers.matches(NOT_DOT_WITH_SINGLE_DIGIT)) {
+            if (endingNumbers.contains(".") && !NOT_DOT_WITH_SINGLE_DIGIT.containsMatchIn(endingNumbers)) {
                 return null
             }
 
-            val endingNumberVal = fixHour(endingNumbers.toInt())
+            val endingNumberVal = endingNumbers.safeParseInt()
             if (endingNumberVal > 23) {
                 return null
             }
