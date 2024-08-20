@@ -9,7 +9,7 @@ import org.kgusarov.krono.testUnexpectedResult
 
 private const val REF_DATE_2012_07_10 = "2012-07-10T00:00:00"
 
-internal class EnCasualYearMonthDayTest {
+internal class EnYearMonthDayTest {
     @Test
     fun `single expression start with year`() {
         testSingleCase(Krono.enCasual, "2012/8/10", REF_DATE_2012_07_10) {
@@ -110,8 +110,28 @@ internal class EnCasualYearMonthDayTest {
     }
 
     @Test
-    fun `negative year-month-day like pattern`() {
-        testUnexpectedResult(Krono.enCasual, "2012-80-10", REF_DATE_2012_07_10)
-        testUnexpectedResult(Krono.enCasual, "2012 80 10", REF_DATE_2012_07_10)
+    fun `allow date month swap in casual mode`() {
+        testUnexpectedResult(Krono.enStrict, "2024/13/1")
+        testUnexpectedResult(Krono.enStrict, "2024-13-01")
+
+        testSingleCase(Krono.enCasual, "2024/13/1", REF_DATE_2012_07_10) {
+            it.start.assertDate("2024-01-13T12:00:00")
+        }
+
+        testSingleCase(Krono.enCasual, "2024-13-01", REF_DATE_2012_07_10) {
+            it.start.assertDate("2024-01-13T12:00:00")
+        }
+    }
+
+    @Test
+    fun `unlikely xxxx-xx-xx pattern`() {
+        testUnexpectedResult(Krono.enCasual, "2012/80/10")
+        testUnexpectedResult(Krono.enCasual, "2012 80 10")
+    }
+
+    @Test
+    fun `impossible dates`() {
+        testUnexpectedResult(Krono.enCasual, "2014-08-32")
+        testUnexpectedResult(Krono.enCasual, "2014-02-30")
     }
 }

@@ -11,7 +11,7 @@ import org.kgusarov.krono.locales.en.EnConstants
 import org.kgusarov.krono.locales.en.parseTimeUnits
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENTimeUnitWithinFormatParser(
+class EnTimeUnitWithinFormatParser(
     private val strictMode: Boolean,
 ) : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext): Regex {

@@ -264,6 +264,7 @@ internal class EnSlashTest {
         testUnexpectedResult(Krono.enCasual, "06/-31/2022")
         testUnexpectedResult(Krono.enCasual, "18/13/2022")
         testUnexpectedResult(Krono.enCasual, "15/28/2022")
+        testUnexpectedResult(Krono.enCasual, "4/13/1");
     }
 
     @Test

@@ -6,7 +6,7 @@ import org.kgusarov.krono.Krono
 import org.kgusarov.krono.KronoConfiguration
 import org.kgusarov.krono.KronoMeridiem
 import org.kgusarov.krono.assertDate
-import org.kgusarov.krono.locales.en.parsers.ENTimeExpressionParser
+import org.kgusarov.krono.locales.en.parsers.EnTimeExpressionParser
 import org.kgusarov.krono.testMultipleResults
 import org.kgusarov.krono.testSingleCase
 import org.kgusarov.krono.testUnexpectedResult
@@ -255,7 +255,7 @@ internal class EnTest {
         val custom = Krono(
             KronoConfiguration(
                 En.casual.parsers.filter {
-                    p -> p !is ENTimeExpressionParser
+                    p -> p !is EnTimeExpressionParser
                 }.toMutableList(),
                 En.casual.refiners.toMutableList(),
             )

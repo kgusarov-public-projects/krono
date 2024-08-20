@@ -15,7 +15,7 @@ import org.kgusarov.krono.locales.en.parseYear
 import org.kgusarov.krono.utils.matchAnyPattern
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENMonthNameLittleEndianParser : AbstractParserWithWordBoundaryChecking() {
+class EnMonthNameLittleEndianParser : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = PATTERN
 
     override fun innerExtract(

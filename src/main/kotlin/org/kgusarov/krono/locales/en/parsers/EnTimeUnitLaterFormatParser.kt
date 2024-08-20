@@ -9,10 +9,9 @@ import org.kgusarov.krono.RegExpMatchArray
 import org.kgusarov.krono.common.parsers.AbstractParserWithWordBoundaryChecking
 import org.kgusarov.krono.locales.en.EnConstants
 import org.kgusarov.krono.locales.en.parseTimeUnits
-import org.kgusarov.krono.utils.reverseDecimalTimeUnits
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENTimeUnitAgoFormatParser(
+class EnTimeUnitLaterFormatParser(
     private val strictMode: Boolean,
 ) : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = if (strictMode) STRICT_PATTERN else PATTERN
@@ -21,26 +20,28 @@ class ENTimeUnitAgoFormatParser(
         context: ParsingContext,
         match: RegExpMatchArray,
     ): ParserResult {
-        val timeUnits = parseTimeUnits(match[1]!!)
-        val outputTimeUnits = reverseDecimalTimeUnits(timeUnits)
-        val components = ParsingComponents.createRelativeFromDecimalReference(context.reference, outputTimeUnits)
+        val fragments = parseTimeUnits(match[GROUP_NUM_TIMEUNITS]!!)
+        val components = ParsingComponents.createRelativeFromDecimalReference(context.reference, fragments)
 
         return ParserResultFactory(components)
     }
 
+    @Suppress("RegExpUnnecessaryNonCapturingGroup")
     companion object {
         @JvmStatic
         private val PATTERN =
             Regex(
-                "(${EnConstants.TIME_UNITS_PATTERN})\\s{0,5}(?:ago|before|earlier)(?=\\W|$)",
+                "(${EnConstants.TIME_UNITS_PATTERN})\\s{0,5}(?:later|after|from now|henceforth|forward|out)(?=(?:\\W|$))",
                 RegexOption.IGNORE_CASE,
             )
 
         @JvmStatic
         private val STRICT_PATTERN =
             Regex(
-                "(${EnConstants.TIME_UNITS_NO_ABBR_PATTERN})\\s{0,5}(?:ago|before|earlier)(?=\\W|$)",
+                "(${EnConstants.TIME_UNITS_NO_ABBR_PATTERN})\\s{0,5}(later|after|from now)(?=\\W|$)",
                 RegexOption.IGNORE_CASE,
             )
+
+        private const val GROUP_NUM_TIMEUNITS = 1
     }
 }

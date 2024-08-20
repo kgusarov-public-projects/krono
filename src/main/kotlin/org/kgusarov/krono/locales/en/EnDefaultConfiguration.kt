@@ -4,24 +4,25 @@ import org.kgusarov.krono.KronoConfiguration
 import org.kgusarov.krono.common.parsers.SlashDateFormatParser
 import org.kgusarov.krono.common.refiners.OverlapRemovalRefiner
 import org.kgusarov.krono.includeCommonConfiguration
-import org.kgusarov.krono.locales.en.parsers.ENCasualDateParser
-import org.kgusarov.krono.locales.en.parsers.ENCasualTimeParser
-import org.kgusarov.krono.locales.en.parsers.ENCasualYearMonthDayParser
-import org.kgusarov.krono.locales.en.parsers.ENMonthNameLittleEndianParser
-import org.kgusarov.krono.locales.en.parsers.ENMonthNameMiddleEndianParser
-import org.kgusarov.krono.locales.en.parsers.ENMonthNameParser
-import org.kgusarov.krono.locales.en.parsers.ENRelativeDateFormatParser
-import org.kgusarov.krono.locales.en.parsers.ENSlashMonthFormatParser
-import org.kgusarov.krono.locales.en.parsers.ENTimeExpressionParser
-import org.kgusarov.krono.locales.en.parsers.ENTimeUnitAgoFormatParser
-import org.kgusarov.krono.locales.en.parsers.ENTimeUnitCasualRelativeFormatParser
-import org.kgusarov.krono.locales.en.parsers.ENTimeUnitLaterFormatParser
-import org.kgusarov.krono.locales.en.parsers.ENTimeUnitWithinFormatParser
-import org.kgusarov.krono.locales.en.parsers.ENWeekdayParser
-import org.kgusarov.krono.locales.en.refiners.ENMergeDateRangeRefiner
-import org.kgusarov.krono.locales.en.refiners.ENMergeDateTimeRefiner
-import org.kgusarov.krono.locales.en.refiners.ENMergeRelativeAfterDateRefiner
-import org.kgusarov.krono.locales.en.refiners.ENMergeRelativeFollowByDateRefiner
+import org.kgusarov.krono.locales.en.parsers.ENYearMonthDayParser
+import org.kgusarov.krono.locales.en.parsers.EnCasualDateParser
+import org.kgusarov.krono.locales.en.parsers.EnCasualTimeParser
+import org.kgusarov.krono.locales.en.parsers.EnMonthNameLittleEndianParser
+import org.kgusarov.krono.locales.en.parsers.EnMonthNameMiddleEndianParser
+import org.kgusarov.krono.locales.en.parsers.EnMonthNameParser
+import org.kgusarov.krono.locales.en.parsers.EnRelativeDateFormatParser
+import org.kgusarov.krono.locales.en.parsers.EnSlashMonthFormatParser
+import org.kgusarov.krono.locales.en.parsers.EnTimeExpressionParser
+import org.kgusarov.krono.locales.en.parsers.EnTimeUnitAgoFormatParser
+import org.kgusarov.krono.locales.en.parsers.EnTimeUnitCasualRelativeFormatParser
+import org.kgusarov.krono.locales.en.parsers.EnTimeUnitLaterFormatParser
+import org.kgusarov.krono.locales.en.parsers.EnTimeUnitWithinFormatParser
+import org.kgusarov.krono.locales.en.parsers.EnWeekdayParser
+import org.kgusarov.krono.locales.en.refiners.EnExtractYearSuffixRefiner
+import org.kgusarov.krono.locales.en.refiners.EnMergeDateRangeRefiner
+import org.kgusarov.krono.locales.en.refiners.EnMergeDateTimeRefiner
+import org.kgusarov.krono.locales.en.refiners.EnMergeRelativeAfterDateRefiner
+import org.kgusarov.krono.locales.en.refiners.EnMergeRelativeFollowByDateRefiner
 
 class EnDefaultConfiguration {
     fun createConfiguration(
@@ -33,40 +34,42 @@ class EnDefaultConfiguration {
                 KronoConfiguration(
                     mutableListOf(
                         SlashDateFormatParser(littleEndian),
-                        ENTimeUnitWithinFormatParser(strictMode),
-                        ENMonthNameLittleEndianParser(),
-                        ENMonthNameMiddleEndianParser(littleEndian),
-                        ENWeekdayParser(),
-                        ENCasualYearMonthDayParser(),
-                        ENSlashMonthFormatParser(),
-                        ENTimeExpressionParser(strictMode),
-                        ENTimeUnitAgoFormatParser(strictMode),
-                        ENTimeUnitLaterFormatParser(strictMode),
+                        EnTimeUnitWithinFormatParser(strictMode),
+                        EnMonthNameLittleEndianParser(),
+                        EnMonthNameMiddleEndianParser(littleEndian),
+                        EnWeekdayParser(),
+                        EnSlashMonthFormatParser(),
+                        EnTimeExpressionParser(strictMode),
+                        EnTimeUnitAgoFormatParser(strictMode),
+                        EnTimeUnitLaterFormatParser(strictMode),
                     ),
                     mutableListOf(
-                        ENMergeDateTimeRefiner(),
+                        EnMergeDateTimeRefiner(),
                     ),
                 ),
                 strictMode,
             )
 
-        result.refiners.addFirst(ENMergeRelativeFollowByDateRefiner())
-        result.refiners.addFirst(ENMergeRelativeAfterDateRefiner())
+        result.parsers.addFirst(ENYearMonthDayParser(strictMode))
+
+        result.refiners.addFirst(EnMergeRelativeFollowByDateRefiner())
+        result.refiners.addFirst(EnMergeRelativeAfterDateRefiner())
         result.refiners.addFirst(OverlapRemovalRefiner())
 
-        result.refiners.addLast(ENMergeDateTimeRefiner())
-        result.refiners.addLast(ENMergeDateRangeRefiner())
+        result.refiners.addLast(EnMergeDateTimeRefiner())
+        result.refiners.addLast(EnExtractYearSuffixRefiner())
+        result.refiners.addLast(EnMergeDateRangeRefiner())
 
         return result
     }
 
     fun createCasualConfiguration(littleEndian: Boolean = false): KronoConfiguration {
         val result = createConfiguration(false, littleEndian)
-        result.parsers.addLast(ENCasualDateParser())
-        result.parsers.addLast(ENCasualTimeParser())
-        result.parsers.addLast(ENMonthNameParser())
-        result.parsers.addLast(ENRelativeDateFormatParser())
-        result.parsers.addLast(ENTimeUnitCasualRelativeFormatParser())
+        result.parsers.addLast(EnCasualDateParser())
+        result.parsers.addLast(EnCasualTimeParser())
+        result.parsers.addLast(EnMonthNameParser())
+        result.parsers.addLast(EnRelativeDateFormatParser())
+        result.parsers.addLast(EnTimeUnitCasualRelativeFormatParser())
         return result
     }
 }

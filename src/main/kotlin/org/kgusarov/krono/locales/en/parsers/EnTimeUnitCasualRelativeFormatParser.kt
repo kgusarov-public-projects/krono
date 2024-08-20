@@ -12,7 +12,7 @@ import org.kgusarov.krono.locales.en.parseTimeUnits
 import org.kgusarov.krono.utils.reverseDecimalTimeUnits
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENTimeUnitCasualRelativeFormatParser(
+class EnTimeUnitCasualRelativeFormatParser(
     private val allowAbbreviations: Boolean = true,
 ) : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = if (allowAbbreviations) PATTERN else PATTERN_NO_ABBR

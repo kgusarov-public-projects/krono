@@ -27,7 +27,7 @@ private fun isPositiveFollowingReference(result: ParsedResult) = POSITIVE_FOLLOW
 private fun isNegativeFollowingReference(result: ParsedResult) = NEGATIVE_FOLLOWING_REFERENCE.containsMatchIn(result.text)
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENMergeRelativeAfterDateRefiner : MergingRefiner() {
+class EnMergeRelativeAfterDateRefiner : MergingRefiner() {
     override fun shouldMergeResults(
         textBetween: String,
         currentResult: ParsedResult,

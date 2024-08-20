@@ -14,7 +14,7 @@ import org.kgusarov.krono.common.noon
 import org.kgusarov.krono.common.parsers.AbstractParserWithWordBoundaryChecking
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENCasualTimeParser : AbstractParserWithWordBoundaryChecking() {
+class EnCasualTimeParser : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = PATTERN
 
     override fun innerExtract(

@@ -9,7 +9,7 @@ import org.kgusarov.krono.RegExpMatchArray
 import org.kgusarov.krono.common.parsers.AbstractParserWithWordBoundaryChecking
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENSlashMonthFormatParser : AbstractParserWithWordBoundaryChecking() {
+class EnSlashMonthFormatParser : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = PATTERN
 
     override fun innerExtract(

@@ -27,7 +27,7 @@ private fun hasImpliedEarlierReferenceDate(result: ParsedResult): Boolean = IMPL
 private fun hasImpliedLaterReferenceDate(result: ParsedResult): Boolean = IMPLIED_LATER_REFERENCE_DATE.containsMatchIn(result.text)
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENMergeRelativeFollowByDateRefiner : MergingRefiner() {
+class EnMergeRelativeFollowByDateRefiner : MergingRefiner() {
     override fun shouldMergeResults(
         textBetween: String,
         currentResult: ParsedResult,

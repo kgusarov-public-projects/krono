@@ -3,6 +3,7 @@ package org.kgusarov.krono.locales.en
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.kgusarov.krono.Krono
+import org.kgusarov.krono.KronoMeridiem
 import org.kgusarov.krono.assertDate
 import org.kgusarov.krono.testSingleCase
 
@@ -80,6 +81,53 @@ internal class EnYearTest {
 
                 assertDate("2012-08-10T12:00:00")
             }
+        }
+    }
+
+    @Test
+    fun `year number after datetime expression`() {
+        testSingleCase(Krono.enCasual, "Thu Oct 26 11:00:09 2023", "2016-10-01T08:00:00") {
+            with(it.start) {
+                assertThat(year()).isEqualTo(2023)
+                assertThat(month()).isEqualTo(10)
+                assertThat(day()).isEqualTo(26)
+                assertThat(hour()).isEqualTo(11)
+                assertThat(minute()).isEqualTo(0)
+                assertThat(second()).isEqualTo(9)
+                assertThat(meridiem()).isEqualTo(KronoMeridiem.AM)
+
+                assertDate("2023-10-26T11:00:09")
+            }
+        }
+    }
+
+    @Test
+    fun `year number after zoned datetime expression`() {
+        testSingleCase(Krono.enCasual, "Thu Oct 26 11:00:09 EDT 2023", "2016-10-01T08:00:00") {
+            with(it.start) {
+                assertThat(year()).isEqualTo(2023)
+                assertThat(month()).isEqualTo(10)
+                assertThat(day()).isEqualTo(26)
+                assertThat(hour()).isEqualTo(11)
+                assertThat(minute()).isEqualTo(0)
+                assertThat(second()).isEqualTo(9)
+                assertThat(meridiem()).isEqualTo(KronoMeridiem.AM)
+                assertThat(offsetMinutes()).isEqualTo(-240)
+
+                assertDate("2023-10-26T11:00:09")
+            }
+        }
+    }
+
+    @Test
+    fun `year number after range`() {
+        testSingleCase(
+            Krono.enCasual,
+            "Oct 26 11:00:09 EDT  - Oct 27 12:00:09 EDT 2023",
+            "2016-10-01T08:00:00"
+        ) {
+            it.start.assertDate("2023-10-26T11:00:09")
+            it.end!!.assertDate("2023-10-27T12:00:09")
         }
     }
 }

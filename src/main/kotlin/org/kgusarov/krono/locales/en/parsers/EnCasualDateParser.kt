@@ -17,7 +17,7 @@ import org.kgusarov.krono.extensions.add
 import org.kgusarov.krono.extensions.assignSimilarDate
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENCasualDateParser : AbstractParserWithWordBoundaryChecking() {
+class EnCasualDateParser : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = PATTERN
 
     override fun innerExtract(

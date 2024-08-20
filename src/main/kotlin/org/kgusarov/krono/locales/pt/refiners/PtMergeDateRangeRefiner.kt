@@ -1,14 +1,15 @@
-package org.kgusarov.krono.locales.en.refiners
+package org.kgusarov.krono.locales.pt.refiners
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.common.refiners.AbstractMergeDateRangeRefiner
 
+@Suppress("RegExpUnnecessaryNonCapturingGroup")
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENMergeDateRangeRefiner : AbstractMergeDateRangeRefiner() {
+class PtMergeDateRangeRefiner : AbstractMergeDateRangeRefiner() {
     override fun patternBetween() = PATTERN
 
     companion object {
         @JvmStatic
-        private val PATTERN = Regex("^\\s*(to|-|–|until|through|till)\\s*\$", RegexOption.IGNORE_CASE)
+        private val PATTERN = Regex("^\\s*(?:-)\\s*$", RegexOption.IGNORE_CASE)
     }
 }

@@ -12,22 +12,34 @@ import org.kgusarov.krono.locales.en.EnConstants
 import org.kgusarov.krono.utils.matchAnyPattern
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENCasualYearMonthDayParser : AbstractParserWithWordBoundaryChecking() {
+class ENYearMonthDayParser(
+    private val strictMonthDateOrder: Boolean,
+) : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = PATTERN
 
     override fun innerExtract(
         context: ParsingContext,
         match: RegExpMatchArray,
     ): ParserResult? {
-        val month =
-            match.getIntOrNull(MONTH_NUMBER_GROUP) ?: EnConstants.MONTH_DICTIONARY[match[MONTH_NAME_GROUP]!!.lowercase()]
+        val year = match.getInt(YEAR_NUMBER_GROUP)
+        var day = match.getIntOrNull(DATE_NUMBER_GROUP)
+        var month =
+            match.getIntOrNull(MONTH_NUMBER_GROUP)
+                ?: EnConstants.MONTH_DICTIONARY[match[MONTH_NAME_GROUP]!!.lowercase()]
 
         if (month < 1 || month > 12) {
-            return null
+            if (strictMonthDateOrder) {
+                return null
+            }
+
+            if (day in 1..12) {
+                month = day.also { day = month }
+            }
         }
 
-        val year = match.getInt(YEAR_NUMBER_GROUP)
-        val day = match.getInt(DATE_NUMBER_GROUP)
+        if (day !in 1..31) {
+            return null
+        }
 
         return ParserResultFactory(
             KronoComponents.Day to day,
@@ -41,8 +53,8 @@ class ENCasualYearMonthDayParser : AbstractParserWithWordBoundaryChecking() {
         @JvmStatic
         private val PATTERN =
             Regex(
-                "([0-9]{4})[\\.\\/\\s]" +
-                    "(?:(${matchAnyPattern(EnConstants.MONTH_DICTIONARY)})|([0-9]{1,2}))[\\.\\/\\s]" +
+                "([0-9]{4})[-\\.\\/\\s]" +
+                    "(?:(${matchAnyPattern(EnConstants.MONTH_DICTIONARY)})|([0-9]{1,2}))[-\\.\\/\\s]" +
                     "([0-9]{1,2})" +
                     "(?=\\W|$)",
                 RegexOption.IGNORE_CASE,

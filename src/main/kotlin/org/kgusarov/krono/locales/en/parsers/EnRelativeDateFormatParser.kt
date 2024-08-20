@@ -15,7 +15,7 @@ import org.kgusarov.krono.locales.en.EnConstants
 import org.kgusarov.krono.utils.matchAnyPattern
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENRelativeDateFormatParser : AbstractParserWithWordBoundaryChecking() {
+class EnRelativeDateFormatParser : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = PATTERN
 
     override fun innerExtract(

@@ -48,12 +48,12 @@ internal class EnNegativeCasesTest {
 
     @Test
     fun `skip impossible dates and times`() {
-        testUnexpectedResult(Krono.enStrict, "February 29, 2022");
-        testUnexpectedResult(Krono.enStrict, "02/29/2022");
-        testUnexpectedResult(Krono.enStrict, "June 31, 2022");
-        testUnexpectedResult(Krono.enStrict, "06/31/2022");
-        testUnexpectedResult(Krono.enStrict, "14PM");
-        testUnexpectedResult(Krono.enStrict, "25:12");
+        testUnexpectedResult(Krono.enStrict, "February 29, 2022")
+        testUnexpectedResult(Krono.enStrict, "02/29/2022")
+        testUnexpectedResult(Krono.enStrict, "June 31, 2022")
+        testUnexpectedResult(Krono.enStrict, "06/31/2022")
+        testUnexpectedResult(Krono.enStrict, "14PM")
+        testUnexpectedResult(Krono.enStrict, "25:12")
         testUnexpectedResult(Krono.enStrict, "An appointment on 13/31/2018");
     }
 

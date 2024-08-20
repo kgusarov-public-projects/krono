@@ -11,7 +11,7 @@ import org.kgusarov.krono.extensions.compareTo
 import org.kgusarov.krono.extensions.plus
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENTimeExpressionParser(strictMode: Boolean) : AbstractTimeExpressionParser(strictMode) {
+class EnTimeExpressionParser(strictMode: Boolean) : AbstractTimeExpressionParser(strictMode) {
     override fun primaryPrefix() = PRIMARY_PREFIX_PATTERN
 
     override fun followingPhase() = FOLLOWING_PHASE_PATTERN

@@ -72,7 +72,7 @@ fun KronoDate.assignSimilarTime(components: ParsedComponents) {
 
 fun KronoDate.assignTheNextDay(component: ParsedComponents) {
     val target = plusDays(1)
-    target.assignSimilarTime(component)
+    target.assignSimilarDate(component)
     target.implySimilarTime(component)
 }
 

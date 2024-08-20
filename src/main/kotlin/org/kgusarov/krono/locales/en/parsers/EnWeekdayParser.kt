@@ -12,7 +12,7 @@ import org.kgusarov.krono.utils.matchAnyPattern
 import java.time.DayOfWeek
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
-class ENWeekdayParser : AbstractParserWithWordBoundaryChecking() {
+class EnWeekdayParser : AbstractParserWithWordBoundaryChecking() {
     override fun innerPattern(context: ParsingContext) = PATTERN
 
     override fun innerExtract(

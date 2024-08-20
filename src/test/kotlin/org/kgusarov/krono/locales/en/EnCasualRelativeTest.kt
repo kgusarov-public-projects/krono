@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.kgusarov.krono.Krono
 import org.kgusarov.krono.assertDate
-import org.kgusarov.krono.locales.en.parsers.ENTimeUnitCasualRelativeFormatParser
+import org.kgusarov.krono.locales.en.parsers.EnTimeUnitCasualRelativeFormatParser
 import org.kgusarov.krono.testSingleCase
 import org.kgusarov.krono.testUnexpectedResult
 
@@ -222,7 +222,7 @@ internal class EnCasualRelativeTest {
     @Test
     fun `with custom parser without abbreviations`() {
         val custom = Krono(En.strict.copy().apply {
-            parsers.add(ENTimeUnitCasualRelativeFormatParser(false))
+            parsers.add(EnTimeUnitCasualRelativeFormatParser(false))
         })
 
         testUnexpectedResult(custom, "-3y")

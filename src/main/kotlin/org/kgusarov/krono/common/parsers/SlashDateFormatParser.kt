@@ -9,11 +9,8 @@ import org.kgusarov.krono.ParsingContext
 import org.kgusarov.krono.RegExpMatchArray
 import org.kgusarov.krono.TextOrEndIndexInputFactory
 import org.kgusarov.krono.calculation.findMostLikelyADYear
-import org.kgusarov.krono.extensions.compareTo
-import org.kgusarov.krono.extensions.minus
 import org.kgusarov.krono.extensions.not
 import org.kgusarov.krono.extensions.plus
-import org.kgusarov.krono.extensions.substr
 
 @SuppressFBWarnings("EI_EXPOSE_REP")
 class SlashDateFormatParser(
@@ -31,21 +28,23 @@ class SlashDateFormatParser(
         context: ParsingContext,
         match: RegExpMatchArray,
     ): ParserResult? {
-        val openingGroup = match[OPENING_GROUP]!!
-        val matchIndex = match.index
-        if (openingGroup.isEmpty() && matchIndex > 0 && matchIndex < context.text.length) {
-            val previousChar = context.text[matchIndex - 1]
-            if (previousChar in '0'..'9') {
+        val index = match.index + match[OPENING_GROUP]!!.length
+        val indexEnd = match.index + match[0]!!.length - match[ENDING_GROUP]!!.length
+        if (index > 0) {
+            val textBefore = context.text.substring(0, index)
+            if (BEFORE_PATTERN.containsMatchIn(textBefore)) {
                 return null
             }
         }
 
-        val text =
-            match[0]!!.substr(
-                openingGroup.length,
-                match[0]!!.length - openingGroup.length - match[ENDING_GROUP]!!.length,
-            )
+        if (indexEnd < context.text.length) {
+            val textAfter = context.text.substring(indexEnd)
+            if (AFTER_PATTERN.containsMatchIn(textAfter)) {
+                return null
+            }
+        }
 
+        val text = context.text.substring(index, indexEnd)
         if (text.matches(VERSION_PATTERN1) || text.matches(VERSION_PATTERN2)) {
             return null
         }
@@ -54,7 +53,6 @@ class SlashDateFormatParser(
             return null
         }
 
-        val index = matchIndex + openingGroup.length
         val result = context.createParsingResult(index, TextOrEndIndexInputFactory(text))
         var month = match.getInt(groupNumberMonth)
         var day = match.getInt(groupNumberDay)
@@ -105,6 +103,12 @@ class SlashDateFormatParser(
 
         @JvmStatic
         private val VERSION_PATTERN2 = Regex("^\\d\\.\\d{1,2}\\.\\d{1,2}\\s*\$")
+
+        @JvmStatic
+        private val BEFORE_PATTERN = Regex("\\d/?$")
+
+        @JvmStatic
+        private val AFTER_PATTERN = Regex("^/?\\d")
 
         private const val OPENING_GROUP = 1
         private const val ENDING_GROUP = 5
