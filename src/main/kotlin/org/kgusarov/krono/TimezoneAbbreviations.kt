@@ -85,7 +85,6 @@ object TimezoneAbbreviations {
             "HAR" to ZoneOffset.ofHours(-6),
             "HAST" to ZoneOffset.ofHours(-10),
             "HAT" to ZoneOffset.ofHours(-2),
-            "HAY" to ZoneOffset.ofHours(-8),
             "HKT" to ZoneOffset.ofHours(8),
             "HLV" to ZoneOffset.ofHours(-3),
             "HNA" to ZoneOffset.ofHours(-4),
@@ -199,4 +198,12 @@ object TimezoneAbbreviations {
             "YEKST" to ZoneOffset.ofHours(6),
             "YEKT" to ZoneOffset.ofHours(6),
         )
+
+    @JvmStatic
+    val AMBIGIOUS_TIMEZONE_ABBR_MAP =
+        TIMEZONE_ABBR_MAP +
+            mapOf(
+                // Spanish word
+                "HAY" to ZoneOffset.ofHours(-8),
+            )
 }

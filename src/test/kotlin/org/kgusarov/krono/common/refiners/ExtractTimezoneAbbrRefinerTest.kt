@@ -7,6 +7,7 @@ import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.ParsedResult
 import org.kgusarov.krono.ParsingComponents
 import org.kgusarov.krono.ParsingContext
+import org.kgusarov.krono.ParsingOption
 import org.kgusarov.krono.ReferenceWithTimezone
 import org.kgusarov.krono.TestParsedResult
 import org.mockito.Mock
@@ -60,6 +61,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05T14:30:45 PST").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -86,6 +88,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05T14:30:45 XYZ").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -118,6 +121,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05T14:30:45 AAA").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -145,6 +149,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05T14:30:45 PST").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -195,6 +200,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05 PST").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -218,6 +224,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05 pst").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -254,6 +261,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05T14:30:45 PST").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -291,6 +299,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05T14:30:45 PST").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result)
         val refinedResults = refiner.invoke(context, results)
@@ -331,6 +340,7 @@ class ExtractTimezoneAbbrRefinerTest {
         }
 
         doReturn("2023-10-05T14:30:45 PST 2023-10-06T15:30:45 EST").`when`(context).text
+        doReturn(ParsingOption()).`when`(context).option
 
         val results = mutableListOf<ParsedResult>(result1, result2)
         val refinedResults = refiner.invoke(context, results)

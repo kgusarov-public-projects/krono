@@ -1,0 +1,40 @@
+package org.kgusarov.krono.common
+
+import org.kgusarov.krono.KronoDecimalTimeUnits
+import org.kgusarov.krono.KronoUnit
+import org.kgusarov.krono.extensions.get
+import java.math.BigDecimal
+
+typealias ParseNumberPattern = (String) -> BigDecimal
+
+typealias ParseYear = (String) -> Int
+
+internal fun parseTimeUnits(
+    timeUnitText: String,
+    singleTimeUnitRegex: Regex,
+    timeUnitDictionary: Map<String, KronoUnit>,
+    parseNumberPattern: ParseNumberPattern,
+): KronoDecimalTimeUnits {
+    val fragments: KronoDecimalTimeUnits = mutableMapOf()
+    var remainingText = timeUnitText
+    var match = singleTimeUnitRegex.find(remainingText)
+
+    while (match != null) {
+        collectDateTimeFragment(fragments, match, timeUnitDictionary, parseNumberPattern)
+        remainingText = remainingText.substring(match.range.last + 1).trim()
+        match = singleTimeUnitRegex.find(remainingText)
+    }
+
+    return fragments
+}
+
+internal fun collectDateTimeFragment(
+    fragments: KronoDecimalTimeUnits,
+    match: MatchResult,
+    timeUnitDictionary: Map<String, KronoUnit>,
+    parseNumberPattern: ParseNumberPattern,
+) {
+    val num = parseNumberPattern(match[1])
+    val unit = timeUnitDictionary[match[2].lowercase()]!!
+    fragments[unit] = num
+}

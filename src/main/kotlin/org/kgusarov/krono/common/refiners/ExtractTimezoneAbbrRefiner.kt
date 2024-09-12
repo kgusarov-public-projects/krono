@@ -5,13 +5,12 @@ import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.ParsedResult
 import org.kgusarov.krono.ParsingContext
 import org.kgusarov.krono.Refiner
-import org.kgusarov.krono.TimezoneAbbreviations
 import org.kgusarov.krono.extensions.get
 import java.time.ZoneId
 
 @SuppressFBWarnings("EI_EXPOSE_REP", "EI_EXPOSE_REP2")
 class ExtractTimezoneAbbrRefiner(
-    private val abbreviationMap: Map<String, ZoneId> = TimezoneAbbreviations.TIMEZONE_ABBR_MAP,
+    private val abbreviationMap: Map<String, ZoneId> = mapOf(),
 ) : Refiner {
     override fun invoke(
         context: ParsingContext,
@@ -27,7 +26,8 @@ class ExtractTimezoneAbbrRefiner(
                     try {
                         ZoneId.of(timezoneAbbr)
                     } catch (_: Exception) {
-                        abbreviationMap[timezoneAbbr] ?: return@forEach
+                        val timezones = context.option.abbreviationMap + abbreviationMap
+                        timezones[timezoneAbbr] ?: return@forEach
                     }
                 ).rules.getOffset(refDate)!!
 
