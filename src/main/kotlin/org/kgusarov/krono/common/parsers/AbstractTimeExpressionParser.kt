@@ -6,7 +6,6 @@ import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.KronoMeridiem
 import org.kgusarov.krono.ParsedComponents
 import org.kgusarov.krono.ParsedResult
-import org.kgusarov.krono.Parser
 import org.kgusarov.krono.ParserResult
 import org.kgusarov.krono.ParserResultFactory
 import org.kgusarov.krono.ParsingContext
@@ -66,7 +65,7 @@ private fun followingTimePattern(
 @SuppressFBWarnings("EI_EXPOSE_REP")
 abstract class AbstractTimeExpressionParser(
     private val strictMode: Boolean = false,
-) : Parser {
+) : TimeExpressionParserSupport() {
     private var cachedPrimaryPrefix: String? = null
     private var cachedPrimarySuffix: String? = null
     private var cachedPrimaryTimePattern: Regex? = null
@@ -310,38 +309,8 @@ abstract class AbstractTimeExpressionParser(
             meridiem = KronoMeridiem.PM
         }
 
-        if (!match[AM_PM_HOUR_GROUP].isNullOrEmpty()) {
-            if (hour > 12) {
-                return null
-            }
-
-            val ampm = match[AM_PM_HOUR_GROUP]!![0].lowercase()
-            if (ampm == "a") {
-                meridiem = KronoMeridiem.AM
-                if (hour == 12) {
-                    hour = 0
-                }
-            }
-
-            if (ampm == "p") {
-                meridiem = KronoMeridiem.PM
-                if (hour != 12) {
-                    hour += 12
-                }
-            }
-        }
-
-        components.assign(KronoComponents.Hour, hour)
-        components.assign(KronoComponents.Minute, minute)
-
-        if (meridiem != null) {
-            components.assign(KronoComponents.Meridiem, meridiem)
-        } else {
-            if (hour < 12) {
-                components.imply(KronoComponents.Meridiem, KronoMeridiem.AM)
-            } else {
-                components.imply(KronoComponents.Meridiem, KronoMeridiem.PM)
-            }
+        if (processTimeComponents(components, match, hour, minute, meridiem, AM_PM_HOUR_GROUP) == null) {
+            return null
         }
 
         return if (!assignSecondsAndMillis(match, components)) {

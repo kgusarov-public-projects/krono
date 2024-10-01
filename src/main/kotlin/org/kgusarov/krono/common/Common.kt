@@ -9,6 +9,8 @@ typealias ParseNumberPattern = (String) -> BigDecimal
 
 typealias ParseYear = (String) -> Int
 
+typealias ParseOrdinalNumberPattern = (String) -> Int
+
 internal fun parseTimeUnits(
     timeUnitText: String,
     singleTimeUnitRegex: Regex,
