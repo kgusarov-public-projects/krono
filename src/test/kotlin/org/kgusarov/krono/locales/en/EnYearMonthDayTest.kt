@@ -11,7 +11,7 @@ private const val REF_DATE_2012_07_10 = "2012-07-10T00:00:00"
 
 internal class EnYearMonthDayTest {
     @Test
-    fun `single expression start with year`() {
+    internal fun `single expression start with year`() {
         testSingleCase(Krono.enCasual, "2012/8/10", REF_DATE_2012_07_10) {
             assertThat(it.text).isEqualTo("2012/8/10")
             assertThat(it.index).isEqualTo(0)
@@ -72,7 +72,7 @@ internal class EnYearMonthDayTest {
     }
 
     @Test
-    fun `single expression start with year and month name`() {
+    internal fun `single expression start with year and month name`() {
         testSingleCase(Krono.enCasual, "2012/Aug/10", REF_DATE_2012_07_10) {
             assertThat(it.text).isEqualTo("2012/Aug/10")
             assertThat(it.index).isEqualTo(0)
@@ -110,7 +110,7 @@ internal class EnYearMonthDayTest {
     }
 
     @Test
-    fun `allow date month swap in casual mode`() {
+    internal fun `allow date month swap in casual mode`() {
         testUnexpectedResult(Krono.enStrict, "2024/13/1")
         testUnexpectedResult(Krono.enStrict, "2024-13-01")
 
@@ -124,13 +124,13 @@ internal class EnYearMonthDayTest {
     }
 
     @Test
-    fun `unlikely xxxx-xx-xx pattern`() {
+    internal fun `unlikely xxxx-xx-xx pattern`() {
         testUnexpectedResult(Krono.enCasual, "2012/80/10")
         testUnexpectedResult(Krono.enCasual, "2012 80 10")
     }
 
     @Test
-    fun `impossible dates`() {
+    internal fun `impossible dates`() {
         testUnexpectedResult(Krono.enCasual, "2014-08-32")
         testUnexpectedResult(Krono.enCasual, "2014-02-30")
     }

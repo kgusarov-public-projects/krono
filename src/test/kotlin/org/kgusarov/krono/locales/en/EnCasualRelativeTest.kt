@@ -13,7 +13,7 @@ private const val REF_DATE2 = "2012-06-10T12:14:00"
 
 internal class EnCasualRelativeTest {
     @Test
-    fun `next 2 weeks`() {
+    internal fun `next 2 weeks`() {
         testSingleCase(Krono.enCasual, "next 2 weeks", REF_DATE) {
             assertThat(it.text).isEqualTo("next 2 weeks")
             with (it.start) {
@@ -25,7 +25,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `next 2 days`() {
+    internal fun `next 2 days`() {
         testSingleCase(Krono.enCasual, "next 2 days", REF_DATE) {
             assertThat(it.text).isEqualTo("next 2 days")
             with (it.start) {
@@ -38,7 +38,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `next two years`() {
+    internal fun `next two years`() {
         testSingleCase(Krono.enCasual, "next two years", REF_DATE) {
             assertThat(it.text).isEqualTo("next two years")
             with (it.start) {
@@ -51,7 +51,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `next 2 weeks 3 days`() {
+    internal fun `next 2 weeks 3 days`() {
         testSingleCase(Krono.enCasual, "next 2 weeks 3 days", REF_DATE) {
             assertThat(it.text).isEqualTo("next 2 weeks 3 days")
             with (it.start) {
@@ -64,7 +64,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `after a year`() {
+    internal fun `after a year`() {
         testSingleCase(Krono.enCasual, "after a year", REF_DATE) {
             assertThat(it.text).isEqualTo("after a year")
             with (it.start) {
@@ -77,7 +77,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `after an hour`() {
+    internal fun `after an hour`() {
         testSingleCase(Krono.enCasual, "after an hour", REF_DATE) {
             assertThat(it.text).isEqualTo("after an hour")
             with (it.start) {
@@ -90,7 +90,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `last 2 weeks`() {
+    internal fun `last 2 weeks`() {
         testSingleCase(Krono.enCasual, "last 2 weeks", REF_DATE) {
             assertThat(it.text).isEqualTo("last 2 weeks")
             with (it.start) {
@@ -103,7 +103,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `last two weeks`() {
+    internal fun `last two weeks`() {
         testSingleCase(Krono.enCasual, "last two weeks", REF_DATE) {
             assertThat(it.text).isEqualTo("last two weeks")
             with (it.start) {
@@ -116,7 +116,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `past 2 days`() {
+    internal fun `past 2 days`() {
         testSingleCase(Krono.enCasual, "past 2 days", REF_DATE) {
             assertThat(it.text).isEqualTo("past 2 days")
             with (it.start) {
@@ -129,7 +129,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `+2 months, 5 days`() {
+    internal fun `+2 months, 5 days`() {
         testSingleCase(Krono.enCasual, "+2 months, 5 days", REF_DATE) {
             assertThat(it.text).isEqualTo("+2 months, 5 days")
             with (it.start) {
@@ -142,7 +142,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `+15 minutes`() {
+    internal fun `+15 minutes`() {
         testSingleCase(Krono.enCasual, "+15 minutes", REF_DATE2) {
             assertThat(it.text).isEqualTo("+15 minutes")
             with (it.start) {
@@ -154,7 +154,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `+15min`() {
+    internal fun `+15min`() {
         testSingleCase(Krono.enCasual, "+15min", REF_DATE2) {
             assertThat(it.text).isEqualTo("+15min")
             with (it.start) {
@@ -166,7 +166,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `+1 day 2 hour`() {
+    internal fun `+1 day 2 hour`() {
         testSingleCase(Krono.enCasual, "+1 day 2 hour", REF_DATE2) {
             assertThat(it.text).isEqualTo("+1 day 2 hour")
             with (it.start) {
@@ -179,7 +179,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `+1m`() {
+    internal fun `+1m`() {
         testSingleCase(Krono.enCasual, "+1m", REF_DATE2) {
             assertThat(it.text).isEqualTo("+1m")
             with (it.start) {
@@ -191,7 +191,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `-3y`() {
+    internal fun `-3y`() {
         testSingleCase(Krono.enCasual, "-3y", "2015-07-10T12:14:00") {
             assertThat(it.text).isEqualTo("-3y")
             with (it.start) {
@@ -206,7 +206,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `-2hr5min`() {
+    internal fun `-2hr5min`() {
         testSingleCase(Krono.enCasual, "-2hr5min", REF_DATE) {
             assertThat(it.text).isEqualTo("-2hr5min")
             with (it.start) {
@@ -220,7 +220,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `with custom parser without abbreviations`() {
+    internal fun `with custom parser without abbreviations`() {
         val custom = Krono(En.strict.copy().apply {
             parsers.add(EnTimeUnitCasualRelativeFormatParser(false))
         })
@@ -241,7 +241,7 @@ internal class EnCasualRelativeTest {
     }
 
     @Test
-    fun `negative cases`() {
+    internal fun `negative cases`() {
         testUnexpectedResult(Krono.enCasual, "3y")
         testUnexpectedResult(Krono.enCasual, "1 m")
         testUnexpectedResult(Krono.enCasual, "the day")

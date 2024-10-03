@@ -237,11 +237,10 @@ class ParsingComponents(
 
                 if (fragments.contains(KronoUnit.Day)) {
                     date.assignSimilarDate(components)
+                } else if (fragments.contains(KronoUnit.Week)) {
+                    date.assignSimilarDate(components)
+                    components.imply(KronoComponents.Weekday, date.dayOfWeek.value)
                 } else {
-                    if (fragments.contains(KronoUnit.Week)) {
-                        components.imply(KronoComponents.Weekday, date.dayOfWeek.value)
-                    }
-
                     components.imply(KronoComponents.Day, date.dayOfMonth)
                     if (fragments.contains(KronoUnit.Month)) {
                         components.assign(KronoComponents.Month, date.monthValue)

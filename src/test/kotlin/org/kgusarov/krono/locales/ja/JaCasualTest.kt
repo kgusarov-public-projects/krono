@@ -12,7 +12,7 @@ import java.util.stream.Stream
 internal class JaCasualTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, expectedText: String, expectedDate: String) {
+    internal fun `single expression`(text: String, refDate: String, expectedText: String, expectedDate: String) {
         testSingleCase(Krono.jaCasual, text, refDate) {
             assertThat(it.text).isEqualTo(expectedText)
             it.start.assertDate(expectedDate)

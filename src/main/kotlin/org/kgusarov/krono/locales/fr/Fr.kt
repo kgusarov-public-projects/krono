@@ -1,6 +1,7 @@
 package org.kgusarov.krono.locales.fr
 
 import org.kgusarov.krono.KronoDecimalTimeUnits
+import org.kgusarov.krono.extensions.safeParseBigDecimal
 import org.kgusarov.krono.extensions.safeParseInt
 import java.math.BigDecimal
 
@@ -18,14 +19,14 @@ object Fr {
 private val SOME = Regex("quelques?", RegexOption.IGNORE_CASE)
 private val HALF = Regex("demi-?", RegexOption.IGNORE_CASE)
 
-internal fun parseNumberPattern(match: String): BigDecimal {
+internal fun parseNumberPattern(match: String): BigDecimal? {
     val num = match.lowercase()
     return when {
         FrConstants.INTEGER_WORD_DICTIONARY[num] != null -> FrConstants.INTEGER_WORD_DICTIONARY[num]!!.toBigDecimal()
         num == "un" || num == "une" -> BigDecimal.ONE
         num.contains(SOME) -> BigDecimal(3)
         num.contains(HALF) -> BigDecimal(0.5)
-        else -> num.toBigDecimal()
+        else -> num.safeParseBigDecimal()
     }
 }
 

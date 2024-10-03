@@ -14,14 +14,14 @@ import java.util.stream.Stream
 internal class PtCasualTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, expectedDate: String) {
+    internal fun `single expression`(text: String, refDate: String, expectedDate: String) {
         testSingleCase(Krono.ptCasual, text, refDate) {
             it.start.assertDate(expectedDate)
         }
     }
     
     @Test
-    fun `random negative text`() {
+    internal fun `random negative text`() {
         testUnexpectedResult(Krono.ptCasual, "naohoje")
         testUnexpectedResult(Krono.ptCasual, "hyamanhã")
         testUnexpectedResult(Krono.ptCasual, "xontem")
@@ -30,7 +30,7 @@ internal class PtCasualTest {
     }
 
     @Test
-    fun `combined expression`() {
+    internal fun `combined expression`() {
         testSingleCase(Krono.ptCasual, "O prazo é hoje às 5PM", "2012-08-10T12:00:00") {
             assertThat(it.text).isEqualTo("hoje às 5PM")
             assertThat(it.index).isEqualTo(10)
@@ -48,7 +48,7 @@ internal class PtCasualTest {
 
     @ParameterizedTest
     @MethodSource("randomTextArgs")
-    fun `random text`(text: String, refDate: String, expectedDate: String) {
+    internal fun `random text`(text: String, refDate: String, expectedDate: String) {
         testSingleCase(Krono.ptCasual, text, refDate) {
             it.start.assertDate(expectedDate)
         }

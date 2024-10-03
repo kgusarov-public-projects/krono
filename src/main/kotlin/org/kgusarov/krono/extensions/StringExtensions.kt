@@ -1,5 +1,6 @@
 package org.kgusarov.krono.extensions
 
+import java.math.BigDecimal
 import kotlin.math.min
 
 operator fun String?.not() = isNullOrEmpty()
@@ -10,6 +11,16 @@ fun String.substr(
 ) = substring(index, min(this.length, index + length))
 
 fun String.safeSubstring(startIndex: Int) = if (startIndex < this.length) this.substring(startIndex) else ""
+
+fun String.safeParseBigDecimal(): BigDecimal? {
+    val trimmed = this.trim()
+
+    return try {
+        trimmed.toBigDecimal()
+    } catch (_: NumberFormatException) {
+        null
+    }
+}
 
 fun String.safeParseInt(): Int? {
     val trimmed = this.trim()

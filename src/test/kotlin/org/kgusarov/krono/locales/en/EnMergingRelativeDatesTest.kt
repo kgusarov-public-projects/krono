@@ -10,7 +10,7 @@ private const val REF_DATE = "2022-02-02T00:00:00"
 
 internal class EnMergingRelativeDatesTest {
     @Test
-    fun `2 weeks after yesterday`() {
+    internal fun `2 weeks after yesterday`() {
         testSingleCase(Krono.enCasual, "2 weeks after yesterday", REF_DATE) {
             assertThat(it.text).isEqualTo("2 weeks after yesterday")
 
@@ -20,10 +20,9 @@ internal class EnMergingRelativeDatesTest {
                 assertThat(day()).isEqualTo(15)
                 assertThat(weekday()).isEqualTo(2)
 
-                assertThat(certainDay()).isFalse
-                assertThat(certainMonth()).isFalse
-                assertThat(certainYear()).isFalse
-                assertThat(certainWeekday()).isFalse
+                assertThat(certainDay()).isTrue
+                assertThat(certainMonth()).isTrue
+                assertThat(certainYear()).isTrue
 
                 assertDate("2022-02-15T00:00:00")
             }
@@ -31,7 +30,7 @@ internal class EnMergingRelativeDatesTest {
     }
 
     @Test
-    fun `2 months before 2nd February`() {
+    internal fun `2 months before 2nd February`() {
         testSingleCase(Krono.enCasual, "2 months before 02/02", REF_DATE) {
             assertThat(it.text).isEqualTo("2 months before 02/02")
 
@@ -50,7 +49,7 @@ internal class EnMergingRelativeDatesTest {
     }
 
     @Test
-    fun `2 days after next friday`() {
+    internal fun `2 days after next friday`() {
         testSingleCase(Krono.enCasual, "2 days after next Friday", REF_DATE) {
             assertThat(it.text).isEqualTo("2 days after next Friday")
 

@@ -6,7 +6,7 @@ import org.kgusarov.krono.KronoDate
 
 internal class KronoDateExtensionsKtTest {
     @Test
-    fun addInvalidUnit() {
+    internal fun addInvalidUnit() {
         val date = KronoDate.parse("2010-12-13T00:00:00")
         assertThat(date.add("unknown", 100)).isEqualTo(date)
     }

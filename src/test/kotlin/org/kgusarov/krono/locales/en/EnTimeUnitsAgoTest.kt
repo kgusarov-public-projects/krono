@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.kgusarov.krono.Krono
+import org.kgusarov.krono.ParsingOption
 import org.kgusarov.krono.testUnexpectedResult
 import org.kgusarov.krono.testWithExpectedDate
 import java.util.stream.Stream
@@ -12,7 +13,7 @@ import java.util.stream.Stream
 internal class EnTimeUnitsAgoTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(
+    internal fun `single expression`(
         text: String,
         refDate: String,
         expectedDate: String
@@ -27,7 +28,7 @@ internal class EnTimeUnitsAgoTest {
 
     @ParameterizedTest
     @MethodSource("singleExpressionCasualArgs")
-    fun `single expression - casual`(
+    internal fun `single expression - casual`(
         text: String,
         refDate: String,
         expectedDate: String
@@ -42,7 +43,7 @@ internal class EnTimeUnitsAgoTest {
 
     @ParameterizedTest
     @MethodSource("nestedTimeAgoArgs")
-    fun `nested time ago`(
+    internal fun `nested time ago`(
         text: String,
         refDate: String,
         expectedDate: String
@@ -57,7 +58,7 @@ internal class EnTimeUnitsAgoTest {
 
     @ParameterizedTest
     @MethodSource("beforeWithReferenceArgs")
-    fun `before with reference`(
+    internal fun `before with reference`(
         text: String,
         refDate: String,
         expectedDate: String
@@ -71,7 +72,7 @@ internal class EnTimeUnitsAgoTest {
     }
 
     @Test
-    fun `negative cases`() {
+    internal fun `negative cases`() {
         testUnexpectedResult(Krono.enStrict, "5m ago")
         testUnexpectedResult(Krono.enStrict, "5hr before")
         testUnexpectedResult(Krono.enStrict, "5 h ago")
@@ -82,12 +83,50 @@ internal class EnTimeUnitsAgoTest {
     }
 
     @Test
-    fun `strict mode`() {
+    internal fun `strict mode`() {
         testWithExpectedDate(
             Krono.enStrict,
             "5 minutes ago",
             "2012-08-10T12:14:00",
             "2012-08-10T12:09:00",
+        )
+    }
+
+    @Test
+    internal fun `forward date`() {
+        val refDate = "2024-09-10T12:00:00"
+        val parsingOption = ParsingOption(forwardDate = true)
+
+        testWithExpectedDate(
+            Krono.enCasual,
+            "2 days ago",
+            refDate,
+            "2024-09-08T12:00:00",
+            parsingOption,
+        )
+
+        testWithExpectedDate(
+            Krono.enCasual,
+            "2 weeks ago",
+            refDate,
+            "2024-08-27T12:00:00",
+            parsingOption,
+        )
+
+        testWithExpectedDate(
+            Krono.enCasual,
+            "2 months ago",
+            refDate,
+            "2024-07-10T12:00:00",
+            parsingOption,
+        )
+
+        testWithExpectedDate(
+            Krono.enCasual,
+            "2 years ago",
+            refDate,
+            "2022-09-10T12:00:00",
+            parsingOption,
         )
     }
 

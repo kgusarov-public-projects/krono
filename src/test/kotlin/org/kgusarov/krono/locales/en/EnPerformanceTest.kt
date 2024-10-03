@@ -7,7 +7,7 @@ import org.kgusarov.krono.measureTime
 
 internal class EnPerformanceTest {
     @Test
-    fun `benchmarking against whitespace backtracking`() {
+    internal fun `benchmarking against whitespace backtracking`() {
         val str = "BGR3                                                                                         " +
             "                                                                                        186          " +
             "                                      days                                                           " +

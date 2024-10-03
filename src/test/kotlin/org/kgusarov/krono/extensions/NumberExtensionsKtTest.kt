@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 @Suppress("KotlinConstantConditions")
 internal class NumberExtensionsKtTest {
     @Test
-    fun plus() {
+    internal fun plus() {
         var num: Int? = null
         assertThat(num + 12).isEqualTo(12)
 
@@ -15,7 +15,7 @@ internal class NumberExtensionsKtTest {
     }
 
     @Test
-    fun minus() {
+    internal fun minus() {
         var num: Int? = null
         assertThat(num - 12).isEqualTo(-12)
 
@@ -24,7 +24,7 @@ internal class NumberExtensionsKtTest {
     }
 
     @Test
-    fun unaryMinus() {
+    internal fun unaryMinus() {
         var num: Int? = null
         assertThat(-num).isEqualTo(-0)
 
@@ -33,7 +33,7 @@ internal class NumberExtensionsKtTest {
     }
 
     @Test
-    fun compareTo() {
+    internal fun compareTo() {
         var num: Int? = null
         assertThat(num < 12).isTrue()
         assertThat(num > 12).isFalse()

@@ -7,21 +7,21 @@ import java.time.Duration
 
 internal class DurationExtensionsKtTest {
     @Test
-    fun `multiply duration by zero`() {
+    internal fun `multiply duration by zero`() {
         val duration = Duration.ofSeconds(60)
         val result = duration.multipliedBy(BigDecimal.ZERO)
         assertThat(result).isEqualTo(Duration.ZERO)
     }
 
     @Test
-    fun `multiply duration by one`() {
+    internal fun `multiply duration by one`() {
         val duration = Duration.ofSeconds(60)
         val result = duration.multipliedBy(BigDecimal.ONE)
         assertThat(result).isEqualTo(duration)
     }
 
     @Test
-    fun `multiply duration by positive BigDecimal`() {
+    internal fun `multiply duration by positive BigDecimal`() {
         val duration = Duration.ofSeconds(60)
         val multiplier = BigDecimal("1.5")
         val result = duration.multipliedBy(multiplier)
@@ -29,7 +29,7 @@ internal class DurationExtensionsKtTest {
     }
 
     @Test
-    fun `multiply duration by negative BigDecimal`() {
+    internal fun `multiply duration by negative BigDecimal`() {
         val duration = Duration.ofSeconds(60)
         val multiplier = BigDecimal("-1.5")
         val result = duration.multipliedBy(multiplier)

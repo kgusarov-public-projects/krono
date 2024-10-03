@@ -13,7 +13,7 @@ import java.util.stream.Stream
 
 internal class EsCasualTest {
     @Test
-    fun `random negative text`() {
+    internal fun `random negative text`() {
         testUnexpectedResult(Krono.esCasual, "nohoy")
         testUnexpectedResult(Krono.esCasual, "hymañana")
         testUnexpectedResult(Krono.esCasual, "xayer")
@@ -23,14 +23,14 @@ internal class EsCasualTest {
 
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, expectedDate: String) {
+    internal fun `single expression`(text: String, refDate: String, expectedDate: String) {
         testSingleCase(Krono.esCasual, text, refDate) {
             it.start.assertDate(expectedDate)
         }
     }
 
     @Test
-    fun `combined expression`() {
+    internal fun `combined expression`() {
         testSingleCase(Krono.esCasual, "La fecha límite es hoy a las 5PM", "2012-08-10T12:00:00") {
             assertThat(it.text).isEqualTo("hoy a las 5PM")
             assertThat(it.index).isEqualTo(19)
@@ -48,7 +48,7 @@ internal class EsCasualTest {
 
     @ParameterizedTest
     @MethodSource("randomTextArgs")
-    fun `random text`(text: String, refDate: String, expectedDate: String) {
+    internal fun `random text`(text: String, refDate: String, expectedDate: String) {
         testSingleCase(Krono.esCasual, text, refDate) {
             it.start.assertDate(expectedDate)
         }
@@ -65,7 +65,6 @@ internal class EsCasualTest {
             Arguments.of("La fecha límite fue ayer de noche", "2012-08-10T12:00", "2012-08-09T22:00"),
             Arguments.of("La fecha límite fue esta mañana", "2012-08-10T12:00", "2012-08-10T06:00"),
             Arguments.of("La fecha límite fue esta tarde", "2012-08-10T12:00", "2012-08-10T15:00"),
-
         )
 
         @JvmStatic

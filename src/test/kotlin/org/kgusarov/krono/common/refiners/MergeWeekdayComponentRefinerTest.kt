@@ -12,11 +12,11 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
-class MergeWeekdayComponentRefinerTest {
+internal class MergeWeekdayComponentRefinerTest {
     private val refiner = MergeWeekdayComponentRefiner()
 
     @Test
-    fun `should merge results when weekday then normal date`(@Mock context: ParsingContext) {
+    internal fun `should merge results when weekday then normal date`(@Mock context: ParsingContext) {
         val currentResult = TestParsedResult().apply {
             start.assign(KronoComponents.Weekday, 3)
         }
@@ -32,7 +32,7 @@ class MergeWeekdayComponentRefinerTest {
     }
 
     @Test
-    fun `should not merge results when not weekday then normal date`(@Mock context: ParsingContext) {
+    internal fun `should not merge results when not weekday then normal date`(@Mock context: ParsingContext) {
         val currentResult = TestParsedResult().apply {
             start.assign(KronoComponents.Day, 3)
         }
@@ -48,7 +48,7 @@ class MergeWeekdayComponentRefinerTest {
     }
 
     @Test
-    fun `merge results correctly`(@Mock context: ParsingContext) {
+    internal fun `merge results correctly`(@Mock context: ParsingContext) {
         val currentResult = TestParsedResult().apply {
             index = 5
             text = "Wednesday"

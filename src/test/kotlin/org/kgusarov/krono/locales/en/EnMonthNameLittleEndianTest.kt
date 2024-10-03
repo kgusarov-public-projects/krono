@@ -16,7 +16,7 @@ import java.util.stream.Stream
 internal class EnMonthNameLittleEndianTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(
+    internal fun `single expression`(
         text: String,
         refDate: String,
         expectedDate: String,
@@ -31,7 +31,7 @@ internal class EnMonthNameLittleEndianTest {
 
     @ParameterizedTest
     @MethodSource("singleExpressionWithSeparatorsArgs")
-    fun `single expression with separators`(
+    internal fun `single expression with separators`(
         text: String,
         refDate: String,
         expectedDate: String,
@@ -46,7 +46,7 @@ internal class EnMonthNameLittleEndianTest {
 
     @ParameterizedTest
     @MethodSource("rangeExpressionArgs")
-    fun `range expression`(
+    internal fun `range expression`(
         text: String,
         refDate: String,
         expectedStartDate: String,
@@ -63,7 +63,7 @@ internal class EnMonthNameLittleEndianTest {
 
     @ParameterizedTest
     @MethodSource("combinedExpressionArgs")
-    fun `combined expression`(
+    internal fun `combined expression`(
         text: String,
         refDate: String,
         expectedDate: String,
@@ -77,7 +77,7 @@ internal class EnMonthNameLittleEndianTest {
     }
 
     @Test
-    fun `ordinal words`() {
+    internal fun `ordinal words`() {
         testWithExpectedDate(
             Krono.enCasual,
             "Twenty-fourth of May",
@@ -96,7 +96,7 @@ internal class EnMonthNameLittleEndianTest {
 
     @ParameterizedTest
     @MethodSource("littleEndianFollowedByTimeArgs")
-    fun `little endian followed by time`(
+    internal fun `little endian followed by time`(
         text: String,
         refDate: String,
         expectedDate: String,
@@ -111,7 +111,7 @@ internal class EnMonthNameLittleEndianTest {
 
     @ParameterizedTest
     @MethodSource("year90sParsingArgs")
-    fun `year 90's parsing`(
+    internal fun `year 90's parsing`(
         text: String,
         refDate: String,
         expectedDate: String,
@@ -125,7 +125,7 @@ internal class EnMonthNameLittleEndianTest {
     }
 
     @Test
-    fun `impossible dates - strict mode`() {
+    internal fun `impossible dates - strict mode`() {
         testUnexpectedResult(Krono.enStrict, "32 August 2014", "2012-08-10T00:00:00")
         testUnexpectedResult(Krono.enStrict, "29 February 2014", "2012-08-10T00:00:00")
         testUnexpectedResult(Krono.enStrict, "32 August", "2012-08-10T00:00:00")
@@ -133,7 +133,7 @@ internal class EnMonthNameLittleEndianTest {
     }
 
     @Test
-    fun `forward option`() {
+    internal fun `forward option`() {
         testWithExpectedRange(
             Krono.enCasual,
             "22-23 Feb at 7pm",

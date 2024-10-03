@@ -19,7 +19,7 @@ import java.util.stream.Stream
 
 internal class EnCasualTest {
     @Test
-    fun `random negative text`() {
+    internal fun `random negative text`() {
         testUnexpectedResult(Krono.enCasual, "notoday")
         testUnexpectedResult(Krono.enCasual, "tdtmr")
         testUnexpectedResult(Krono.enCasual, "xyesterday")
@@ -34,7 +34,7 @@ internal class EnCasualTest {
     }
 
     @Test
-    fun `The Deadline is now, without implicit local timezone`() {
+    internal fun `The Deadline is now, without implicit local timezone`() {
         testSingleCase(
             Krono.enCasual,
             "The Deadline is now, without implicit local timezone",
@@ -50,7 +50,7 @@ internal class EnCasualTest {
     }
 
     @Test
-    fun `The Deadline was midnight - forward`() {
+    internal fun `The Deadline was midnight - forward`() {
         testSingleCase(
             Krono.enCasual,
             "The Deadline was midnight",
@@ -66,25 +66,25 @@ internal class EnCasualTest {
 
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, expectedDate: String) {
+    internal fun `single expression`(text: String, refDate: String, expectedDate: String) {
         testWithExpectedDate(Krono.enCasual, text, refDate, expectedDate)
     }
 
     @ParameterizedTest
     @MethodSource("combinedExpressionArgs")
-    fun `combined expression`(text: String, refDate: String, expectedDate: String) {
+    internal fun `combined expression`(text: String, refDate: String, expectedDate: String) {
         testWithExpectedDate(Krono.enCasual, text, refDate, expectedDate)
     }
 
     @ParameterizedTest
     @MethodSource("casualDateRangeArgs")
-    fun `casual date range`(text: String, refDate: String, expectedStartDate: String, expectedEndDate: String) {
+    internal fun `casual date range`(text: String, refDate: String, expectedStartDate: String, expectedEndDate: String) {
         testWithExpectedRange(Krono.enCasual, text, refDate, expectedStartDate, expectedEndDate)
     }
 
     @ParameterizedTest
     @MethodSource("casualTimeImplicationArgs")
-    fun `casual time implication`(text: String, refDate: String, expectedStartDate: String, expectedEndDate: String) {
+    internal fun `casual time implication`(text: String, refDate: String, expectedStartDate: String, expectedEndDate: String) {
         val result = testWithExpectedRange(Krono.enCasual, text, refDate, expectedStartDate, expectedEndDate)
         assertThat(result.start.certainHour()).isFalse()
         assertThat(result.end!!.certainHour()).isFalse()
@@ -92,12 +92,12 @@ internal class EnCasualTest {
 
     @ParameterizedTest
     @MethodSource("randomTextArgs")
-    fun `random text`(text: String, refDate: String, expectedDate: String) {
+    internal fun `random text`(text: String, refDate: String, expectedDate: String) {
         testWithExpectedDate(Krono.enCasual, text, refDate, expectedDate)
     }
 
     @Test
-    fun `casual time with timezone`() {
+    internal fun `casual time with timezone`() {
         testSingleCase(
             Krono.enCasual,
             "Jan 1, 2020 Morning UTC"

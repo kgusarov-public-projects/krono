@@ -14,7 +14,7 @@ import java.util.stream.Stream
 
 internal class EnWeekdayTest {
     @Test
-    fun casualMonday() {
+    internal fun casualMonday() {
         testSingleCase(Krono.enCasual, "Monday", RefDateInputFactory("2012-08-09T00:00:00")) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Monday")
@@ -36,7 +36,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun casualThursday() {
+    internal fun casualThursday() {
         testSingleCase(Krono.enCasual, "Thursday", RefDateInputFactory("2012-08-09T00:00:00")) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Thursday")
@@ -53,7 +53,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun casualSunday() {
+    internal fun casualSunday() {
         testSingleCase(Krono.enCasual, "Sunday", RefDateInputFactory("2012-08-09T00:00:00")) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Sunday")
@@ -70,7 +70,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun lastFriday() {
+    internal fun lastFriday() {
         testSingleCase(
             Krono.enCasual,
             "The Deadline is last Friday...",
@@ -91,7 +91,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun pastFriday() {
+    internal fun pastFriday() {
         testSingleCase(
             Krono.enCasual,
             "The Deadline is past Friday...",
@@ -112,7 +112,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun nextFriday() {
+    internal fun nextFriday() {
         testSingleCase(
             Krono.enCasual,
             "Let's have a meeting on Friday next week",
@@ -133,7 +133,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun nextTuesday() {
+    internal fun nextTuesday() {
         testSingleCase(
             Krono.enCasual,
             "I plan on taking the day off on Tuesday, next week",
@@ -155,7 +155,7 @@ internal class EnWeekdayTest {
 
     @ParameterizedTest
     @MethodSource("guessingArgs")
-    fun guessing(text: String, ref: String, expectedDay: Int, expectedMonth: Int, expectedYear: Int) {
+    internal fun guessing(text: String, ref: String, expectedDay: Int, expectedMonth: Int, expectedYear: Int) {
         testSingleCase(Krono.enCasual, text, ref) {
             with(it.start) {
                 assertThat(day()).isEqualTo(expectedDay)
@@ -166,7 +166,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun weekDayWithCasualTime() {
+    internal fun weekDayWithCasualTime() {
         testSingleCase(Krono.enCasual, "Lets meet on Tuesday morning", "2015-04-18T12:00:00") {
             assertThat(it.index).isEqualTo(10)
             assertThat(it.text).isEqualTo("on Tuesday morning")
@@ -184,7 +184,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun weekdayRangeFriToMon() {
+    internal fun weekdayRangeFriToMon() {
         testSingleCase(Krono.enCasual, "Friday to Monday", "2023-04-09T12:00:00") {
             assertThat(it.end).isNotNull
 
@@ -205,7 +205,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun weekdayRangeMonToFri() {
+    internal fun weekdayRangeMonToFri() {
         testSingleCase(Krono.enCasual, "Monday to Friday", "2023-04-09T12:00:00") {
             assertThat(it.end).isNotNull
 
@@ -226,7 +226,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun weekdayOverlap1() {
+    internal fun weekdayOverlap1() {
         testSingleCase(Krono.enCasual, "Sunday 12/7/2014", "2012-08-09T00:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Sunday 12/7/2014")
@@ -248,7 +248,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun `forward dates - monday`() {
+    internal fun `forward dates - monday`() {
         testSingleCase(
             Krono.enCasual,
             "Monday (forward dates only)",
@@ -275,7 +275,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun `forward dates - this friday to this monday`() {
+    internal fun `forward dates - this friday to this monday`() {
         testSingleCase(
             Krono.enCasual,
             "this Friday to this Monday",
@@ -316,7 +316,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun `forward dates - sunday morning`() {
+    internal fun `forward dates - sunday morning`() {
         testSingleCase(
             Krono.enCasual,
             "sunday morning",
@@ -343,7 +343,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun `forward dates - vacation monday - friday`() {
+    internal fun `forward dates - vacation monday - friday`() {
         testSingleCase(
             Krono.enCasual,
             "vacation monday - friday",
@@ -383,7 +383,7 @@ internal class EnWeekdayTest {
     }
 
     @Test
-    fun `weekday overlap`() {
+    internal fun `weekday overlap`() {
         testSingleCase(Krono.enCasual, "Sunday, December 7, 2014", "2012-08-09T00:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("Sunday, December 7, 2014")

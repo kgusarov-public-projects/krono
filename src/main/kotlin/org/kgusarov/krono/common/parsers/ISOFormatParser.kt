@@ -2,7 +2,6 @@ package org.kgusarov.krono.common.parsers
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.ComponentsInputFactory
-import org.kgusarov.krono.KronoComponent
 import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.ParserResult
 import org.kgusarov.krono.ParserResultFactory
@@ -18,42 +17,52 @@ class ISOFormatParser : AbstractParserWithWordBoundaryChecking() {
         context: ParsingContext,
         match: RegExpMatchArray,
     ): ParserResult {
-        val components = mutableMapOf<KronoComponent, Int>()
-        components[KronoComponents.Year] = match.getInt(YEAR_NUMBER_GROUP)
-        components[KronoComponents.Month] = match.getInt(MONTH_NUMBER_GROUP)
-        components[KronoComponents.Day] = match.getInt(DATE_NUMBER_GROUP)
+        val components =
+            context.createParsingComponents(
+                ComponentsInputFactory(
+                    mapOf(
+                        KronoComponents.Year to match.getInt(YEAR_NUMBER_GROUP),
+                        KronoComponents.Month to match.getInt(MONTH_NUMBER_GROUP),
+                        KronoComponents.Day to match.getInt(DATE_NUMBER_GROUP),
+                    ),
+                ),
+            )
 
         if (!match[HOUR_NUMBER_GROUP].isNullOrEmpty()) {
-            components[KronoComponents.Hour] = match.getInt(HOUR_NUMBER_GROUP)
-            components[KronoComponents.Minute] = match.getInt(MINUTE_NUMBER_GROUP)
+            components.assign(KronoComponents.Hour, match.getInt(HOUR_NUMBER_GROUP))
+            components.assign(KronoComponents.Minute, match.getInt(MINUTE_NUMBER_GROUP))
 
             if (!match[SECOND_NUMBER_GROUP].isNullOrEmpty()) {
-                components[KronoComponents.Second] = match.getInt(SECOND_NUMBER_GROUP)
+                components.assign(KronoComponents.Second, match.getInt(SECOND_NUMBER_GROUP))
             }
 
             if (!match[MILLISECOND_NUMBER_GROUP].isNullOrEmpty()) {
-                components[KronoComponents.Millisecond] = match.getInt(MILLISECOND_NUMBER_GROUP)
+                components.assign(KronoComponents.Millisecond, match.getInt(MILLISECOND_NUMBER_GROUP))
             }
 
-            if (!match[TZD_HOUR_OFFSET_GROUP].isNullOrEmpty()) {
-                val hourOffset = match.getInt(TZD_HOUR_OFFSET_GROUP)
-                val minuteOffset = match.getInt(TZD_MINUTE_OFFSET_GROUP)
+            if (!match[TZD_GROUP].isNullOrEmpty()) {
+                var offset = 0L
+                if (!match[TZD_HOUR_OFFSET_GROUP].isNullOrEmpty()) {
+                    val hourOffset = match.getInt(TZD_HOUR_OFFSET_GROUP)
+                    var minuteOffset = 0
 
-                val offset =
-                    TimeUnit.HOURS.toSeconds(hourOffset.toLong()) +
-                        if (hourOffset >= 0) {
-                            TimeUnit.MINUTES.toSeconds(minuteOffset.toLong())
-                        } else {
-                            -TimeUnit.MINUTES.toSeconds(minuteOffset.toLong())
-                        }
+                    if (!match[TZD_MINUTE_OFFSET_GROUP].isNullOrEmpty()) {
+                        minuteOffset = match.getInt(TZD_MINUTE_OFFSET_GROUP)
+                    }
 
-                components[KronoComponents.Offset] = offset.toInt()
-            } else {
-                components[KronoComponents.Offset] = 0
+                    offset = TimeUnit.HOURS.toSeconds(hourOffset.toLong())
+                    if (offset < 0) {
+                        offset -= TimeUnit.MINUTES.toSeconds(minuteOffset.toLong())
+                    } else {
+                        offset += TimeUnit.MINUTES.toSeconds(minuteOffset.toLong())
+                    }
+                }
+
+                components.assign(KronoComponents.Offset, offset.toInt())
             }
         }
 
-        return ParserResultFactory(ComponentsInputFactory(components))
+        return ParserResultFactory(ComponentsInputFactory(components.addTag("parser/ISOFormatParser")))
     }
 
     @Suppress("RegExpRedundantEscape", "RegExpSimplifiable")
@@ -67,7 +76,7 @@ class ISOFormatParser : AbstractParserWithWordBoundaryChecking() {
                     "(?:" +
                     ":([0-9]{1,2})(?:\\.(\\d{1,4}))?" +
                     ")?" +
-                    "(?:" +
+                    "(" +
                     "Z|([+-]\\d{2}):?(\\d{2})?" +
                     ")?" +
                     ")?" +
@@ -82,7 +91,8 @@ class ISOFormatParser : AbstractParserWithWordBoundaryChecking() {
         const val MINUTE_NUMBER_GROUP = 5
         const val SECOND_NUMBER_GROUP = 6
         const val MILLISECOND_NUMBER_GROUP = 7
-        const val TZD_HOUR_OFFSET_GROUP = 8
-        const val TZD_MINUTE_OFFSET_GROUP = 9
+        const val TZD_GROUP = 8
+        const val TZD_HOUR_OFFSET_GROUP = 9
+        const val TZD_MINUTE_OFFSET_GROUP = 10
     }
 }

@@ -10,12 +10,12 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
-class OverlapRemovalRefinerTest {
+internal class OverlapRemovalRefinerTest {
 
     private val refiner = OverlapRemovalRefiner()
 
     @Test
-    fun `should remove overlapping results out of order`(@Mock context: ParsingContext) {
+    internal fun `should remove overlapping results out of order`(@Mock context: ParsingContext) {
         val result1 = TestParsedResult().apply {
             index = 0
             text = "2023-10-05"
@@ -37,7 +37,7 @@ class OverlapRemovalRefinerTest {
     }
 
     @Test
-    fun `should remove overlapping results in order`(@Mock context: ParsingContext) {
+    internal fun `should remove overlapping results in order`(@Mock context: ParsingContext) {
         val result1 = TestParsedResult().apply {
             index = 0
             text = "2023-10-05"
@@ -59,7 +59,7 @@ class OverlapRemovalRefinerTest {
     }
 
     @Test
-    fun `should keep non-overlapping results`(@Mock context: ParsingContext) {
+    internal fun `should keep non-overlapping results`(@Mock context: ParsingContext) {
         val result1 = TestParsedResult().apply {
             index = 0
             text = "2023-10-05"
@@ -77,7 +77,7 @@ class OverlapRemovalRefinerTest {
     }
 
     @Test
-    fun `should handle single result`(@Mock context: ParsingContext) {
+    internal fun `should handle single result`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05"
@@ -91,7 +91,7 @@ class OverlapRemovalRefinerTest {
     }
 
     @Test
-    fun `should handle empty results`(@Mock context: ParsingContext) {
+    internal fun `should handle empty results`(@Mock context: ParsingContext) {
         val results = mutableListOf<ParsedResult>()
         val refinedResults = refiner.invoke(context, results)
 

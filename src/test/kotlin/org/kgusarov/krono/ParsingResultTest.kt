@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 internal class ParsingResultTest {
     @Test
-    fun `create and manipulate parsing results`() {
+    internal fun `create and manipulate parsing results`() {
         val reference = ReferenceWithTimezone()
         val text = "1 - 2 hour later"
 

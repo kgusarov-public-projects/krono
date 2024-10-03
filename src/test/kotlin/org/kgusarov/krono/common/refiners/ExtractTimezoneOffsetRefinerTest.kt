@@ -14,12 +14,12 @@ import org.mockito.Mockito.doReturn
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
-class ExtractTimezoneOffsetRefinerTest {
+internal class ExtractTimezoneOffsetRefinerTest {
 
     private val refiner = ExtractTimezoneOffsetRefiner()
 
     @Test
-    fun `extract timezone offset`(@Mock context: ParsingContext) {
+    internal fun `extract timezone offset`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -45,7 +45,7 @@ class ExtractTimezoneOffsetRefinerTest {
     }
 
     @Test
-    fun `do not extract invalid timezone offset`(@Mock context: ParsingContext) {
+    internal fun `do not extract invalid timezone offset`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -71,7 +71,7 @@ class ExtractTimezoneOffsetRefinerTest {
     }
 
     @Test
-    fun `extract negative timezone offset`(@Mock context: ParsingContext) {
+    internal fun `extract negative timezone offset`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -97,7 +97,7 @@ class ExtractTimezoneOffsetRefinerTest {
     }
 
     @Test
-    fun `do not extract timezone offset when already certain`(@Mock context: ParsingContext) {
+    internal fun `do not extract timezone offset when already certain`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -122,7 +122,7 @@ class ExtractTimezoneOffsetRefinerTest {
     }
 
     @Test
-    fun `extract timezone offset with different format`(@Mock context: ParsingContext) {
+    internal fun `extract timezone offset with different format`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -150,7 +150,7 @@ class ExtractTimezoneOffsetRefinerTest {
     }
 
     @Test
-    fun `extract timezone offset at limit`(@Mock context: ParsingContext) {
+    internal fun `extract timezone offset at limit`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"

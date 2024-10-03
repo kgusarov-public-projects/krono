@@ -12,7 +12,7 @@ import java.util.stream.Stream
 internal class JaStandardTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, index: Int, expectedText: String, expectedDate: String) {
+    internal fun `single expression`(text: String, refDate: String, index: Int, expectedText: String, expectedDate: String) {
         testSingleCase(Krono.jaStrict, text, refDate) {
             assertThat(it.text).isEqualTo(expectedText)
             assertThat(it.index).isEqualTo(index)
@@ -22,7 +22,7 @@ internal class JaStandardTest {
 
     @ParameterizedTest
     @MethodSource("rangeExpressionArgs")
-    fun `range expression`(
+    internal fun `range expression`(
         text: String,
         refDate: String,
         index: Int,

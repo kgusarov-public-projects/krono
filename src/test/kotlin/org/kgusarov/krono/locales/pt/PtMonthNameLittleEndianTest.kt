@@ -13,7 +13,7 @@ import java.util.stream.Stream
 internal class PtMonthNameLittleEndianTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, expectedDate: String) {
+    internal fun `single expression`(text: String, refDate: String, expectedDate: String) {
         testSingleCase(Krono.ptCasual, text, refDate) {
             it.start.assertDate(expectedDate)
         }
@@ -21,7 +21,7 @@ internal class PtMonthNameLittleEndianTest {
 
     @ParameterizedTest
     @MethodSource("rangeExpressionArgs")
-    fun `range expression`(
+    internal fun `range expression`(
         text: String,
         refDate: String,
         expectedStartDate: String,
@@ -34,14 +34,14 @@ internal class PtMonthNameLittleEndianTest {
     }
     
     @Test
-    fun `impossible dates in strict mode`() {
+    internal fun `impossible dates in strict mode`() {
         testUnexpectedResult(Krono.ptStrict, "32 Agosto 2014")
         testUnexpectedResult(Krono.ptStrict, "29 Fevereiro 2014")
         testUnexpectedResult(Krono.ptStrict, "32 Agosto")
     }
 
     @Test
-    fun `combined expression`() {
+    internal fun `combined expression`() {
         testSingleCase(Krono.ptCasual, "12 de Julho às 19:00", "2012-07-10T00:00:00") {
             it.start.assertDate("2012-07-12T19:00:00")
         }

@@ -80,7 +80,7 @@ interface ParsedComponents {
 
     fun onlyDate() = !certainHour() && !certainMinute() && !certainSecond()
 
-    fun onlyTime() = !certainWeekday() && !certainDay() && !certainMonth()
+    fun onlyTime() = !certainWeekday() && !certainDay() && !certainMonth() && !certainYear()
 
     fun onlyWeekday() = certainWeekday() && !certainDay() && !certainMonth()
 

@@ -18,7 +18,7 @@ internal class JaCasualDateParserTest {
         "けさ, 今朝",
         "unknown, unknown"
     )
-    fun `normalize text to Kanji`(input: String, expected: String) {
+    internal fun `normalize text to Kanji`(input: String, expected: String) {
         val result = JaCasualDateParser.normalizeTextToKanji(input)
         assertThat(result).isEqualTo(expected)
     }

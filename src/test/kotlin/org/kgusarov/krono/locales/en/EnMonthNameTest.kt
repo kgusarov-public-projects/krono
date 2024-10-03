@@ -17,7 +17,7 @@ private const val REF_DATE_2012_08_10 = "2012-08-10T00:00:00"
 
 internal class EnMonthNameTest {
     @Test
-    fun `month-year - September 2012`() {
+    internal fun `month-year - September 2012`() {
         testSingleCase(Krono.enCasual, "September 2012", RefDateInputFactory(KronoDate.now())) {
             assertThat(it.text).isEqualTo("September 2012")
 
@@ -36,7 +36,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month-year - Sept 2012`() {
+    internal fun `month-year - Sept 2012`() {
         testSingleCase(Krono.enCasual, "Sept 2012", RefDateInputFactory(KronoDate.now())) {
             assertThat(it.text).isEqualTo("Sept 2012")
 
@@ -55,7 +55,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month-year - Sep 2012`() {
+    internal fun `month-year - Sep 2012`() {
         testSingleCase(Krono.enCasual, "Sep 2012", RefDateInputFactory(KronoDate.now())) {
             assertThat(it.text).isEqualTo("Sep 2012")
 
@@ -74,7 +74,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month-year - Sep-dot-2012`() {
+    internal fun `month-year - Sep-dot-2012`() {
         testSingleCase(Krono.enCasual, "Sep. 2012", RefDateInputFactory(KronoDate.now())) {
             assertThat(it.text).isEqualTo("Sep. 2012")
 
@@ -93,7 +93,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month-year - Sep-2012`() {
+    internal fun `month-year - Sep-2012`() {
         testSingleCase(Krono.enCasual, "Sep-2012", RefDateInputFactory(KronoDate.now())) {
             assertThat(it.text).isEqualTo("Sep-2012")
 
@@ -112,7 +112,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month-year - complex phrase`() {
+    internal fun `month-year - complex phrase`() {
         testSingleCase(
             Krono.enCasual,
             "Statement of comprehensive income for the year ended Dec. 2021",
@@ -135,7 +135,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month only - in January`() {
+    internal fun `month only - in January`() {
         testSingleCase(Krono.enCasual, "In January", REF_DATE_2020_11_22) {
             assertThat(it.text).isEqualTo("January")
 
@@ -154,7 +154,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month only - in Jan`() {
+    internal fun `month only - in Jan`() {
         testSingleCase(Krono.enCasual, "in Jan", REF_DATE_2020_11_22) {
             assertThat(it.text).isEqualTo("Jan")
 
@@ -173,7 +173,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month only - May`() {
+    internal fun `month only - May`() {
         testSingleCase(Krono.enCasual, "May", REF_DATE_2020_11_22) {
             assertThat(it.text).isEqualTo("May")
 
@@ -192,7 +192,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month only - From December to May 2020`() {
+    internal fun `month only - From December to May 2020`() {
         testSingleCase(Krono.enCasual, "From December to May 2020", REF_DATE_2023_04_09) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2019)
@@ -207,7 +207,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month only - From December to May 2025`() {
+    internal fun `month only - From December to May 2025`() {
         testSingleCase(Krono.enCasual, "From December to May 2025", REF_DATE_2023_04_09) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2024)
@@ -222,7 +222,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `from May to December`() {
+    internal fun `from May to December`() {
         testSingleCase(Krono.enCasual, "From May to December", REF_DATE_2023_04_09) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -237,7 +237,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `from December to May`() {
+    internal fun `from December to May`() {
         testSingleCase(Krono.enCasual, "From December to May", REF_DATE_2023_04_09) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2022)
@@ -252,7 +252,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `from May to December 2022`() {
+    internal fun `from May to December 2022`() {
         testSingleCase(Krono.enCasual, "From May to December, 2022", REF_DATE_2023_04_09) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2022)
@@ -267,7 +267,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `from December to May 2022`() {
+    internal fun `from December to May 2022`() {
         testSingleCase(Krono.enCasual, "From December to May 2022", REF_DATE_2023_04_09) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2021)
@@ -282,7 +282,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `forward - in December`() {
+    internal fun `forward - in December`() {
         testSingleCase(Krono.enCasual, "in December", REF_DATE_2023_04_09, ParsingOption(forwardDate = true)) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -292,7 +292,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `forward - in May`() {
+    internal fun `forward - in May`() {
         testSingleCase(Krono.enCasual, "in May", REF_DATE_2023_04_09, ParsingOption(forwardDate = true)) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -302,7 +302,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `forward - From May to December`() {
+    internal fun `forward - From May to December`() {
         testSingleCase(Krono.enCasual, "From May to December", REF_DATE_2023_04_09, ParsingOption(forwardDate = true)) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -317,7 +317,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `forward - From December to May`() {
+    internal fun `forward - From December to May`() {
         testSingleCase(Krono.enCasual, "From December to May", REF_DATE_2023_04_09, ParsingOption(forwardDate = true)) {
             with(it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -332,7 +332,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `complex context Sep 2012`() {
+    internal fun `complex context Sep 2012`() {
         testSingleCase(Krono.enCasual, "The date is Sep 2012 is the date", KronoDate.now()) {
             assertThat(it.index).isEqualTo(12)
             assertThat(it.text).isEqualTo("Sep 2012")
@@ -347,7 +347,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `complex context November 2019`() {
+    internal fun `complex context November 2019`() {
         testSingleCase(Krono.enCasual, "By Angie Mar November 2019", KronoDate.now()) {
             assertThat(it.text).isEqualTo("November 2019")
 
@@ -361,7 +361,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month slash - 9-2012`() {
+    internal fun `month slash - 9-2012`() {
         testSingleCase(Krono.enCasual, "9/2012", REF_DATE_2012_08_10) {
             assertThat(it.text).isEqualTo("9/2012")
             assertThat(it.index).isEqualTo(0)
@@ -376,7 +376,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month slash - 09-2012`() {
+    internal fun `month slash - 09-2012`() {
         testSingleCase(Krono.enCasual, "09/2012", REF_DATE_2012_08_10) {
             assertThat(it.text).isEqualTo("09/2012")
             assertThat(it.index).isEqualTo(0)
@@ -391,7 +391,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `90s parsing - Aug 96`() {
+    internal fun `90s parsing - Aug 96`() {
         testSingleCase(Krono.enCasual, "Aug 96", REF_DATE_2012_08_10) {
             assertThat(it.text).isEqualTo("Aug 96")
 
@@ -403,7 +403,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `90s parsing - 96 Aug 96`() {
+    internal fun `90s parsing - 96 Aug 96`() {
         testSingleCase(Krono.enCasual, "Aug 96", REF_DATE_2012_08_10) {
             assertThat(it.text).isEqualTo("Aug 96")
 
@@ -415,7 +415,7 @@ internal class EnMonthNameTest {
     }
 
     @Test
-    fun `month should not have timezone`() {
+    internal fun `month should not have timezone`() {
         testSingleCase(
             Krono.enCasual,
             "People visiting Buñol towards the end of August get a good chance to participate in La Tomatina (under normal circumstances)",

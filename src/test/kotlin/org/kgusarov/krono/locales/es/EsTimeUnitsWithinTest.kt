@@ -11,7 +11,7 @@ import org.kgusarov.krono.testSingleCase
 
 internal class EsTimeUnitsWithinTest {
     @Test
-    fun `en 5 días`() {
+    internal fun `en 5 días`() {
         testSingleCase(Krono.esCasual, "Tenemos que hacer algo en 5 días.", "2012-08-10T00:00:00") {
             assertThat(it.index).isEqualTo(23)
             assertThat(it.text).isEqualTo("en 5 días")
@@ -23,7 +23,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en cinco días`() {
+    internal fun `en cinco días`() {
         testSingleCase(Krono.esCasual, "Tenemos que hacer algo en cinco días.", "2012-08-10T00:00:00") {
             assertThat(it.index).isEqualTo(23)
             assertThat(it.text).isEqualTo("en cinco días")
@@ -35,7 +35,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en 5 minutos - case 1`() {
+    internal fun `en 5 minutos - case 1`() {
         testSingleCase(Krono.esCasual, "en 5 minutos", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("en 5 minutos")
@@ -47,7 +47,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `por 5 minutos`() {
+    internal fun `por 5 minutos`() {
         testSingleCase(Krono.esCasual, "por 5 minutos", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("por 5 minutos")
@@ -59,7 +59,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en 1 hora`() {
+    internal fun `en 1 hora`() {
         testSingleCase(Krono.esCasual, "en 1 hora", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("en 1 hora")
@@ -71,7 +71,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `de 5 minutos`() {
+    internal fun `de 5 minutos`() {
         testSingleCase(Krono.esCasual, "establecer un temporizador de 5 minutos", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(27)
             assertThat(it.text).isEqualTo("de 5 minutos")
@@ -83,7 +83,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en 5 minutos - case 2`() {
+    internal fun `en 5 minutos - case 2`() {
         testSingleCase(Krono.esCasual, "En 5 minutos me voy a casa", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("En 5 minutos")
@@ -95,7 +95,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en 5 segundos`() {
+    internal fun `en 5 segundos`() {
         testSingleCase(Krono.esCasual, "En 5 segundos un auto se moverá.", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("En 5 segundos")
@@ -107,7 +107,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en dos semanas`() {
+    internal fun `en dos semanas`() {
         testSingleCase(Krono.esCasual, "en dos semanas", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("en dos semanas")
@@ -119,7 +119,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `dentro de un mes`() {
+    internal fun `dentro de un mes`() {
         testSingleCase(Krono.esCasual, "dentro de un mes", "2012-08-10T07:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("dentro de un mes")
@@ -131,7 +131,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en algunos meses`() {
+    internal fun `en algunos meses`() {
         testSingleCase(Krono.esCasual, "en algunos meses", "2012-07-10T22:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("en algunos meses")
@@ -143,7 +143,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en un año`() {
+    internal fun `en un año`() {
         testSingleCase(Krono.esCasual, "en un año", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("en un año")
@@ -155,7 +155,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `dentro de un año`() {
+    internal fun `dentro de un año`() {
         testSingleCase(Krono.esCasual, "dentro de un año", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("dentro de un año")
@@ -167,7 +167,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en 5 minutos - case 3`() {
+    internal fun `en 5 minutos - case 3`() {
         testSingleCase(Krono.esCasual, "En 5 Minutos hay que mover un coche", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("En 5 Minutos")
@@ -179,7 +179,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en 5 minutos - case 4`() {
+    internal fun `en 5 minutos - case 4`() {
         testSingleCase(Krono.esCasual, "En 5 minutos hay que mover un coche.", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("En 5 minutos")
@@ -191,7 +191,7 @@ internal class EsTimeUnitsWithinTest {
     }
 
     @Test
-    fun `en 5 minutos - ambigious timezone map`() {
+    internal fun `en 5 minutos - ambigious timezone map`() {
         testSingleCase(
             Krono.esCasual,
             "En 5 minutos hay que mover un coche.",

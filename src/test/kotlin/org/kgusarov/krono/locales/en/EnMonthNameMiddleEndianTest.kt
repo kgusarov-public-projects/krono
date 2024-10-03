@@ -14,7 +14,7 @@ import java.util.stream.Stream
 internal class EnMonthNameMiddleEndianTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, expectedDate: String) {
+    internal fun `single expression`(text: String, refDate: String, expectedDate: String) {
         testWithExpectedDate(
             Krono.enCasual,
             text,
@@ -25,7 +25,7 @@ internal class EnMonthNameMiddleEndianTest {
 
     @ParameterizedTest
     @MethodSource("rangeExpressionArgs")
-    fun `range expression`(
+    internal fun `range expression`(
         text: String,
         refDate: String,
         expectedStartDate: String,
@@ -41,7 +41,7 @@ internal class EnMonthNameMiddleEndianTest {
     }
 
     @Test
-    fun `impossible dates - strict mode`() {
+    internal fun `impossible dates - strict mode`() {
         testUnexpectedResult(Krono.enStrict, "August 32, 2014", "2012-08-10T00:00:00")
         testUnexpectedResult(Krono.enStrict, "February 29, 2014", "2012-08-10T00:00:00")
         testUnexpectedResult(Krono.enStrict, "August 32", "2012-08-10T00:00:00")
@@ -50,7 +50,7 @@ internal class EnMonthNameMiddleEndianTest {
     }
 
     @Test
-    fun `forward option`() {
+    internal fun `forward option`() {
         testWithExpectedDate(
             Krono.enCasual,
             "January 1st",
@@ -68,7 +68,7 @@ internal class EnMonthNameMiddleEndianTest {
     }
 
     @Test
-    fun `year 90's parsing`() {
+    internal fun `year 90's parsing`() {
         testWithExpectedDate(
             Krono.enCasual,
             "Aug 9, 96",
@@ -85,7 +85,7 @@ internal class EnMonthNameMiddleEndianTest {
     }
 
     @Test
-    fun `skip year-like on little-endian configuration`() {
+    internal fun `skip year-like on little-endian configuration`() {
         val middleEndianConfig = En.configuration.createCasualConfiguration(false)
         val littleEndianConfig = En.configuration.createCasualConfiguration(true)
 

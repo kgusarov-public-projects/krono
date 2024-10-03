@@ -19,7 +19,7 @@ private const val REF_DATE_2012_07_10 = "2017-07-10T00:00:00"
 
 internal class EnTest {
     @Test
-    fun `date and time expression`() {
+    internal fun `date and time expression`() {
         testSingleCase(Krono.enStrict, "Something happen on 2014-04-18 13:00 - 16:00 as") {
             assertThat(it.text).isEqualTo("2014-04-18 13:00 - 16:00")
 
@@ -34,7 +34,7 @@ internal class EnTest {
     }
 
     @Test
-    fun `time expression between`() {
+    internal fun `time expression between`() {
         testSingleCase(Krono.enStrict, "between 3:30-4:30pm", REF_DATE_2020_07_06) {
             assertThat(it.text).isEqualTo("3:30-4:30pm")
 
@@ -49,7 +49,7 @@ internal class EnTest {
     }
 
     @Test
-    fun `time expression PST`() {
+    internal fun `time expression PST`() {
         testSingleCase(Krono.enStrict, "9:00 PST", REF_DATE_2020_07_06) {
             assertThat(it.text).isEqualTo("9:00 PST")
 
@@ -62,14 +62,14 @@ internal class EnTest {
     }
 
     @Test
-    fun `quoted expression 1`() {
+    internal fun `quoted expression 1`() {
         testSingleCase(Krono.enStrict, "Want to meet for dinner (5pm EST)?", REF_DATE_2020_07_06) {
             assertThat(it.text).contains("5pm EST")
         }
     }
 
     @Test
-    fun `quoted expression 2`() {
+    internal fun `quoted expression 2`() {
         testSingleCase(Krono.enStrict, "between '3:30-4:30pm'", REF_DATE_2020_07_06) {
             assertThat(it.text).isEqualTo("3:30-4:30pm")
 
@@ -84,7 +84,7 @@ internal class EnTest {
     }
 
     @Test
-    fun `quoted expression 3`() {
+    internal fun `quoted expression 3`() {
         testSingleCase(Krono.enStrict, "The date is '2014-04-18'") {
             assertThat(it.text).isEqualTo("2014-04-18")
 
@@ -95,12 +95,12 @@ internal class EnTest {
     }
 
     @Test
-    fun `strict mode - only weekday`() {
+    internal fun `strict mode - only weekday`() {
         testUnexpectedResult(Krono.enStrict, "Tuesday")
     }
 
     @Test
-    fun `built-in English variants`() {
+    internal fun `built-in English variants`() {
         testSingleCase(Krono.enStrict, "6/10/2018") {
             with(it.start) {
                 assertDate("2018-06-10T12:00:00")
@@ -115,7 +115,7 @@ internal class EnTest {
     }
 
     @Test
-    fun `random text`() {
+    internal fun `random text`() {
         testSingleCase(Krono.enCasual, "Adam <Adam@supercalendar.com> написал(а):\nThe date is 02.07.2013") {
             assertThat(it.text).isEqualTo("02.07.2013")
         }
@@ -196,7 +196,7 @@ internal class EnTest {
     }
 
     @Test
-    fun `wikipedia text`() {
+    internal fun `wikipedia text`() {
         val testText =
             "October 7, 2011, of which details were not revealed out of respect to Jobs's family.[239] " +
                 "Apple announced on the same day that they had no plans for a public service, but were encouraging " +
@@ -225,7 +225,7 @@ internal class EnTest {
     }
 
     @Test
-    fun `parse multiple date results`() {
+    internal fun `parse multiple date results`() {
         val testText = "I will see you at 2:30. If not I will see you somewhere between 3:30-4:30pm"
 
         testMultipleResults(Krono.enCasual, testText, REF_DATE_2020_07_06) {
@@ -251,7 +251,7 @@ internal class EnTest {
     }
 
     @Test
-    fun `customize by removing time extraction`() {
+    internal fun `customize by removing time extraction`() {
         val custom = Krono(
             KronoConfiguration(
                 En.casual.parsers.filter {

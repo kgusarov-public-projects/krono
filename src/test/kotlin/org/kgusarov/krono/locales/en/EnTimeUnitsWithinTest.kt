@@ -17,7 +17,7 @@ import java.util.stream.Stream
 internal class EnTimeUnitsWithinTest {
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(
+    internal fun `single expression`(
         text: String,
         refDate: String,
         expectedDate: String,
@@ -31,7 +31,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `single implied expression`() {
+    internal fun `single implied expression`() {
         testSingleCase(Krono.enCasual, "within 30 days", "2012-08-10T12:14:00") {
             with(it.start) {
                 assertThat(certainYear()).isTrue()
@@ -45,7 +45,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `in 2 minute`() {
+    internal fun `in 2 minute`() {
         testSingleCase(Krono.enCasual, "in 2 minute", "2016-10-01T14:52:00") {
             with(it.start) {
                 assertThat(certainYear()).isTrue()
@@ -59,7 +59,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `in 2hour`() {
+    internal fun `in 2hour`() {
         testSingleCase(Krono.enCasual, "in 2hour", "2016-10-01T14:52:00") {
             with(it.start) {
                 assertThat(certainYear()).isTrue()
@@ -73,7 +73,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `in a few year`() {
+    internal fun `in a few year`() {
         testSingleCase(Krono.enCasual, "in a few year", "2016-10-01T14:52:00") {
             with(it.start) {
                 assertThat(certainMonth()).isFalse()
@@ -86,7 +86,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `within 12 month`() {
+    internal fun `within 12 month`() {
         testSingleCase(Krono.enCasual, "within 12 month", "2016-10-01T14:52:00") {
             with(it.start) {
                 assertThat(certainYear()).isTrue()
@@ -100,7 +100,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `within 3 days`() {
+    internal fun `within 3 days`() {
         testSingleCase(Krono.enCasual, "within 3 days", "2016-10-01T14:52:00") {
             with(it.start) {
                 assertThat(certainYear()).isTrue()
@@ -114,7 +114,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `give it 2 months`() {
+    internal fun `give it 2 months`() {
         testSingleCase(
             Krono.enCasual,
             "give it 2 months",
@@ -133,7 +133,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `strict mode`() {
+    internal fun `strict mode`() {
         testSingleCase(Krono.enStrict, "in 2hour", "2016-10-01T14:52:00") {
             with(it.start) {
                 assertThat(hour()).isEqualTo(16)
@@ -146,7 +146,7 @@ internal class EnTimeUnitsWithinTest {
     }
 
     @Test
-    fun `forward date`() {
+    internal fun `forward date`() {
         testSingleCase(Krono.enCasual, "1 hour", "2012-08-10T12:14:00", ParsingOption(forwardDate = true)) {
             with(it.start) {
                 assertThat(hour()).isEqualTo(13)

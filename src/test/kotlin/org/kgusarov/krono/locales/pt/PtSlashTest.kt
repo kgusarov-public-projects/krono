@@ -8,7 +8,7 @@ import org.kgusarov.krono.testSingleCase
 
 internal class PtSlashTest {
     @Test
-    fun `segunda 8-2-2016`() {
+    internal fun `segunda 8-2-2016`() {
         testSingleCase(Krono.ptCasual, "segunda 8/2/2016", "2012-07-10T00:00:00") {
             assertThat(it.text).isEqualTo("segunda 8/2/2016")
             assertThat(it.index).isEqualTo(0)
@@ -17,7 +17,7 @@ internal class PtSlashTest {
     }
 
     @Test
-    fun `terça-feira 9-2-2016`() {
+    internal fun `terça-feira 9-2-2016`() {
         testSingleCase(Krono.ptCasual, "Terça-feira 9/2/2016", "2012-07-10T00:00:00") {
             assertThat(it.text).isEqualTo("Terça-feira 9/2/2016")
             assertThat(it.index).isEqualTo(0)

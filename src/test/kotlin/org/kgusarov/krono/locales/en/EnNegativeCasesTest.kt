@@ -9,7 +9,7 @@ import org.kgusarov.krono.testUnexpectedResult
 
 internal class EnNegativeCasesTest {
     @Test
-    fun `skip random non-date patterns`() {
+    internal fun `skip random non-date patterns`() {
         testUnexpectedResult(Krono.enStrict, " 3")
         testUnexpectedResult(Krono.enStrict, "       1");
         testUnexpectedResult(Krono.enStrict, "  11 ");
@@ -24,7 +24,7 @@ internal class EnNegativeCasesTest {
     }
 
     @Test
-    fun `url encoding`() {
+    internal fun `url encoding`() {
         testUnexpectedResult(Krono.enStrict, "%e7%b7%8a");
         testUnexpectedResult(
             Krono.enStrict,
@@ -35,7 +35,7 @@ internal class EnNegativeCasesTest {
     }
 
     @Test
-    fun `skip hyphenated numbers pattern`() {
+    internal fun `skip hyphenated numbers pattern`() {
         testUnexpectedResult(Krono.enStrict, "1-2");
         testUnexpectedResult(Krono.enStrict, "1-2-3");
         testUnexpectedResult(Krono.enStrict, "4-5-6");
@@ -47,7 +47,7 @@ internal class EnNegativeCasesTest {
     }
 
     @Test
-    fun `skip impossible dates and times`() {
+    internal fun `skip impossible dates and times`() {
         testUnexpectedResult(Krono.enStrict, "February 29, 2022")
         testUnexpectedResult(Krono.enStrict, "02/29/2022")
         testUnexpectedResult(Krono.enStrict, "June 31, 2022")
@@ -58,19 +58,19 @@ internal class EnNegativeCasesTest {
     }
 
     @Test
-    fun `skip version number pattern`() {
+    internal fun `skip version number pattern`() {
         testUnexpectedResult(Krono.enStrict, "Version: 1.1.3");
         testUnexpectedResult(Krono.enStrict, "Version: 1.1.30");
         testUnexpectedResult(Krono.enStrict, "Version: 1.10.30");
     }
 
     @Test
-    fun `skip incorrect reference`() {
+    internal fun `skip incorrect reference`() {
         testUnexpectedResult(Krono.enStrict, "for the year");
     }
 
     @Test
-    fun `date with version number pattern`() {
+    internal fun `date with version number pattern`() {
         testSingleCase(Krono.enStrict, "1.5.3 - 2015-09-24") {
             assertThat(it.text).isEqualTo("2015-09-24")
         }

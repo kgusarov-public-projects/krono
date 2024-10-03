@@ -16,11 +16,11 @@ import org.mockito.junit.jupiter.MockitoExtension
 import java.time.ZoneOffset
 
 @ExtendWith(MockitoExtension::class)
-class ExtractTimezoneAbbrRefinerTest {
+internal class ExtractTimezoneAbbrRefinerTest {
     private val refiner = ExtractTimezoneAbbrRefiner()
 
     @Test
-    fun `pattern does not match`(@Mock context: ParsingContext) {
+    internal fun `pattern does not match`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -46,7 +46,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `PST timezone abbreviation`(@Mock context: ParsingContext) {
+    internal fun `PST timezone abbreviation`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -73,7 +73,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `invalid timezone abbreviation`(@Mock context: ParsingContext) {
+    internal fun `invalid timezone abbreviation`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -100,7 +100,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `custom timezone abbreviation`(@Mock context: ParsingContext) {
+    internal fun `custom timezone abbreviation`(@Mock context: ParsingContext) {
         val customAbbreviationMap = mapOf(
             "AAA" to ZoneOffset.ofHours(-6),
             "EST" to ZoneOffset.ofHours(-5)
@@ -133,7 +133,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `current offset is certain and differs`(@Mock context: ParsingContext) {
+    internal fun `current offset is certain and differs`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -161,7 +161,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `suffix does not match pattern`(@Mock context: ParsingContext) {
+    internal fun `suffix does not match pattern`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -188,7 +188,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `start has only date`(@Mock context: ParsingContext) {
+    internal fun `start has only date`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05"
@@ -212,7 +212,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `start has only date and abbreviation is incorrect`(@Mock context: ParsingContext) {
+    internal fun `start has only date and abbreviation is incorrect`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05"
@@ -236,7 +236,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `end is present and certain`(@Mock context: ParsingContext) {
+    internal fun `end is present and certain`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -274,7 +274,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `end is present and not certain`(@Mock context: ParsingContext) {
+    internal fun `end is present and not certain`(@Mock context: ParsingContext) {
         val result = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"
@@ -312,7 +312,7 @@ class ExtractTimezoneAbbrRefinerTest {
     }
 
     @Test
-    fun `multiple results`(@Mock context: ParsingContext) {
+    internal fun `multiple results`(@Mock context: ParsingContext) {
         val result1 = TestParsedResult().apply {
             index = 0
             text = "2023-10-05T14:30:45"

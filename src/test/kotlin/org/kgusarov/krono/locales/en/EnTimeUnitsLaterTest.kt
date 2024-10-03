@@ -11,7 +11,7 @@ import org.kgusarov.krono.testWithExpectedDate
 
 internal class EnTimeUnitsLaterTest {
     @Test
-    fun `2 days later`() {
+    internal fun `2 days later`() {
         testSingleCase(Krono.enCasual, "2 days later", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("2 days later")
@@ -30,7 +30,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `5 minutes later`() {
+    internal fun `5 minutes later`() {
         testSingleCase(Krono.enCasual, "5 minutes later", "2012-08-10T10:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("5 minutes later")
@@ -51,7 +51,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `3 week later`() {
+    internal fun `3 week later`() {
         testSingleCase(Krono.enCasual, "3 week later", "2012-07-10T10:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("3 week later")
@@ -67,7 +67,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `3w later`() {
+    internal fun `3w later`() {
         testSingleCase(Krono.enCasual, "3w later", "2012-07-10T10:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("3w later")
@@ -83,7 +83,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `3mo later`() {
+    internal fun `3mo later`() {
         testSingleCase(Krono.enCasual, "3mo later", "2012-07-10T10:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("3mo later")
@@ -99,7 +99,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `5 days from now, we did something`() {
+    internal fun `5 days from now, we did something`() {
         testSingleCase(Krono.enCasual, "5 days from now, we did something", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("5 days from now")
@@ -115,7 +115,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `10 days from now, we did something`() {
+    internal fun `10 days from now, we did something`() {
         testSingleCase(Krono.enCasual, "10 days from now, we did something", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("10 days from now")
@@ -131,7 +131,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `15 minute from now`() {
+    internal fun `15 minute from now`() {
         testSingleCase(Krono.enCasual, "15 minute from now", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
 
@@ -149,7 +149,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `15 minutes earlier`() {
+    internal fun `15 minutes earlier`() {
         testSingleCase(Krono.enCasual, "15 minutes earlier", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
 
@@ -167,7 +167,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `15 minute out`() {
+    internal fun `15 minute out`() {
         testSingleCase(Krono.enCasual, "15 minute out", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
 
@@ -185,7 +185,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `12 hours from now`() {
+    internal fun `12 hours from now`() {
         testSingleCase(Krono.enCasual, "   12 hours from now", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(3)
             assertThat(it.text).isEqualTo("12 hours from now")
@@ -203,7 +203,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `12 hrs from now`() {
+    internal fun `12 hrs from now`() {
         testSingleCase(Krono.enCasual, "   12 hrs from now", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(3)
             assertThat(it.text).isEqualTo("12 hrs from now")
@@ -222,7 +222,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `half an hour from now`() {
+    internal fun `half an hour from now`() {
         testSingleCase(Krono.enCasual, "   half an hour from now", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(3)
             assertThat(it.text).isEqualTo("half an hour from now")
@@ -238,7 +238,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `12 hours from now I did something`() {
+    internal fun `12 hours from now I did something`() {
         testSingleCase(Krono.enCasual, "12 hours from now I did something", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("12 hours from now")
@@ -254,7 +254,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `12 seconds from now I did something`() {
+    internal fun `12 seconds from now I did something`() {
         testSingleCase(Krono.enCasual, "12 seconds from now I did something", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("12 seconds from now")
@@ -270,7 +270,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `three seconds from now I did something`() {
+    internal fun `three seconds from now I did something`() {
         testSingleCase(Krono.enCasual, "three seconds from now I did something", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("three seconds from now")
@@ -286,7 +286,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `5 Days from now, we did something`() {
+    internal fun `5 Days from now, we did something`() {
         testSingleCase(Krono.enCasual, "5 Days from now, we did something", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("5 Days from now")
@@ -302,7 +302,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `half An hour from now`() {
+    internal fun `half An hour from now`() {
         testSingleCase(Krono.enCasual, "   half An hour from now", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(3)
 
@@ -316,7 +316,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `A days from now, we did something`() {
+    internal fun `A days from now, we did something`() {
         testSingleCase(Krono.enCasual, "A days from now, we did something", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("A days from now")
@@ -332,7 +332,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `a min out`() {
+    internal fun `a min out`() {
         testSingleCase(Krono.enCasual, "a min out", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("a min out")
@@ -347,7 +347,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `in 1 hour`() {
+    internal fun `in 1 hour`() {
         testSingleCase(Krono.enCasual, "in 1 hour", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("in 1 hour")
@@ -362,7 +362,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `in 1 mon`() {
+    internal fun `in 1 mon`() {
         testSingleCase(Krono.enCasual, "in 1 mon", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("in 1 mon")
@@ -376,7 +376,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `in 1 point 5 hours`() {
+    internal fun `in 1 point 5 hours`() {
         testSingleCase(Krono.enCasual, "in 1.5 hours", "2012-08-10T12:40:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("in 1.5 hours")
@@ -391,7 +391,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `in 1d 2hr 5min`() {
+    internal fun `in 1d 2hr 5min`() {
         testSingleCase(Krono.enCasual, "in 1d 2hr 5min", "2012-08-10T12:40:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("in 1d 2hr 5min")
@@ -420,7 +420,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `the min after`() {
+    internal fun `the min after`() {
         testSingleCase(Krono.enCasual, "the min after", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("the min after")
@@ -436,7 +436,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `15 minutes from now`() {
+    internal fun `15 minutes from now`() {
         testSingleCase(Krono.enStrict, "15 minutes from now", "2012-08-10T12:14:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("15 minutes from now")
@@ -451,7 +451,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `25 minutes later`() {
+    internal fun `25 minutes later`() {
         testSingleCase(Krono.enStrict, "25 minutes later", "2012-08-10T12:40:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("25 minutes later")
@@ -466,13 +466,13 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `strict unexpected`() {
+    internal fun `strict unexpected`() {
         testUnexpectedResult(Krono.enStrict, "15m from now")
         testUnexpectedResult(Krono.enStrict, "15s later")
     }
 
     @Test
-    fun `after with reference`() {
+    internal fun `after with reference`() {
         testWithExpectedDate(
             Krono.enCasual, "2 day after today", "2012-08-10T12:00:00", "2012-08-12T12:00:00"
         )
@@ -491,7 +491,7 @@ internal class EnTimeUnitsLaterTest {
     }
 
     @Test
-    fun `plus after reference`() {
+    internal fun `plus after reference`() {
         testWithExpectedDate(
             Krono.enCasual, "next tuesday +10 days", "2023-12-29T12:00:00", "2024-01-12T12:00:00"
         )

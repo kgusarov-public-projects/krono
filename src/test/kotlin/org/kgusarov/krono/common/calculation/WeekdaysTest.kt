@@ -13,7 +13,7 @@ import java.util.stream.Stream
 internal class WeekdaysTest {
     @ParameterizedTest
     @MethodSource("thisWeekdayArgs")
-    fun thisWeekday(ref: String, weekday: DayOfWeek, expected: String) {
+    internal fun thisWeekday(ref: String, weekday: DayOfWeek, expected: String) {
         val reference = ReferenceWithTimezone(KronoDate.parse(ref))
         val output = createParsingComponentsAtWeekday(reference, weekday, "this")
         assertThat(output.instant()).isEqualTo(KronoDate.parse(expected))
@@ -21,7 +21,7 @@ internal class WeekdaysTest {
 
     @ParameterizedTest
     @MethodSource("lastWeekdayArgs")
-    fun lastWeekday(ref: String, weekday: DayOfWeek, expected: String) {
+    internal fun lastWeekday(ref: String, weekday: DayOfWeek, expected: String) {
         val reference = ReferenceWithTimezone(KronoDate.parse(ref))
         val output = createParsingComponentsAtWeekday(reference, weekday, "last")
         assertThat(output.instant()).isEqualTo(KronoDate.parse(expected))
@@ -29,14 +29,14 @@ internal class WeekdaysTest {
 
     @ParameterizedTest
     @MethodSource("nextWeekdayArgs")
-    fun nextWeekday(ref: String, weekday: DayOfWeek, expected: String) {
+    internal fun nextWeekday(ref: String, weekday: DayOfWeek, expected: String) {
         val reference = ReferenceWithTimezone(KronoDate.parse(ref))
         val output = createParsingComponentsAtWeekday(reference, weekday, "next")
         assertThat(output.instant()).isEqualTo(KronoDate.parse(expected))
     }
 
     @Test
-    fun nextWeekInvalidModifier() {
+    internal fun nextWeekInvalidModifier() {
         val reference = ReferenceWithTimezone(KronoDate.parse("2022-08-21T12:00:00"))
         val output = createParsingComponentsAtWeekday(reference, DayOfWeek.MONDAY, "some of them")
         assertThat(output.instant()).isEqualTo(KronoDate.parse("2022-08-22T12:00:00"))
@@ -44,7 +44,7 @@ internal class WeekdaysTest {
 
     @ParameterizedTest
     @MethodSource("closestWeekdayArgs")
-    fun closestWeekday(ref: String, weekday: DayOfWeek, expected: Int) {
+    internal fun closestWeekday(ref: String, weekday: DayOfWeek, expected: Int) {
         val refDate = KronoDate.parse(ref)
         assertThat(getDaysToWeekday(refDate, weekday)).isEqualTo(expected)
     }

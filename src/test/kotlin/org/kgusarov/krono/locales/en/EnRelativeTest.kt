@@ -24,7 +24,7 @@ private val JST_REF =
 
 internal class EnRelativeTest {
     @Test
-    fun `this expressions`() {
+    internal fun `this expressions`() {
         testSingleCase(Krono.enCasual, "this week", REF_DATE_2017_11_19) {
             assertThat(it.text).isEqualTo("this week")
             with (it.start) {
@@ -67,7 +67,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `past relative expressions`() {
+    internal fun `past relative expressions`() {
         testSingleCase(Krono.enCasual, "last week", REF_DATE_2016_10_01) {
             assertThat(it.text).isEqualTo("last week")
             with (it.start) {
@@ -120,7 +120,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next hour`() {
+    internal fun `next hour`() {
         testSingleCase(Krono.enCasual, "next hour", REF_DATE_2016_10_01) {
             assertThat(it.text).isEqualTo("next hour")
             with (it.start) {
@@ -133,7 +133,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next week`() {
+    internal fun `next week`() {
         testSingleCase(Krono.enCasual, "next week", REF_DATE_2016_10_01) {
             assertThat(it.text).isEqualTo("next week")
             with (it.start) {
@@ -146,7 +146,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next day`() {
+    internal fun `next day`() {
         testSingleCase(Krono.enCasual, "next day", REF_DATE_2016_10_01) {
             assertThat(it.text).isEqualTo("next day")
             with (it.start) {
@@ -159,7 +159,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next month`() {
+    internal fun `next month`() {
         testSingleCase(Krono.enCasual, "next month", REF_DATE_2016_10_01) {
             assertThat(it.text).isEqualTo("next month")
             with (it.start) {
@@ -177,7 +177,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next year`() {
+    internal fun `next year`() {
         testSingleCase(Krono.enCasual, "next year", "2020-11-22T12:11:32.006") {
             assertThat(it.text).isEqualTo("next year")
             with (it.start) {
@@ -202,7 +202,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next quarter`() {
+    internal fun `next quarter`() {
         testSingleCase(Krono.enCasual, "next quarter", "2021-01-22T12:00:00") {
             assertThat(it.text).isEqualTo("next quarter")
             with (it.start) {
@@ -220,7 +220,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next qtr`() {
+    internal fun `next qtr`() {
         testSingleCase(Krono.enCasual, "next qtr", "2021-10-22T12:00:00") {
             assertThat(it.text).isEqualTo("next qtr")
             with (it.start) {
@@ -238,7 +238,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next two quarter`() {
+    internal fun `next two quarter`() {
         testSingleCase(Krono.enCasual, "next two quarter", "2021-01-22T12:00:00") {
             assertThat(it.text).isEqualTo("next two quarter")
             with (it.start) {
@@ -256,7 +256,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `after this year`() {
+    internal fun `after this year`() {
         testSingleCase(Krono.enCasual, "after this year", "2020-11-22T12:11:32.006") {
             assertThat(it.text).isEqualTo("after this year")
             with (it.start) {
@@ -281,7 +281,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `connect back after this year`() {
+    internal fun `connect back after this year`() {
         testSingleCase(Krono.enCasual, "connect back after this year", "2022-04-16T12:00:00") {
             with (it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -292,7 +292,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `next certainty`() {
+    internal fun `next certainty`() {
         val refDate = ZonedDateTime.of(LocalDateTime.parse("2016-10-07T12:00:00"), ZoneId.of("Europe/Riga"))
         val reference = ReferenceWithTimezone(refDate.toLocalDateTime(), refDate.zone)
         val offset = refDate.zone.rules.getOffset(refDate.toLocalDateTime()).totalSeconds
@@ -335,7 +335,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `JST ref - now`() {
+    internal fun `JST ref - now`() {
         testSingleCase(Krono.enCasual, "now", JST_REF) {
             assertThat(it.text).isEqualTo("now")
 
@@ -349,7 +349,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `JST ref - tomorrow at 5pm`() {
+    internal fun `JST ref - tomorrow at 5pm`() {
         testSingleCase(Krono.enCasual, "tomorrow at 5pm", JST_REF) {
             assertThat(it.text).isEqualTo("tomorrow at 5pm")
 
@@ -363,7 +363,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `JST ref - in 10 minutes`() {
+    internal fun `JST ref - in 10 minutes`() {
         testSingleCase(Krono.enCasual, "in 10 minutes", JST_REF) {
             assertThat(it.text).isEqualTo("in 10 minutes")
 
@@ -377,7 +377,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `BST ref - in 10 minutes`() {
+    internal fun `BST ref - in 10 minutes`() {
         val bst = TimezoneAbbreviations.TIMEZONE_ABBR_MAP["BST"]
         val ref = ReferenceWithTimezone(
             JST_REF.instant.atZone(JST_REF.timezone).withZoneSameInstant(bst).toLocalDateTime(),
@@ -397,7 +397,7 @@ internal class EnRelativeTest {
     }
 
     @Test
-    fun `JST ref with no zone`() {
+    internal fun `JST ref with no zone`() {
         testSingleCase(Krono.enCasual, "in 20 minutes", ReferenceWithTimezone(JST_REF.instant)) {
             assertThat(it.text).isEqualTo("in 20 minutes")
 

@@ -13,7 +13,7 @@ import java.util.stream.Stream
 
 internal class ParsingComponentsTest {
     @Test
-    fun `create and manipulate parsing components`() {
+    internal fun `create and manipulate parsing components`() {
         val reference = ReferenceWithTimezone()
         val components = ParsingComponents(
             reference,
@@ -56,7 +56,7 @@ internal class ParsingComponentsTest {
     }
 
     @Test
-    fun `calendar checking with implied components`() {
+    internal fun `calendar checking with implied components`() {
         val reference = ReferenceWithTimezone()
         val components = ParsingComponents(
             reference,
@@ -75,7 +75,7 @@ internal class ParsingComponentsTest {
 
     @ParameterizedTest
     @MethodSource("checkCalendarArgs")
-    fun `check calendar`(expected: Boolean, vararg parts: Pair<KronoComponent, Int>) {
+    internal fun `check calendar`(expected: Boolean, vararg parts: Pair<KronoComponent, Int>) {
         val reference = ReferenceWithTimezone(KronoDate.now())
         val components = ParsingComponents(reference, *parts)
         assertThat(components.isValidDate()).isEqualTo(expected)
@@ -83,7 +83,7 @@ internal class ParsingComponentsTest {
 
     @ParameterizedTest
     @MethodSource("checkDstSkipArgs")
-    fun `check non-existing date during DST skip`(expected: Boolean, vararg parts: Pair<KronoComponent, Int>) {
+    internal fun `check non-existing date during DST skip`(expected: Boolean, vararg parts: Pair<KronoComponent, Int>) {
         val reference = ReferenceWithTimezone(ParsingReference(
             KronoDate.now(),
             "CET",

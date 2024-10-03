@@ -12,7 +12,7 @@ import java.util.stream.Stream
 
 internal class PtTimeExpressionTest {
     @Test
-    fun `single expression`() {
+    internal fun `single expression`() {
         testSingleCase(Krono.ptCasual, "Ficaremos às 6.13 AM", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(10)
             assertThat(it.text).isEqualTo("às 6.13 AM")
@@ -27,7 +27,7 @@ internal class PtTimeExpressionTest {
     }
     
     @Test
-    fun `range expression 1`() {
+    internal fun `range expression 1`() {
         testSingleCase(Krono.ptCasual, "8:10 - 12.32", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("8:10 - 12.32")
@@ -65,7 +65,7 @@ internal class PtTimeExpressionTest {
     }
 
     @Test
-    fun `range expression 2`() {
+    internal fun `range expression 2`() {
         testSingleCase(Krono.ptCasual, " de 6:30pm a 11:00pm", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(1)
             assertThat(it.text).isEqualTo("de 6:30pm a 11:00pm")
@@ -89,7 +89,7 @@ internal class PtTimeExpressionTest {
     }
 
     @Test
-    fun `date time expression`() {
+    internal fun `date time expression`() {
         testSingleCase(
             Krono.ptCasual,
             "Algo passou em 10 de Agosto de 2012 10:12:59 pm",
@@ -114,7 +114,7 @@ internal class PtTimeExpressionTest {
     }
 
     @Test
-    fun `time expression - imply meridiem`() {
+    internal fun `time expression - imply meridiem`() {
         testSingleCase(Krono.ptCasual, "de 1pm a 3", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("de 1pm a 3")
@@ -146,7 +146,7 @@ internal class PtTimeExpressionTest {
 
     @ParameterizedTest
     @MethodSource("randomDateTimeExpressionArgs")
-    fun `random date time expression`(
+    internal fun `random date time expression`(
         text: String,
         expectedStart: String,
         expectedEnd: String?,

@@ -9,6 +9,7 @@ import org.kgusarov.krono.ParsingContext
 import org.kgusarov.krono.RegExpMatchArray
 import org.kgusarov.krono.TextOrEndIndexInputFactory
 import org.kgusarov.krono.calculation.findMostLikelyADYear
+import org.kgusarov.krono.calculation.findYearClosestToRef
 import org.kgusarov.krono.extensions.not
 import org.kgusarov.krono.extensions.plus
 
@@ -75,7 +76,7 @@ class SlashDateFormatParser(
         result.start.assign(KronoComponents.Month, month)
 
         if (!match[YEAR_GROUP]) {
-            val year = context.instant.year
+            val year = findYearClosestToRef(context.instant, day, month)
             result.start.imply(KronoComponents.Year, year)
         } else {
             val rawYearNumber = match.getInt(YEAR_GROUP)

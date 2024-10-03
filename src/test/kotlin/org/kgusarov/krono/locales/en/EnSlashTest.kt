@@ -14,7 +14,7 @@ private const val REF_DATE = "2012-08-10T00:00:00"
 
 internal class EnSlashTest {
     @Test
-    fun `offset expression`() {
+    internal fun `offset expression`() {
         testSingleCase(Krono.enCasual, "    04/2016   ", REF_DATE) {
             assertThat(it.index).isEqualTo(4)
             assertThat(it.text).isEqualTo("04/2016")
@@ -22,7 +22,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `The event is going ahead (04-2016)`() {
+    internal fun `The event is going ahead (04-2016)`() {
         testSingleCase(Krono.enCasual, "The event is going ahead (04/2016)", REF_DATE) {
             assertThat(it.index).isEqualTo(26)
             assertThat(it.text).isEqualTo("04/2016")
@@ -38,7 +38,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `published 06-2004`() {
+    internal fun `published 06-2004`() {
         testSingleCase(Krono.enCasual, "Published: 06/2004", REF_DATE) {
             assertThat(it.index).isEqualTo(11)
             assertThat(it.text).isEqualTo("06/2004")
@@ -54,7 +54,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `8-10-2012`() {
+    internal fun `8-10-2012`() {
         testSingleCase(Krono.enCasual, "8/10/2012", REF_DATE) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("8/10/2012")
@@ -74,7 +74,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `colon 8-1-2012`() {
+    internal fun `colon 8-1-2012`() {
         testSingleCase(Krono.enCasual, ": 8/1/2012", REF_DATE) {
             assertThat(it.index).isEqualTo(2)
             assertThat(it.text).isEqualTo("8/1/2012")
@@ -90,7 +90,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `8-10`() {
+    internal fun `8-10`() {
         testSingleCase(Krono.enCasual, "8/10", REF_DATE) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("8/10")
@@ -110,7 +110,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `the deadline is 8-10-2012`() {
+    internal fun `the deadline is 8-10-2012`() {
         testSingleCase(Krono.enCasual, "The deadline is 8/10/2012", REF_DATE) {
             assertThat(it.index).isEqualTo(16)
             assertThat(it.text).isEqualTo("8/10/2012")
@@ -122,7 +122,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `the deadline is Tuesday 11-3-2015`() {
+    internal fun `the deadline is Tuesday 11-3-2015`() {
         testSingleCase(Krono.enCasual, "The Deadline is Tuesday 11/3/2015", REF_DATE) {
             assertThat(it.index).isEqualTo(16)
             assertThat(it.text).isEqualTo("Tuesday 11/3/2015")
@@ -134,7 +134,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `strict`() {
+    internal fun `strict`() {
         testSingleCase(Krono.enStrict, "2/28/2014") {
             assertThat(it.text).isEqualTo("2/28/2014")
         }
@@ -148,14 +148,14 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `little endian`() {
+    internal fun `little endian`() {
         testWithExpectedDate(Krono.enGb, "8/10/2012", "2012-10-08T12:00:00")
         testWithExpectedDate(Krono.enStrict, "30-12-16", "2016-12-30T12:00:00")
         testWithExpectedDate(Krono.enStrict, "Friday 30-12-16", "2016-12-30T12:00:00")
     }
 
     @Test
-    fun `little endian with month name`() {
+    internal fun `little endian with month name`() {
         testWithExpectedDate(Krono.enGb, "8/Oct/2012", "2012-10-08T12:00:00")
         testWithExpectedDate(Krono.enStrict, "06/Nov/2023", "2023-11-06T12:00:00")
         testWithExpectedDate(Krono.enStrict, "06/Nov/2023:06:36:02", "2023-11-06T06:36:02")
@@ -163,7 +163,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `range expression`() {
+    internal fun `range expression`() {
         testSingleCase(Krono.enCasual, "8/10/2012 - 8/15/2012", REF_DATE) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("8/10/2012 - 8/15/2012")
@@ -187,7 +187,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `range expression with time`() {
+    internal fun `range expression with time`() {
         testSingleCase(Krono.enCasual, "from 01/21/2021 10:00 to 01/01/2023 07:00", REF_DATE) {
             assertThat(it.index).isEqualTo(5)
             assertThat(it.text).isEqualTo("01/21/2021 10:00 to 01/01/2023 07:00")
@@ -240,7 +240,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `splitter variances patterns`() {
+    internal fun `splitter variances patterns`() {
         testWithExpectedDate(Krono.enCasual, "2015-05-25", "2015-05-25T12:00:00")
         testWithExpectedDate(Krono.enCasual, "2015/05/25", "2015-05-25T12:00:00")
         testWithExpectedDate(Krono.enCasual, "2015.05.25", "2015-05-25T12:00:00")
@@ -252,7 +252,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `impossible dates and unexpected results`() {
+    internal fun `impossible dates and unexpected results`() {
         testUnexpectedResult(Krono.enCasual, "8/32/2014")
         testUnexpectedResult(Krono.enCasual, "8/32")
         testUnexpectedResult(Krono.enCasual, "2/29/2014")
@@ -268,7 +268,7 @@ internal class EnSlashTest {
     }
 
     @Test
-    fun `forward dates only`() {
+    internal fun `forward dates only`() {
         testSingleCase(Krono.enCasual, "5/31", "1999-06-01T00:00:00", ParsingOption(forwardDate = true)) {
             assertThat(it.text).isEqualTo("5/31")
             assertThat(it.index).isEqualTo(0)

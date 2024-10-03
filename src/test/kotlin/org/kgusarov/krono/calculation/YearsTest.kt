@@ -11,13 +11,13 @@ import java.util.stream.Stream
 internal class YearsTest {
     @ParameterizedTest
     @MethodSource("mostLikelyADYearArgs")
-    fun mostLikelyADYear(input: Int, output: Int) {
+    internal fun mostLikelyADYear(input: Int, output: Int) {
         assertThat(findMostLikelyADYear(input)).isEqualTo(output)
     }
 
     @ParameterizedTest
     @MethodSource("yearClosestToRefArgs")
-    fun yearClosestToRef(refDate: KronoDate, day: Int, month: Int, expected: Int) {
+    internal fun yearClosestToRef(refDate: KronoDate, day: Int, month: Int, expected: Int) {
         assertThat(findYearClosestToRef(refDate, day, month)).isEqualTo(expected)
     }
 

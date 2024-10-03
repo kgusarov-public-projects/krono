@@ -9,7 +9,7 @@ import org.kgusarov.krono.RegExpMatchArray
 
 internal class SlashDateFormatParserTest {
     @Test
-    fun `little-endian date format`() {
+    internal fun `little-endian date format`() {
         val parser = SlashDateFormatParser(true)
         val context = ParsingContext("12/31/2023")
         val match = RegExpMatchArray(0, arrayOf("12/31/2023", "", "12", "31", "2023", ""))
@@ -24,7 +24,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `big-endian date format`() {
+    internal fun `big-endian date format`() {
         val parser = SlashDateFormatParser(false)
         val context = ParsingContext("31/12/2023")
         val match = RegExpMatchArray(0, arrayOf("31/12/2023", "", "31", "12", "2023", ""))
@@ -39,7 +39,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `big-endian date format with little-endian date`() {
+    internal fun `big-endian date format with little-endian date`() {
         val parser = SlashDateFormatParser(false)
         val context = ParsingContext("12/31/2023")
         val match = RegExpMatchArray(0, arrayOf("12/31/2023", "", "12", "31", "2023", ""))
@@ -54,7 +54,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `invalid date format`() {
+    internal fun `invalid date format`() {
         val parser = SlashDateFormatParser(true)
         val context = ParsingContext("2023/12/31")
         val match = RegExpMatchArray(0, arrayOf("2023/12/31", "", "2023", "12", "31", ""))
@@ -64,7 +64,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `version format 1`() {
+    internal fun `version format 1`() {
         val parser = SlashDateFormatParser(true)
         val context = ParsingContext("1.0")
         val match = RegExpMatchArray(0, arrayOf("1.0", "", "1", "0", "", ""))
@@ -74,7 +74,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `version format 2`() {
+    internal fun `version format 2`() {
         val parser = SlashDateFormatParser(true)
         val context = ParsingContext("1.12.14")
         val match = RegExpMatchArray(0, arrayOf("1.12.14", "", "1", "12", "14", ""))
@@ -84,7 +84,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `day too big`() {
+    internal fun `day too big`() {
         val parser = SlashDateFormatParser(true)
         val context = ParsingContext("31/12/2023")
         val match = RegExpMatchArray(0, arrayOf("31/12/2023", "", "32", "12", "2023", ""))
@@ -94,7 +94,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `day too small`() {
+    internal fun `day too small`() {
         val parser = SlashDateFormatParser(true)
         val context = ParsingContext("00/12/2023")
         val match = RegExpMatchArray(0, arrayOf("00/12/2023", "", "00", "12", "2023", ""))
@@ -104,7 +104,7 @@ internal class SlashDateFormatParserTest {
     }
 
     @Test
-    fun `missing year`() {
+    internal fun `missing year`() {
         val parser = SlashDateFormatParser(true)
         val context = ParsingContext("12/31")
         val match = RegExpMatchArray(0, arrayOf("12/31", "", "12", "31", "", ""))

@@ -6,12 +6,13 @@ import org.kgusarov.krono.Krono
 import org.kgusarov.krono.assertDate
 import org.kgusarov.krono.assertOffsetDate
 import org.kgusarov.krono.testSingleCase
+import kotlin.test.assertFalse
 
 private const val REF_DATE = "2022-08-08T00:00:00"
 
 internal class EnInterStdTest {
     @Test
-    fun `before this 2013-2-7`() {
+    internal fun `before this 2013-2-7`() {
         testSingleCase(Krono.enStrict, "Let's finish this before this 2013-2-7.", REF_DATE) {
             with (it.start) {
                 assertThat(year()).isEqualTo(2013)
@@ -24,7 +25,7 @@ internal class EnInterStdTest {
     }
 
     @Test
-    fun `ISO with timezone offset`() {
+    internal fun `ISO with timezone offset`() {
         testSingleCase(Krono.enStrict, "1994-11-05T08:15:30-05:30", REF_DATE) {
             assertThat(it.text).isEqualTo("1994-11-05T08:15:30-05:30")
 
@@ -43,45 +44,7 @@ internal class EnInterStdTest {
     }
 
     @Test
-    fun `ISO without timezone offset 1`() {
-        testSingleCase(Krono.enStrict, "1994-11-05T08:15:30", REF_DATE) {
-            assertThat(it.text).isEqualTo("1994-11-05T08:15:30")
-
-            with (it.start) {
-                assertThat(year()).isEqualTo(1994)
-                assertThat(month()).isEqualTo(11)
-                assertThat(day()).isEqualTo(5)
-                assertThat(hour()).isEqualTo(8)
-                assertThat(minute()).isEqualTo(15)
-                assertThat(second()).isEqualTo(30)
-                assertThat(offsetMinutes()).isEqualTo(0)
-
-                assertDate("1994-11-05T08:15:30")
-            }
-        }
-    }
-
-    @Test
-    fun `ISO without timezone offset 2`() {
-        testSingleCase(Krono.enStrict, "2015-07-31T12:00:00", REF_DATE) {
-            assertThat(it.text).isEqualTo("2015-07-31T12:00:00")
-
-            with (it.start) {
-                assertThat(year()).isEqualTo(2015)
-                assertThat(month()).isEqualTo(7)
-                assertThat(day()).isEqualTo(31)
-                assertThat(hour()).isEqualTo(12)
-                assertThat(minute()).isEqualTo(0)
-                assertThat(second()).isEqualTo(0)
-                assertThat(offsetMinutes()).isEqualTo(0)
-
-                assertDate("2015-07-31T12:00:00")
-            }
-        }
-    }
-
-    @Test
-    fun `Zoned ISO`() {
+    internal fun `Zoned ISO`() {
         testSingleCase(Krono.enStrict, "1994-11-05T13:15:30Z", REF_DATE) {
             assertThat(it.text).isEqualTo("1994-11-05T13:15:30Z")
 
@@ -100,7 +63,7 @@ internal class EnInterStdTest {
     }
 
     @Test
-    fun `ISO with millis`() {
+    internal fun `ISO with millis`() {
         testSingleCase(Krono.enStrict, "2016-05-07T23:45:00.487+01:00", REF_DATE) {
             assertThat(it.text).isEqualTo("2016-05-07T23:45:00.487+01:00")
 
@@ -115,6 +78,46 @@ internal class EnInterStdTest {
                 assertThat(offsetMinutes()).isEqualTo(60)
 
                 assertOffsetDate("2016-05-07T23:45:00.487+01:00")
+            }
+        }
+    }
+
+    @Test
+    internal fun `no timezone offset 1`() {
+        testSingleCase(Krono.enStrict, "1994-11-05T13:15:30", REF_DATE) {
+            assertThat(it.text).isEqualTo("1994-11-05T13:15:30")
+
+            with (it.start) {
+                assertThat(year()).isEqualTo(1994)
+                assertThat(month()).isEqualTo(11)
+                assertThat(day()).isEqualTo(5)
+                assertThat(hour()).isEqualTo(13)
+                assertThat(minute()).isEqualTo(15)
+                assertThat(second()).isEqualTo(30)
+                assertThat(millisecond()).isEqualTo(0)
+                assertThat(certainOffset()).isFalse()
+
+                assertDate("1994-11-05T13:15:30")
+            }
+        }
+    }
+
+    @Test
+    internal fun `no timezone offset 2`() {
+        testSingleCase(Krono.enStrict, "2015-07-31T12:00:00", REF_DATE) {
+            assertThat(it.text).isEqualTo("2015-07-31T12:00:00")
+
+            with (it.start) {
+                assertThat(year()).isEqualTo(2015)
+                assertThat(month()).isEqualTo(7)
+                assertThat(day()).isEqualTo(31)
+                assertThat(hour()).isEqualTo(12)
+                assertThat(minute()).isEqualTo(0)
+                assertThat(second()).isEqualTo(0)
+                assertThat(millisecond()).isEqualTo(0)
+                assertThat(certainOffset()).isFalse()
+
+                assertDate("2015-07-31T12:00:00")
             }
         }
     }

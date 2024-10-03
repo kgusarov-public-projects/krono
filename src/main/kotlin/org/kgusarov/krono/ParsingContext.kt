@@ -13,7 +13,10 @@ internal data class MapComponentsInput(
     override fun invoke(reference: ReferenceWithTimezone) = ParsingComponents(reference, value)
 }
 
-internal data class ParsedComponentsInput(private val value: ParsedComponents) : ComponentsInput {
+@SuppressFBWarnings("EI_EXPOSE_REP", "EI_EXPOSE_REP2")
+internal data class ParsedComponentsInput(
+    val value: ParsedComponents,
+) : ComponentsInput {
     override fun invoke(reference: ReferenceWithTimezone) = value
 }
 

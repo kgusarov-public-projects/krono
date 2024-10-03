@@ -21,7 +21,7 @@ import java.util.stream.Stream
 
 internal class EnTimeExpressionTest {
     @Test
-    fun `text offset`() {
+    internal fun `text offset`() {
         testSingleCase(Krono.enCasual, "  11 AM ", "2016-10-01T08:00:00") {
             assertThat(it.index).isEqualTo(2)
             assertThat(it.text).isEqualTo("11 AM")
@@ -34,7 +34,7 @@ internal class EnTimeExpressionTest {
     }
 
     @Test
-    fun `time expression`() {
+    internal fun `time expression`() {
         testSingleCase(Krono.enCasual, "20:32:13", "2016-10-01T08:00:00") {
             assertThat(it.text).isEqualTo("20:32:13")
 
@@ -49,7 +49,7 @@ internal class EnTimeExpressionTest {
 
     @ParameterizedTest
     @MethodSource("singleExpressionArgs")
-    fun `single expression`(text: String, refDate: String, expectedDate: String, expectedMeridiem: Int) {
+    internal fun `single expression`(text: String, refDate: String, expectedDate: String, expectedMeridiem: Int) {
         testSingleCase(Krono.enCasual, text, refDate) {
             assertThat(it.text).isEqualTo(text)
 
@@ -62,7 +62,7 @@ internal class EnTimeExpressionTest {
 
     @ParameterizedTest
     @MethodSource("rangeExpressionArgs")
-    fun `range expression`(
+    internal fun `range expression`(
         text: String,
         refDate: String,
         expectedStartDate: String,
@@ -86,7 +86,7 @@ internal class EnTimeExpressionTest {
     }
 
     @Test
-    fun `non time-range expression`() {
+    internal fun `non time-range expression`() {
         testSingleCase(Krono.enCasual, "10:00:00 - 15/15", "2016-10-01T08:00:00") {
             assertThat(it.text).isEqualTo("10:00:00")
             assertThat(it.end).isNull()
@@ -101,7 +101,7 @@ internal class EnTimeExpressionTest {
     }
 
     @Test
-    fun `causal positive cases`() {
+    internal fun `causal positive cases`() {
         testSingleCase(Krono.enCasual, "at 1") {
             assertThat(it.text).isEqualTo("at 1")
             assertThat(it.start.hour()).isEqualTo(1)
@@ -121,18 +121,18 @@ internal class EnTimeExpressionTest {
 
     @ParameterizedTest
     @MethodSource("negativeCasesArgs")
-    fun `negative cases`(text: String) {
+    internal fun `negative cases`(text: String) {
         testUnexpectedResult(Krono.enCasual, text)
     }
 
     @ParameterizedTest
     @MethodSource("negativeStrictCasesArgs")
-    fun `strinct negative cases`(text: String) {
+    internal fun `strinct negative cases`(text: String) {
         testUnexpectedResult(Krono.enStrict, text)
     }
 
     @Test
-    fun `forward dates`() {
+    internal fun `forward dates`() {
         testSingleCase(
             Krono.enCasual,
             "1am",

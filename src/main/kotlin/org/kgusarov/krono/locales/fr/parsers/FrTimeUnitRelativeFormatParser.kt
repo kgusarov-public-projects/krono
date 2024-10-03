@@ -29,7 +29,13 @@ class FrTimeUnitRelativeFormatParser : AbstractParserWithWordBoundaryChecking() 
         val unit = FrConstants.TIME_UNIT_DICTIONARY[match[3]?.lowercase()]!!
         var timeUnits = mutableMapOf(unit to num)
 
-        val modifier = (match[2] ?: match[4] ?: "").lowercase()
+        val modifier =
+            when {
+                !match[2].isNullOrEmpty() -> match[2]!!.lowercase()
+                !match[4].isNullOrEmpty() -> match[4]!!.lowercase()
+                else -> ""
+            }
+
         if (modifier.isEmpty()) {
             return null
         }

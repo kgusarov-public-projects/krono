@@ -11,7 +11,7 @@ private const val REF_DATE_2012_07_10 = "2012-07-10T00:00:00"
 
 internal class EnYearTest {
     @Test
-    fun `year numbers with BCE CE Era label`() {
+    internal fun `year numbers with BCE CE Era label`() {
         testSingleCase(Krono.enCasual, "10 August 234 BCE", REF_DATE_2012_07_10) {
             assertThat(it.text).isEqualTo("10 August 234 BCE")
             assertThat(it.index).isEqualTo(0)
@@ -40,7 +40,7 @@ internal class EnYearTest {
     }
 
     @Test
-    fun `year numbers with BC AD Era label`() {
+    internal fun `year numbers with BC AD Era label`() {
         testSingleCase(Krono.enCasual, "10 August 234 BC", REF_DATE_2012_07_10) {
             assertThat(it.text).isEqualTo("10 August 234 BC")
             assertThat(it.index).isEqualTo(0)
@@ -69,7 +69,7 @@ internal class EnYearTest {
     }
 
     @Test
-    fun `year numbers with Buddhist Era label`() {
+    internal fun `year numbers with Buddhist Era label`() {
         testSingleCase(Krono.enCasual, "10 August 2555 BE", REF_DATE_2012_07_10) {
             assertThat(it.text).isEqualTo("10 August 2555 BE")
             assertThat(it.index).isEqualTo(0)
@@ -85,7 +85,7 @@ internal class EnYearTest {
     }
 
     @Test
-    fun `year number after datetime expression`() {
+    internal fun `year number after datetime expression`() {
         testSingleCase(Krono.enCasual, "Thu Oct 26 11:00:09 2023", "2016-10-01T08:00:00") {
             with(it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -102,7 +102,7 @@ internal class EnYearTest {
     }
 
     @Test
-    fun `year number after zoned datetime expression`() {
+    internal fun `year number after zoned datetime expression`() {
         testSingleCase(Krono.enCasual, "Thu Oct 26 11:00:09 EDT 2023", "2016-10-01T08:00:00") {
             with(it.start) {
                 assertThat(year()).isEqualTo(2023)
@@ -120,7 +120,7 @@ internal class EnYearTest {
     }
 
     @Test
-    fun `year number after range`() {
+    internal fun `year number after range`() {
         testSingleCase(
             Krono.enCasual,
             "Oct 26 11:00:09 EDT  - Oct 27 12:00:09 EDT 2023",

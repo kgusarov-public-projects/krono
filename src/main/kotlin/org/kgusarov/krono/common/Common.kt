@@ -5,7 +5,7 @@ import org.kgusarov.krono.KronoUnit
 import org.kgusarov.krono.extensions.get
 import java.math.BigDecimal
 
-typealias ParseNumberPattern = (String) -> BigDecimal
+typealias ParseNumberPattern = (String) -> BigDecimal?
 
 typealias ParseYear = (String) -> Int
 
@@ -38,5 +38,7 @@ internal fun collectDateTimeFragment(
 ) {
     val num = parseNumberPattern(match[1])
     val unit = timeUnitDictionary[match[2].lowercase()]!!
-    fragments[unit] = num
+    if (num != null) {
+        fragments[unit] = num
+    }
 }
