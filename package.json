@@ -1,7 +1,7 @@
 {
-  "name": "@kgusarov/maven-parent",
+  "name": "@kgusarov/krono",
   "version": "1.0.0",
-  "description": "Release support for maven-parent",
+  "description": "Release support for krono",
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^13.0.0",
     "@semantic-release/git": "^10.0.1",
