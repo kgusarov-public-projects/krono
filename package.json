@@ -1,0 +1,12 @@
+{
+  "name": "@kgusarov/krono",
+  "version": "1.0.0",
+  "description": "Release support for krono",
+  "devDependencies": {
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@terrestris/maven-semantic-release": "^3.0.1",
+    "semantic-release": "^24.0.0"
+  },
+  "scripts": {}
+}

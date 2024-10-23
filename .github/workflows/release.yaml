@@ -1,0 +1,14 @@
+name: "Release"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+run-name: "[${{ github.sha }}] release"
+
+jobs:
+  perform-release:
+    uses: kgusarov/cilib/.github/workflows/maven-release.yaml@main
+    secrets: inherit

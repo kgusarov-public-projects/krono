@@ -1,0 +1,14 @@
+name: "Post Commit Hook"
+
+on:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+run-name: "[${{ github.sha }}] build"
+
+jobs:
+  run-build:
+    uses: kgusarov/cilib/.github/workflows/post-commit-hook-maven.yaml@main
+    secrets: inherit
