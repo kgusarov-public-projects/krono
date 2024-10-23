@@ -20,8 +20,8 @@ class EnTimeUnitAgoFormatParser(
     override fun innerExtract(
         context: ParsingContext,
         match: RegExpMatchArray,
-    ): ParserResult {
-        val timeUnits = parseTimeUnits(match[1]!!)
+    ): ParserResult? {
+        val timeUnits = parseTimeUnits(match[1]!!) ?: return null
         val outputTimeUnits = reverseDecimalTimeUnits(timeUnits)
         val components = ParsingComponents.createRelativeFromDecimalReference(context.reference, outputTimeUnits)
 

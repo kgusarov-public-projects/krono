@@ -1,5 +1,6 @@
 package org.kgusarov.krono.locales.en
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -23,7 +24,12 @@ internal class EnTimeUnitsAgoTest {
             text,
             refDate,
             expectedDate,
-        )
+        ).apply {
+            assertThat(tags()).contains("result/relativeDate")
+            if (start.certainTime()) {
+                assertThat(tags()).contains("result/relativeDateAndTime")
+            }
+        }
     }
 
     @ParameterizedTest
@@ -80,6 +86,9 @@ internal class EnTimeUnitsAgoTest {
         testUnexpectedResult(Krono.enCasual, "15 hours 29 min")
         testUnexpectedResult(Krono.enCasual, "a few hour")
         testUnexpectedResult(Krono.enCasual, "5 days")
+
+        testUnexpectedResult(Krono.enCasual, "am ago");
+        testUnexpectedResult(Krono.enCasual, "them ago");
     }
 
     @Test

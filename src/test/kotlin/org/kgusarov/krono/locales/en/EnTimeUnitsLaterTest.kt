@@ -15,6 +15,7 @@ internal class EnTimeUnitsLaterTest {
         testSingleCase(Krono.enCasual, "2 days later", "2012-08-10T12:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("2 days later")
+            assertThat(it.tags()).contains("result/relativeDate")
 
             with(it.start) {
                 assertThat(year()).isEqualTo(2012)
@@ -25,6 +26,7 @@ internal class EnTimeUnitsLaterTest {
                 assertThat(certainMonth()).isTrue
 
                 assertDate("2012-08-12T12:00:00")
+                assertThat(tags()).contains("result/relativeDate")
             }
         }
     }
@@ -34,6 +36,7 @@ internal class EnTimeUnitsLaterTest {
         testSingleCase(Krono.enCasual, "5 minutes later", "2012-08-10T10:00:00") {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("5 minutes later")
+            assertThat(it.tags()).contains("result/relativeDate", "result/relativeDateAndTime")
 
             with(it.start) {
                 assertThat(year()).isEqualTo(2012)
@@ -46,6 +49,7 @@ internal class EnTimeUnitsLaterTest {
                 assertThat(certainMinute()).isTrue
 
                 assertDate("2012-08-10T10:05:00")
+                assertThat(tags()).contains("result/relativeDate", "result/relativeDateAndTime")
             }
         }
     }
@@ -469,6 +473,11 @@ internal class EnTimeUnitsLaterTest {
     internal fun `strict unexpected`() {
         testUnexpectedResult(Krono.enStrict, "15m from now")
         testUnexpectedResult(Krono.enStrict, "15s later")
+    }
+
+    @Test
+    internal fun `negative cases`() {
+        testUnexpectedResult(Krono.enCasual, "tell them later")
     }
 
     @Test

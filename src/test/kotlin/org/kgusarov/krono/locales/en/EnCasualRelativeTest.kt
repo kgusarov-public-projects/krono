@@ -16,10 +16,13 @@ internal class EnCasualRelativeTest {
     internal fun `next 2 weeks`() {
         testSingleCase(Krono.enCasual, "next 2 weeks", REF_DATE) {
             assertThat(it.text).isEqualTo("next 2 weeks")
+            assertThat(it.tags()).contains("result/relativeDate")
+
             with (it.start) {
                 assertThat(year()).isEqualTo(2016)
                 assertThat(month()).isEqualTo(10)
                 assertThat(day()).isEqualTo(15)
+                assertThat(tags()).contains("result/relativeDate")
             }
         }
     }
@@ -80,11 +83,14 @@ internal class EnCasualRelativeTest {
     internal fun `after an hour`() {
         testSingleCase(Krono.enCasual, "after an hour", REF_DATE) {
             assertThat(it.text).isEqualTo("after an hour")
+            assertThat(it.tags()).contains("result/relativeDate", "result/relativeDateAndTime")
+
             with (it.start) {
                 assertThat(year()).isEqualTo(2016)
                 assertThat(month()).isEqualTo(10)
                 assertThat(day()).isEqualTo(1)
                 assertThat(hour()).isEqualTo(13)
+                assertThat(it.tags()).contains("result/relativeDate", "result/relativeDateAndTime")
             }
         }
     }
@@ -246,5 +252,7 @@ internal class EnCasualRelativeTest {
         testUnexpectedResult(Krono.enCasual, "1 m")
         testUnexpectedResult(Krono.enCasual, "the day")
         testUnexpectedResult(Krono.enCasual, "a day")
+        testUnexpectedResult(Krono.enCasual, "+am");
+        testUnexpectedResult(Krono.enCasual, "+them");
     }
 }

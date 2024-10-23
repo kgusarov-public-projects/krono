@@ -51,7 +51,7 @@ class EnMergeRelativeFollowByDateRefiner : MergingRefiner() {
         nextResult: ParsedResult,
         context: ParsingContext,
     ): ParsedResult {
-        var timeUnits = parseTimeUnits(currentResult.text)
+        var timeUnits = parseTimeUnits(currentResult.text) ?: return currentResult
         if (hasImpliedEarlierReferenceDate(currentResult)) {
             timeUnits = reverseDecimalTimeUnits(timeUnits)
         }

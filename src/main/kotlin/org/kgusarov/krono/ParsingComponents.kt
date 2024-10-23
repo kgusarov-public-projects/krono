@@ -217,11 +217,13 @@ class ParsingComponents(
             date: KronoDate,
         ): ParsingComponents where T : Number {
             val components = ParsingComponents(reference)
+            components.addTag("result/relativeDate")
             if (
                 fragments.contains(KronoUnit.Hour) ||
                 fragments.contains(KronoUnit.Minute) ||
                 fragments.contains(KronoUnit.Second)
             ) {
+                components.addTag("result/relativeDateAndTime")
                 date.assignSimilarTime(components)
                 date.assignSimilarDate(components)
                 if (reference.timezone != null) {

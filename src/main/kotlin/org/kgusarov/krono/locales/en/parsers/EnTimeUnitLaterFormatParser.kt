@@ -19,9 +19,9 @@ class EnTimeUnitLaterFormatParser(
     override fun innerExtract(
         context: ParsingContext,
         match: RegExpMatchArray,
-    ): ParserResult {
-        val fragments = parseTimeUnits(match[GROUP_NUM_TIMEUNITS]!!)
-        val components = ParsingComponents.createRelativeFromDecimalReference(context.reference, fragments)
+    ): ParserResult? {
+        val timeUnits = parseTimeUnits(match[GROUP_NUM_TIMEUNITS]!!) ?: return null
+        val components = ParsingComponents.createRelativeFromDecimalReference(context.reference, timeUnits)
 
         return ParserResultFactory(components)
     }

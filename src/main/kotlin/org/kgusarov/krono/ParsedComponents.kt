@@ -78,6 +78,8 @@ interface ParsedComponents {
 
     fun certainMeridiem() = isCertain(KronoComponents.Meridiem)
 
+    fun certainTime() = certainHour() && certainMinute() && certainSecond()
+
     fun onlyDate() = !certainHour() && !certainMinute() && !certainSecond()
 
     fun onlyTime() = !certainWeekday() && !certainDay() && !certainMonth() && !certainYear()

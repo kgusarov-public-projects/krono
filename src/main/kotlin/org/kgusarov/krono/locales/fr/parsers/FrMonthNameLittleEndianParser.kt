@@ -51,14 +51,3 @@ class FrMonthNameLittleEndianParser : CommonMonthNameLittleEndianParser() {
         private const val YEAR_GROUP = 4
     }
 }
-
-/*
-
-export default class FRMonthNameLittleEndianParser extends AbstractParserWithWordBoundaryChecking {
-
-    innerExtract(context: ParsingContext, match: RegExpMatchArray): ParsingResult {
-
-    }
-}
-
- */

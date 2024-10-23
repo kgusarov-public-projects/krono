@@ -58,6 +58,7 @@ internal class EnSlashTest {
         testSingleCase(Krono.enCasual, "8/10/2012", REF_DATE) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("8/10/2012")
+            assertThat(it.tags()).contains("parser/SlashDateFormatParser")
 
             with(it.start) {
                 assertThat(year()).isEqualTo(2012)
@@ -69,6 +70,7 @@ internal class EnSlashTest {
                 assertThat(certainYear()).isTrue()
 
                 assertDate("2012-08-10T12:00:00")
+                assertThat(tags()).contains("parser/SlashDateFormatParser")
             }
         }
     }
@@ -167,11 +169,13 @@ internal class EnSlashTest {
         testSingleCase(Krono.enCasual, "8/10/2012 - 8/15/2012", REF_DATE) {
             assertThat(it.index).isEqualTo(0)
             assertThat(it.text).isEqualTo("8/10/2012 - 8/15/2012")
+            assertThat(it.tags()).contains("parser/SlashDateFormatParser")
 
             with(it.start) {
                 assertThat(year()).isEqualTo(2012)
                 assertThat(month()).isEqualTo(8)
                 assertThat(day()).isEqualTo(10)
+                assertThat(tags()).contains("parser/SlashDateFormatParser")
 
                 assertDate("2012-08-10T12:00:00")
             }
@@ -180,6 +184,7 @@ internal class EnSlashTest {
                 assertThat(year()).isEqualTo(2012)
                 assertThat(month()).isEqualTo(8)
                 assertThat(day()).isEqualTo(15)
+                assertThat(tags()).contains("parser/SlashDateFormatParser")
 
                 assertDate("2012-08-15T12:00:00")
             }

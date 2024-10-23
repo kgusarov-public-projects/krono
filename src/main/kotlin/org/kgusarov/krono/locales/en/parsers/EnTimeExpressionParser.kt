@@ -4,6 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.KronoComponents
 import org.kgusarov.krono.KronoMeridiem
 import org.kgusarov.krono.ParsedComponents
+import org.kgusarov.krono.ParsedResult
 import org.kgusarov.krono.ParsingContext
 import org.kgusarov.krono.RegExpMatchArray
 import org.kgusarov.krono.common.parsers.AbstractTimeExpressionParser
@@ -51,6 +52,21 @@ class EnTimeExpressionParser(strictMode: Boolean) : AbstractTimeExpressionParser
         }
 
         return components.addTag("parser/ENTimeExpressionParser")
+    }
+
+    override fun extractFollowingTimeComponents(
+        context: ParsingContext,
+        match: RegExpMatchArray,
+        result: ParsedResult,
+    ): ParsedComponents? {
+        val followingComponents = super.extractFollowingTimeComponents(context, match, result)
+        return when {
+            followingComponents != null -> {
+                followingComponents.addTags("parser/ENTimeExpressionParser")
+            }
+
+            else -> null
+        }
     }
 
     companion object {

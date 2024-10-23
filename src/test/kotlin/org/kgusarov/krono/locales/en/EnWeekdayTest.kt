@@ -404,6 +404,59 @@ internal class EnWeekdayTest {
         }
     }
 
+    @Test
+    internal fun `casual weekend and weekday`() {
+        val refDateOnFriday = RefDateInputFactory("2024-10-18T12:00:00")
+
+        // Sunday
+        testSingleCase(Krono.enCasual, "last weekend", refDateOnFriday) {
+            assertThat(it.text).isEqualTo("last weekend")
+            it.start.assertDate("2024-10-13T12:00:00")
+        }
+
+        // Saturday
+        testSingleCase(Krono.enCasual, "this weekend", refDateOnFriday) {
+            assertThat(it.text).isEqualTo("this weekend")
+            it.start.assertDate("2024-10-19T12:00:00")
+        }
+
+        // Saturday
+        testSingleCase(Krono.enCasual, "next weekend", refDateOnFriday) {
+            assertThat(it.text).isEqualTo("next weekend")
+            it.start.assertDate("2024-10-26T12:00:00")
+        }
+    }
+
+    @Test
+    internal fun `casual weekday mentioning`() {
+        val refDateOnFriday = RefDateInputFactory("2024-10-18T12:00:00")
+        val refDateOnSaturday = RefDateInputFactory("2024-10-19T12:00:00")
+
+        // Thursday
+        testSingleCase(Krono.enCasual, "last weekday", refDateOnFriday) {
+            assertThat(it.text).isEqualTo("last weekday")
+            it.start.assertDate("2024-10-17T12:00:00")
+        }
+
+        // Monday
+        testSingleCase(Krono.enCasual, "next weekday", refDateOnFriday) {
+            assertThat(it.text).isEqualTo("next weekday")
+            it.start.assertDate("2024-10-21T12:00:00")
+        }
+
+        // Friday
+        testSingleCase(Krono.enCasual, "last weekday", refDateOnSaturday) {
+            assertThat(it.text).isEqualTo("last weekday")
+            it.start.assertDate("2024-10-18T12:00:00")
+        }
+
+        // Monday
+        testSingleCase(Krono.enCasual, "next weekday", refDateOnSaturday) {
+            assertThat(it.text).isEqualTo("next weekday")
+            it.start.assertDate("2024-10-21T12:00:00")
+        }
+    }
+
     companion object {
         @JvmStatic
         fun guessingArgs(): Stream<Arguments> =

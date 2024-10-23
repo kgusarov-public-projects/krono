@@ -1,6 +1,7 @@
 package org.kgusarov.krono.locales.en.parsers
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+import org.kgusarov.krono.KronoDecimalTimeUnits
 import org.kgusarov.krono.ParserResult
 import org.kgusarov.krono.ParserResultFactory
 import org.kgusarov.krono.ParsingComponents
@@ -20,9 +21,9 @@ class EnTimeUnitCasualRelativeFormatParser(
     override fun innerExtract(
         context: ParsingContext,
         match: RegExpMatchArray,
-    ): ParserResult {
+    ): ParserResult? {
         val prefix = match[1]!!.lowercase()
-        var timeUnits = parseTimeUnits(match[2]!!)
+        var timeUnits: KronoDecimalTimeUnits = parseTimeUnits(match[2]!!) ?: return null
         when (prefix) {
             "last", "past", "-" -> timeUnits = reverseDecimalTimeUnits(timeUnits)
         }

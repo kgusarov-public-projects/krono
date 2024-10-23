@@ -19,13 +19,21 @@ object En {
     val gb = configuration.createCasualConfiguration(true)
 }
 
-internal fun parseTimeUnits(timeUnitText: String): KronoDecimalTimeUnits =
-    parseTimeUnits(
-        timeUnitText,
-        EnConstants.SINGLE_TIME_UNIT_REGEX,
-        EnConstants.TIME_UNIT_DICTIONARY,
-        ::parseNumberPattern,
-    )
+internal fun parseTimeUnits(timeUnitText: String): KronoDecimalTimeUnits? {
+    val result =
+        parseTimeUnits(
+            timeUnitText,
+            EnConstants.SINGLE_TIME_UNIT_REGEX,
+            EnConstants.TIME_UNIT_DICTIONARY,
+            ::parseNumberPattern,
+        )
+
+    return if (result.isEmpty()) {
+        null
+    } else {
+        result
+    }
+}
 
 internal fun parseNumberPattern(match: String): BigDecimal {
     val num = match.lowercase()

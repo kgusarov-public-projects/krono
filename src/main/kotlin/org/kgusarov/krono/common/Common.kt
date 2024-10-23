@@ -30,12 +30,18 @@ internal fun parseTimeUnits(
     return fragments
 }
 
+private val ALPHA = Regex("^[a-zA-Z]+$")
+
 internal fun collectDateTimeFragment(
     fragments: KronoDecimalTimeUnits,
     match: MatchResult,
     timeUnitDictionary: Map<String, KronoUnit>,
     parseNumberPattern: ParseNumberPattern,
 ) {
+    if (match[0].matches(ALPHA)) {
+        return
+    }
+
     val num = parseNumberPattern(match[1])
     val unit = timeUnitDictionary[match[2].lowercase()]!!
     if (num != null) {

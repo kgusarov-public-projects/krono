@@ -19,8 +19,6 @@ class EnWeekdayParser : AbstractParserWithWordBoundaryChecking() {
         context: ParsingContext,
         match: RegExpMatchArray,
     ): ParserResult {
-        val dayOfWeek = match[WEEKDAY_GROUP]?.lowercase()
-        val weekday = EnConstants.WEEKDAY_DICTIONARY[dayOfWeek] ?: DayOfWeek.SUNDAY
         val prefix = match[PREFIX_GROUP]
         val postfix = match[POSTFIX_GROUP]
         val modifierWord =
@@ -42,6 +40,35 @@ class EnWeekdayParser : AbstractParserWithWordBoundaryChecking() {
                 else -> null
             }
 
+        val weekdayWord = match[WEEKDAY_GROUP]?.lowercase()
+        val weekday =
+            when {
+                EnConstants.WEEKDAY_DICTIONARY.containsKey(weekdayWord) -> EnConstants.WEEKDAY_DICTIONARY[weekdayWord]!!
+                weekdayWord == "weekend" -> {
+                    if (modifier == "last") {
+                        DayOfWeek.SUNDAY
+                    } else {
+                        DayOfWeek.SATURDAY
+                    }
+                }
+                weekdayWord == "weekday" -> {
+                    val refWeekday = context.reference.withAdjustedTimezone().dayOfWeek
+                    if (refWeekday == DayOfWeek.SUNDAY || refWeekday == DayOfWeek.SATURDAY) {
+                        if (modifier == "last") {
+                            DayOfWeek.FRIDAY
+                        } else {
+                            DayOfWeek.MONDAY
+                        }
+                    } else {
+                        val weekdayIndex = refWeekday.value - 1
+                        val weekdayIndexModifier = if (modifier == "last") -1 else 1
+                        val weekdayIndexNormalized = (weekdayIndex + weekdayIndexModifier) % 5
+                        DayOfWeek.of(weekdayIndexNormalized + 1)
+                    }
+                }
+                else -> return ParserResultFactory(null)
+            }
+
         return ParserResultFactory(createParsingComponentsAtWeekday(context.reference, weekday, modifier))
     }
 
@@ -57,7 +84,7 @@ class EnWeekdayParser : AbstractParserWithWordBoundaryChecking() {
                 "(?:(?:\\,|\\(|\\（)\\s*)?" +
                     "(?:on\\s*?)?" +
                     "(?:(this|last|past|next)\\s*)?" +
-                    "(${matchAnyPattern(EnConstants.WEEKDAY_DICTIONARY)})" +
+                    "(${matchAnyPattern(EnConstants.WEEKDAY_DICTIONARY)}|weekend|weekday)" +
                     "(?:\\s*(?:\\,|\\)|\\）))?" +
                     "(?:\\s*(this|last|past|next)\\s*week)?" +
                     "(?=\\W|$)",

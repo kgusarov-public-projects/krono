@@ -24,7 +24,9 @@ internal class ParsingResultTest {
 
             Assertions.assertThat(tags()).containsExactlyInAnyOrder(
                 "custom/testing_start_component_tag",
-                "custom/testing_end_component_tag"
+                "custom/testing_end_component_tag",
+                "result/relativeDate",
+                "result/relativeDateAndTime"
             )
         }
     }

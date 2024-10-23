@@ -30,7 +30,7 @@ class EnTimeUnitWithinFormatParser(
             return null
         }
 
-        val timeUnits = parseTimeUnits(match[1]!!)
+        val timeUnits = parseTimeUnits(match[1]!!) ?: return null
         val components = ParsingComponents.createRelativeFromDecimalReference(context.reference, timeUnits)
         return ParserResultFactory(components)
     }

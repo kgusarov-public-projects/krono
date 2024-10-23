@@ -2,6 +2,7 @@ package org.kgusarov.krono.common.parsers
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.KronoComponents
+import org.kgusarov.krono.ParsedResult
 import org.kgusarov.krono.Parser
 import org.kgusarov.krono.ParserResult
 import org.kgusarov.krono.ParserResultFactory
@@ -84,7 +85,7 @@ class SlashDateFormatParser(
             result.start.assign(KronoComponents.Year, year)
         }
 
-        return ParserResultFactory(result)
+        return ParserResultFactory(result.addTag<ParsedResult>("parser/SlashDateFormatParser"))
     }
 
     @Suppress("RegExpRedundantEscape", "RegExpSimplifiable")

@@ -37,12 +37,14 @@ internal class EnTimeExpressionTest {
     internal fun `time expression`() {
         testSingleCase(Krono.enCasual, "20:32:13", "2016-10-01T08:00:00") {
             assertThat(it.text).isEqualTo("20:32:13")
+            assertThat(it.tags()).contains("parser/ENTimeExpressionParser")
 
             with(it.start) {
                 assertThat(hour()).isEqualTo(20)
                 assertThat(minute()).isEqualTo(32)
                 assertThat(second()).isEqualTo(13)
                 assertThat(meridiem()).isEqualTo(KronoMeridiem.PM)
+                assertThat(tags()).contains("parser/ENTimeExpressionParser")
             }
         }
     }
@@ -52,10 +54,12 @@ internal class EnTimeExpressionTest {
     internal fun `single expression`(text: String, refDate: String, expectedDate: String, expectedMeridiem: Int) {
         testSingleCase(Krono.enCasual, text, refDate) {
             assertThat(it.text).isEqualTo(text)
+            assertThat(it.tags()).contains("parser/ENTimeExpressionParser")
 
             with(it.start) {
                 assertThat(meridiem()).isEqualTo(expectedMeridiem)
                 assertDate(expectedDate)
+                assertThat(tags()).contains("parser/ENTimeExpressionParser")
             }
         }
     }
@@ -72,15 +76,18 @@ internal class EnTimeExpressionTest {
     ) {
         testSingleCase(Krono.enCasual, text, refDate) {
             assertThat(it.text).isEqualTo(text)
+            assertThat(it.tags()).contains("parser/ENTimeExpressionParser")
 
             with(it.start) {
                 assertThat(meridiem()).isEqualTo(expectedStartMeridiem)
                 assertDate(expectedStartDate)
+                assertThat(tags()).contains("parser/ENTimeExpressionParser")
             }
 
             with(it.end!!) {
                 assertThat(meridiem()).isEqualTo(expectedEndMeridiem)
                 assertDate(expectedEndDate)
+                assertThat(tags()).contains("parser/ENTimeExpressionParser")
             }
         }
     }

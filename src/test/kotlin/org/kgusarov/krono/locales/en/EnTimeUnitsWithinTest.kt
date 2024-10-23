@@ -171,6 +171,12 @@ internal class EnTimeUnitsWithinTest {
         }
     }
 
+    @Test
+    internal fun `negative cases`() {
+        testUnexpectedResult(Krono.enCasual, "in am");
+        testUnexpectedResult(Krono.enCasual, "in them");
+    }
+
     companion object {
         @JvmStatic
         fun singleExpressionArgs(): Stream<Arguments> = Stream.of(
