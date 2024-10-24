@@ -26,4 +26,12 @@ interface ParsedResult {
     fun <T> addTags(vararg tags: String): T where T : ParsedResult = addTags(tags.toSet())
 
     fun <T> copy(): T where T : ParsedResult
+
+    fun toPrettyString() =
+        """
+        |----------------------------------------------------------------
+        | Index: $index, Text: '$text'
+        | Start: ${start.toPrettyString()}
+        | End: ${end?.toPrettyString() ?: "null"}
+        """.trimMargin()
 }

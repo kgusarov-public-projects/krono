@@ -36,6 +36,8 @@ interface ParsedComponents {
 
     fun certainComponents(): Array<KronoComponent>
 
+    fun toPrettyString() = instant().toString()
+
     fun year() = get(KronoComponents.Year)
 
     fun certainYear() = isCertain(KronoComponents.Year)

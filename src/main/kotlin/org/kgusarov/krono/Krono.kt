@@ -3,6 +3,7 @@ package org.kgusarov.krono
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import org.kgusarov.krono.extensions.plus
 import org.kgusarov.krono.extensions.safeSubstring
+import org.kgusarov.krono.locales.de.De
 import org.kgusarov.krono.locales.en.En
 import org.kgusarov.krono.locales.es.Es
 import org.kgusarov.krono.locales.fr.Fr
@@ -21,11 +22,13 @@ class Krono(configuration: KronoConfiguration) {
 
     fun copy() = Krono(KronoConfiguration(parsers.toMutableList(), refiners.toMutableList()))
 
+    @JvmOverloads
     fun parse(
         text: String,
         option: ParsingOption? = null,
     ): List<ParsedResult> = parse(text, RefDateInputFactory(KronoDate.now()), option)
 
+    @JvmOverloads
     fun parse(
         text: String,
         refDate: RefDateInput,
@@ -47,6 +50,7 @@ class Krono(configuration: KronoConfiguration) {
         return results
     }
 
+    @JvmOverloads
     fun parseDate(
         text: String,
         refDate: RefDateInput,
@@ -89,6 +93,12 @@ class Krono(configuration: KronoConfiguration) {
 
         @JvmStatic
         val frCasual = Krono(Fr.casual)
+
+        @JvmStatic
+        val deCasual = Krono(De.casual)
+
+        @JvmStatic
+        val deStrict = Krono(De.strict)
 
         @JvmStatic
         private fun verifyOpenedPackage() {

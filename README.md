@@ -23,7 +23,7 @@ Latest observed commit in the original repository: [80c126ba1df547c2092cb4412be5
 - [x] Spanish tests
 - [x] Portuguese
 - [x] Portuguese tests
-- [ ] German
+- [x] German
 - [ ] German tests
 - [ ] Dutch
 - [ ] Dutch tests

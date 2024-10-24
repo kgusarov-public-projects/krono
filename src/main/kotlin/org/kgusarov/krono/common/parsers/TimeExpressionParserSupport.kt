@@ -41,19 +41,29 @@ abstract class TimeExpressionParserSupport : Parser {
             }
         }
 
-        extractingComponents.assign(KronoComponents.Hour, hour)
-        extractingComponents.assign(KronoComponents.Minute, minute)
+        processMeridiem(extractingComponents, hour, minute, meridiem)
+        return extractingComponents
+    }
 
-        if (meridiem != null) {
-            extractingComponents.assign(KronoComponents.Meridiem, meridiem)
-        } else {
-            if (hour < 12) {
-                extractingComponents.imply(KronoComponents.Meridiem, KronoMeridiem.AM)
+    companion object {
+        fun processMeridiem(
+            extractingComponents: ParsedComponents,
+            hour: Int?,
+            minute: Int?,
+            meridiem: Int?,
+        ) {
+            extractingComponents.assign(KronoComponents.Hour, hour)
+            extractingComponents.assign(KronoComponents.Minute, minute)
+
+            if (meridiem != null) {
+                extractingComponents.assign(KronoComponents.Meridiem, meridiem)
             } else {
-                extractingComponents.imply(KronoComponents.Meridiem, KronoMeridiem.PM)
+                if (hour < 12) {
+                    extractingComponents.imply(KronoComponents.Meridiem, KronoMeridiem.AM)
+                } else {
+                    extractingComponents.imply(KronoComponents.Meridiem, KronoMeridiem.PM)
+                }
             }
         }
-
-        return extractingComponents
     }
 }
