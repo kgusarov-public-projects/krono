@@ -3,6 +3,9 @@ package org.kgusarov.krono.locales.en
 import org.kgusarov.krono.KronoDecimalTimeUnits
 import org.kgusarov.krono.calculation.findMostLikelyADYear
 import org.kgusarov.krono.common.parseTimeUnits
+import org.kgusarov.krono.extensions.minus
+import org.kgusarov.krono.extensions.safeParseInt
+import org.kgusarov.krono.extensions.unaryMinus
 import java.math.BigDecimal
 
 object En {
@@ -73,17 +76,17 @@ private val AD = Regex("(AD|CE)", RegexOption.IGNORE_CASE)
 
 internal fun parseYear(match: String): Int {
     if (BE.containsMatchIn(match)) {
-        return match.replace(BE, "").trim().toInt() - 543
+        return match.replace(BE, "").safeParseInt() - 543
     }
 
     if (BCE.containsMatchIn(match)) {
-        return -match.replace(BCE, "").trim().toInt()
+        return -match.replace(BCE, "").safeParseInt()
     }
 
     if (AD.containsMatchIn(match)) {
-        return match.replace(AD, "").trim().toInt()
+        return match.replace(AD, "").safeParseInt() ?: 0
     }
 
-    val rawYearNumber = match.trim().toInt()
+    val rawYearNumber = match.safeParseInt() ?: 0
     return findMostLikelyADYear(rawYearNumber)
 }

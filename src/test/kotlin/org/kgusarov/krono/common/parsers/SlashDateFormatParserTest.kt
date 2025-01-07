@@ -3,9 +3,11 @@ package org.kgusarov.krono.common.parsers
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.kgusarov.krono.KronoComponents
+import org.kgusarov.krono.KronoRefDateInput
 import org.kgusarov.krono.ParsingContext
 import org.kgusarov.krono.RawResult
 import org.kgusarov.krono.RegExpMatchArray
+import java.time.LocalDateTime
 
 internal class SlashDateFormatParserTest {
     @Test
@@ -106,7 +108,10 @@ internal class SlashDateFormatParserTest {
     @Test
     internal fun `missing year`() {
         val parser = SlashDateFormatParser(true)
-        val context = ParsingContext("12/31")
+        val refDate = KronoRefDateInput(
+            LocalDateTime.of(2024, 11, 11, 0, 0, 0, 0)
+        )
+        val context = ParsingContext("12/31", refDate, null)
         val match = RegExpMatchArray(0, arrayOf("12/31", "", "12", "31", "", ""))
         val result = parser.invoke(context, match)
 

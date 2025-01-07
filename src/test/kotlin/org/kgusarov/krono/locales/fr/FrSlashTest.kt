@@ -1,6 +1,5 @@
 package org.kgusarov.krono.locales.fr
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.kgusarov.krono.Krono
 import org.kgusarov.krono.assertDate

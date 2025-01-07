@@ -1,12 +1,9 @@
 package org.kgusarov.krono.locales.fr
 
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.kgusarov.krono.Krono
-import org.kgusarov.krono.ParsingOption
-import org.kgusarov.krono.testUnexpectedResult
 import org.kgusarov.krono.testWithExpectedDate
 import java.util.stream.Stream
 

@@ -8,6 +8,7 @@ import org.kgusarov.krono.locales.en.En
 import org.kgusarov.krono.locales.es.Es
 import org.kgusarov.krono.locales.fr.Fr
 import org.kgusarov.krono.locales.ja.Ja
+import org.kgusarov.krono.locales.nl.Nl
 import org.kgusarov.krono.locales.pt.Pt
 import java.time.Duration
 
@@ -99,6 +100,12 @@ class Krono(configuration: KronoConfiguration) {
 
         @JvmStatic
         val deStrict = Krono(De.strict)
+
+        @JvmStatic
+        val nlCasual = Krono(Nl.casual)
+
+        @JvmStatic
+        val nlStrict = Krono(Nl.strict)
 
         @JvmStatic
         private fun verifyOpenedPackage() {
